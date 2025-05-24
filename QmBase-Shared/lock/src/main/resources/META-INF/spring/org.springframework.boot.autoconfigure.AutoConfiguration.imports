@@ -1,0 +1,3 @@
+com.qm.base.shared.lock.LockAutoConfiguration
+com.qm.base.shared.lock.distribute.redis.RedisLockAutoConfiguration
+com.qm.base.shared.lock.distribute.zookeeper.ZookeeperLockAutoConfiguration

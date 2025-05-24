@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.qm.base.shared.lock.distribute.redis.RedisLockAutoConfiguration,\
+com.qm.base.shared.lock.distribute.zookeeper.ZookeeperLockAutoConfiguration,\
+com.qm.base.shared.lock.LockAutoConfiguration

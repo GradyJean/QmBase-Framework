@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "qm.base.id",
+      "type": "com.qm.base.shared.id.QmIdProperties",
+      "sourceType": "com.qm.base.shared.id.QmIdProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "qm.base.id.worker-id",
+      "type": "java.lang.Long",
+      "defaultValue": 0,
+      "description": "Worker ID for Snowflake algorithm"
+    },
+    {
+      "name": "qm.base.id.datacenter-id",
+      "type": "java.lang.Long",
+      "defaultValue": 0,
+      "description": "Datacenter ID for Snowflake algorithm"
+    }
+  ]
+}

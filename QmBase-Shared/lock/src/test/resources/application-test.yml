@@ -1,0 +1,9 @@
+qm:
+  base:
+    lock:
+      distributed:
+        type: redis  # 可切换为 redis 或 zookeeper
+spring:
+  data:
+    redis:
+      host: localhost
