@@ -1,7 +1,5 @@
 package com.qm.base.shared.id;
 
-import com.qm.base.shared.id.IdGenerator;
-import com.qm.base.shared.id.SnowflakeIdGenerator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
