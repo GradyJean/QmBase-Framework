@@ -2,6 +2,7 @@ package com.qm.base.shared.logger.aspect;
 
 import com.qm.base.shared.logger.enums.LogLevel;
 import com.qm.base.shared.logger.annotation.Log;
+import com.qm.base.shared.logger.core.LogFormatter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -49,26 +50,31 @@ public class LogAspect {
                 ? String.format("[%s-%s]", module, action)
                 : "[" + methodName + "]";
 
-        Object result;
+        String traceId = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+
+        Object result = null;
+        Throwable throwable = null;
+
         try {
             result = joinPoint.proceed();
+            return result;
         } catch (Throwable ex) {
-            logAt(LogLevel.ERROR, "[{}-{}] 方法异常: {}", module, action, ex.toString());
+            throwable = ex;
             throw ex;
         } finally {
             watch.stop();
-        }
 
-        // 合并参数、返回值、耗时为一条结构化日志
-        logAt(
-                localLevel,
-                "{} | 参数: {} | 返回: {} | 耗时: {} ms",
-                methodDisplay,
-                localLogParams ? Arrays.toString(joinPoint.getArgs()) : "-",
-                localLogResult ? String.valueOf(result) : "-",
-                watch.getTotalTimeMillis()
-        );
-        return result;
+            logAt(
+                    localLevel,
+                    "{} | traceId={} | 参数: {} | 返回: {} | 耗时: {} ms | 异常: {}",
+                    methodDisplay,
+                    traceId,
+                    localLogParams ? LogFormatter.formatArgs(joinPoint.getArgs()) : "-",
+                    localLogResult ? LogFormatter.formatResult(result) : "-",
+                    watch.getTotalTimeMillis(),
+                    throwable != null ? LogFormatter.formatThrowable(throwable) : "-"
+            );
+        }
     }
 
     private void logAt(LogLevel level, String format, Object... args) {
