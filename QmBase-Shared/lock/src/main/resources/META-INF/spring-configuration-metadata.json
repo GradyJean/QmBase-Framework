@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "qm.base.lock.distributed",
-      "type": "com.qm.base.shared.lock.distribute.DistributedLockProperties",
-      "sourceType": "com.qm.base.shared.lock.distribute.DistributedLockProperties",
+      "type": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
+      "sourceType": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
       "description": "General distributed lock settings"
     },
     {
@@ -17,7 +17,7 @@
       "name": "qm.base.lock.distributed.type",
       "type": "com.qm.base.shared.lock.enums.DistributedLockType",
       "description": "Distributed lock type. Supported values: REDIS, ZOOKEEPER",
-      "sourceType": "com.qm.base.shared.lock.distribute.DistributedLockProperties",
+      "sourceType": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
       "defaultValue": "REDIS"
     },
     {

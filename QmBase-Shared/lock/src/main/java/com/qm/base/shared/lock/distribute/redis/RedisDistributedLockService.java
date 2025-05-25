@@ -1,6 +1,6 @@
 package com.qm.base.shared.lock.distribute.redis;
 
-import com.qm.base.shared.lock.distribute.DistributedLockService;
+import com.qm.base.shared.lock.distribute.core.DistributedLockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;

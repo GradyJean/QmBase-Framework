@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "qm.base.logger",
-      "type": "com.qm.base.shared.logger.QmLoggerProperties",
-      "sourceType": "com.qm.base.shared.logger.QmLoggerProperties"
+      "type": "com.qm.base.shared.logger.config.QmLoggerProperties",
+      "sourceType": "com.qm.base.shared.logger.config.QmLoggerProperties"
     }
   ],
   "properties": [
@@ -21,7 +21,7 @@
     },
     {
       "name": "qm.base.logger.level",
-      "type": "com.qm.base.shared.logger.LogLevel",
+      "type": "com.qm.base.shared.logger.enums.LogLevel",
       "defaultValue": "INFO",
       "description": "日志打印级别（TRACE/DEBUG/INFO/WARN/ERROR）"
     }

@@ -1,4 +1,6 @@
-package com.qm.base.shared.logger;
+package com.qm.base.shared.logger.annotation;
+
+import com.qm.base.shared.logger.enums.LogLevel;
 
 import java.lang.annotation.*;
 

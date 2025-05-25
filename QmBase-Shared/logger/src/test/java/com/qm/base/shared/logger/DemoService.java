@@ -1,8 +1,8 @@
 package com.qm.base.shared.logger;
 
+import com.qm.base.shared.logger.annotation.Log;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.Map;
 
 @Component

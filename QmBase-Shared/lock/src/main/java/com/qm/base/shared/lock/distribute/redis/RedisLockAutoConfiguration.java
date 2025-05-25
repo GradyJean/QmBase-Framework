@@ -1,6 +1,6 @@
 package com.qm.base.shared.lock.distribute.redis;
 
-import com.qm.base.shared.lock.distribute.DistributedLockService;
+import com.qm.base.shared.lock.distribute.core.DistributedLockService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

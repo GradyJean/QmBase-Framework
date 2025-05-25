@@ -1,6 +1,6 @@
 package com.qm.base.shared.lock.distribute.zookeeper;
 
-import com.qm.base.shared.lock.distribute.DistributedLockService;
+import com.qm.base.shared.lock.distribute.core.DistributedLockService;
 import lombok.RequiredArgsConstructor;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;

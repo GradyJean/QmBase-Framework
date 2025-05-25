@@ -1,5 +1,6 @@
-package com.qm.base.shared.logger;
+package com.qm.base.shared.logger.config;
 
+import com.qm.base.shared.logger.enums.LogLevel;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

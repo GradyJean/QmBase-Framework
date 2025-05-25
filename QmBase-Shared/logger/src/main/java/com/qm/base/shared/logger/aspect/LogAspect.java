@@ -1,5 +1,7 @@
-package com.qm.base.shared.logger;
+package com.qm.base.shared.logger.aspect;
 
+import com.qm.base.shared.logger.enums.LogLevel;
+import com.qm.base.shared.logger.annotation.Log;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,7 +28,7 @@ public class LogAspect {
     @Setter
     private LogLevel level = LogLevel.INFO;
 
-    @Around("@annotation(com.qm.base.shared.logger.Log)")
+    @Around("@annotation(com.qm.base.shared.logger.annotation.Log)")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         Log logAnno = method.getAnnotation(Log.class);

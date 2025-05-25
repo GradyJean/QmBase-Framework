@@ -1,7 +1,8 @@
-package com.qm.base.shared.lock;
+package com.qm.base.shared.lock.aspect;
 
+import com.qm.base.shared.lock.LockService;
 import com.qm.base.shared.lock.annotation.Lock;
-import com.qm.base.shared.lock.distribute.DistributedLockService;
+import com.qm.base.shared.lock.distribute.core.DistributedLockService;
 import com.qm.base.shared.lock.enums.LockType;
 import com.qm.base.shared.lock.local.LocalLockService;
 import lombok.extern.slf4j.Slf4j;

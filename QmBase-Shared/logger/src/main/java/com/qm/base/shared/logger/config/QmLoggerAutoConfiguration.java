@@ -1,5 +1,6 @@
-package com.qm.base.shared.logger;
+package com.qm.base.shared.logger.config;
 
+import com.qm.base.shared.logger.aspect.LogAspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

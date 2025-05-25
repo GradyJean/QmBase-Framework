@@ -1,4 +1,4 @@
-package com.qm.base.shared.logger;
+package com.qm.base.shared.logger.enums;
 
 /**
  * 日志打印级别枚举

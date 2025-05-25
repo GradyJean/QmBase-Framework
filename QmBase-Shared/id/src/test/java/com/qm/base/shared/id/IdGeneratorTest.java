@@ -1,7 +1,8 @@
 package com.qm.base.shared.id;
 
+import com.qm.base.shared.id.api.QmId;
+import com.qm.base.shared.id.config.QmIdAutoConfiguration;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;

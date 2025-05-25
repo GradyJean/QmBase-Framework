@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "qm.base.id",
-      "type": "com.qm.base.shared.id.QmIdProperties",
-      "sourceType": "com.qm.base.shared.id.QmIdProperties"
+      "type": "com.qm.base.shared.id.config.QmIdProperties",
+      "sourceType": "com.qm.base.shared.id.config.QmIdProperties"
     }
   ],
   "properties": [

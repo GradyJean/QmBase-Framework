@@ -1,5 +1,6 @@
-package com.qm.base.shared.id;
+package com.qm.base.shared.id.api;
 
+import com.qm.base.shared.id.snowflake.SnowflakeIdGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

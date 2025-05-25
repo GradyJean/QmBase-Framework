@@ -1,12 +1,12 @@
 package com.qm.base.shared.logger;
 
+import com.qm.base.shared.logger.core.QmLog;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 

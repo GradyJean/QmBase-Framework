@@ -1,6 +1,6 @@
-package com.qm.base.shared.lock;
+package com.qm.base.shared.lock.config;
 
-import com.qm.base.shared.lock.distribute.DistributedLockProperties;
+import com.qm.base.shared.lock.distribute.core.DistributedLockProperties;
 import com.qm.base.shared.lock.local.LocalLockService;
 import com.qm.base.shared.lock.local.ReentrantLocalLockService;
 import org.slf4j.Logger;

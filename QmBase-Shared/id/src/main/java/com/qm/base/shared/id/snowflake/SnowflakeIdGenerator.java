@@ -1,4 +1,6 @@
-package com.qm.base.shared.id;
+package com.qm.base.shared.id.snowflake;
+
+import com.qm.base.shared.id.core.IdGenerator;
 
 /**
  * 雪花算法 ID 生成器（简化版，仅适合单机开发）

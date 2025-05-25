@@ -1,4 +1,4 @@
-package com.qm.base.shared.lock.distribute;
+package com.qm.base.shared.lock.distribute.core;
 
 import com.qm.base.shared.lock.LockService;
 
