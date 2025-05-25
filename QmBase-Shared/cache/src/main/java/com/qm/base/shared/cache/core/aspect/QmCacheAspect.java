@@ -49,7 +49,10 @@ public class QmCacheAspect {
         } else {
             cacheKey = keyGenerator.generate(pjp.getTarget(), method, args);
         }
-        boolean conditionMatch = parser.parseExpression(qmCacheable.condition()).getValue(context, Boolean.class) != Boolean.FALSE;
+        boolean conditionMatch = true;
+        if (!qmCacheable.condition().isBlank()) {
+            conditionMatch = parser.parseExpression(qmCacheable.condition()).getValue(context, Boolean.class) != Boolean.FALSE;
+        }
 
         long start = System.currentTimeMillis();
         boolean hit = false;
@@ -73,7 +76,10 @@ public class QmCacheAspect {
             } else {
                 result = pjp.proceed();
                 context.setVariable("result", result);
-                boolean unlessMatch = parser.parseExpression(qmCacheable.unless()).getValue(context, Boolean.class) == Boolean.TRUE;
+                boolean unlessMatch = false;
+                if (!qmCacheable.unless().isBlank()) {
+                    unlessMatch = parser.parseExpression(qmCacheable.unless()).getValue(context, Boolean.class) == Boolean.TRUE;
+                }
                 if (!unlessMatch && (result != null || qmCacheable.cacheNull())) {
                     int ttl = qmCacheable.ttl() > 0 ? qmCacheable.ttl() : 300;
                     cache.put(cacheKey, result, ttl);

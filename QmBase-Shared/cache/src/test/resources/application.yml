@@ -1,0 +1,4 @@
+qm:
+  base:
+    cache:
+      type: caffeine

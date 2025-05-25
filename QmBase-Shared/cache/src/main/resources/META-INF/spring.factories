@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.qm.base.shared.cache.config.RedisCacheAutoConfiguration,\
-com.qm.base.shared.cache.config.CaffeineCacheAutoConfiguration
+com.qm.base.shared.cache.config.CaffeineCacheAutoConfiguration,\
+  com.qm.base.shared.cache.config.QmCacheAutoConfiguration
