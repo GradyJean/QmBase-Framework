@@ -1,0 +1,2 @@
+com.qm.base.shared.cache.config.RedisCacheAutoConfiguration
+com.qm.base.shared.cache.config.CaffeineCacheAutoConfiguration

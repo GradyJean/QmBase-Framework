@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "qm.base.cache.type",
+      "type": "java.lang.String",
+      "description": "缓存类型（redis 或 caffeine）"
+    },
+    {
+      "name": "qm.base.cache.ttl",
+      "type": "java.lang.Integer",
+      "description": "缓存默认 TTL（秒）"
+    }
+  ]
+}
