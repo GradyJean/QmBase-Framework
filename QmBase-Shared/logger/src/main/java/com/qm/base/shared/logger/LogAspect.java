@@ -42,22 +42,30 @@ public class LogAspect {
         StopWatch watch = new StopWatch();
         watch.start();
 
-        if (logParams && localLogParams) {
-            logAt(localLevel, "[{}-{}] 方法参数: {}", module, action, Arrays.toString(joinPoint.getArgs()));
-        }
+        // 构造方法名展示
+        String methodDisplay = (!module.isBlank() || !action.isBlank())
+                ? String.format("[%s-%s]", module, action)
+                : "[" + methodName + "]";
 
         Object result;
         try {
             result = joinPoint.proceed();
+        } catch (Throwable ex) {
+            logAt(LogLevel.ERROR, "[{}-{}] 方法异常: {}", module, action, ex.toString());
+            throw ex;
         } finally {
             watch.stop();
         }
 
-        if (logResult && localLogResult) {
-            logAt(localLevel, "[{}-{}] 方法返回: {}", module, action, result);
-        }
-
-        logAt(localLevel, "[{}-{}] 方法耗时: {} ms", module, action, watch.getTotalTimeMillis());
+        // 合并参数、返回值、耗时为一条结构化日志
+        logAt(
+                localLevel,
+                "{} | 参数: {} | 返回: {} | 耗时: {} ms",
+                methodDisplay,
+                localLogParams ? Arrays.toString(joinPoint.getArgs()) : "-",
+                localLogResult ? String.valueOf(result) : "-",
+                watch.getTotalTimeMillis()
+        );
         return result;
     }
 

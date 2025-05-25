@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: qm-log-test
+qm:
+  base:
+    logger:
+      level: info
