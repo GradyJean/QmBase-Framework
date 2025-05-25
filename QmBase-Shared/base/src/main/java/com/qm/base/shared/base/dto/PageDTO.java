@@ -1,6 +1,7 @@
 package com.qm.base.shared.base.dto;
 
 import lombok.Data;
+
 import java.util.List;
 
 /**

@@ -1,7 +1,5 @@
 package com.qm.base.shared.cache.api;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.function.Supplier;
 
 /**

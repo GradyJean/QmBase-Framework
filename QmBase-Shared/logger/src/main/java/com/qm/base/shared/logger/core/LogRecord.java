@@ -1,7 +1,7 @@
 package com.qm.base.shared.logger.core;
 
-import java.time.Instant;
 import java.time.Duration;
+import java.time.Instant;
 
 /**
  * 标准日志记录对象，用于统一封装日志结构信息。

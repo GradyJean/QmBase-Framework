@@ -1,17 +1,17 @@
 package com.qm.base.shared.logger.aspect;
 
-import com.qm.base.shared.logger.enums.LogLevel;
 import com.qm.base.shared.logger.annotation.Log;
 import com.qm.base.shared.logger.core.LogFormatter;
+import com.qm.base.shared.logger.enums.LogLevel;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * 通用日志切面，自动打印 @Log 标注方法的入参/出参/耗时信息

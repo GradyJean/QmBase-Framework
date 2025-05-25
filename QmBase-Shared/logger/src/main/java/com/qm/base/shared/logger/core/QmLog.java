@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.lang.StackWalker;
 
 /**
  * 统一日志门面类，用于标准化输出结构化日志。
