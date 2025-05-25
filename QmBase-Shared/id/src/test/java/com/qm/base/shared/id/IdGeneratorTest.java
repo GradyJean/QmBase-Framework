@@ -13,19 +13,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(classes = QmIdAutoConfiguration.class)
 public class IdGeneratorTest {
 
-    @Autowired
-    private IdGenerator idGenerator;
 
     @Test
     void shouldGenerateNumericId() {
-        Long id = idGenerator.nextId();
+        Long id = QmId.nextId();
         assertNotNull(id);
         System.out.println("生成的 Long ID: " + id);
     }
 
     @Test
     void shouldGenerateStringId() {
-        String idStr = idGenerator.nextIdStr();
+        String idStr = QmId.nextIdStr();
         assertNotNull(idStr);
         assertTrue(idStr.matches("\\d+")); // 校验是纯数字
         System.out.println("生成的 String ID: " + idStr);
