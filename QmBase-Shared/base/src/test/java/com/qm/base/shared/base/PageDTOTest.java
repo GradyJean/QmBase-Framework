@@ -17,6 +17,6 @@ class PageDTOTest {
 
         assertEquals(100L, page.getTotal());
         assertEquals(3, page.getRecords().size());
-        assertEquals("a", page.getRecords().get(0));
+        assertEquals("a", page.getRecords().getFirst());
     }
 }
