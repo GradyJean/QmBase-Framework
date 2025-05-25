@@ -1,4 +1,4 @@
-package com.qm.base.shared.base;
+package com.qm.base.shared.base.result;
 
 /**
  * 通用结果码常量类，适用于统一的 Result<T> 响应结构。
@@ -19,6 +19,9 @@ public final class ResultCode {
     public static final String FAIL_MSG = "Failure";
 
     // ========== 参数错误 ==========
+    public static final String PARAM_ERROR = "1000";
+    public static final String PARAM_ERROR_MSG = "Parameter error";
+
     public static final String PARAM_MISSING = "1001";
     public static final String PARAM_MISSING_MSG = "Missing required parameter";
 

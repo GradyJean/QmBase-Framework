@@ -1,4 +1,4 @@
-package com.qm.base.shared.base;
+package com.qm.base.shared.base.entity;
 
 import lombok.Data;
 

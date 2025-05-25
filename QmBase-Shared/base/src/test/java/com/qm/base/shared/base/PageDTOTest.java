@@ -1,5 +1,6 @@
 package com.qm.base.shared.base;
 
+import com.qm.base.shared.base.dto.PageDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

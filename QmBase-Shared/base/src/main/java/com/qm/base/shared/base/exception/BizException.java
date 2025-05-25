@@ -1,4 +1,4 @@
-package com.qm.base.shared.base;
+package com.qm.base.shared.base.exception;
 
 /**
  * 自定义业务异常，用于在领域层或应用层显式抛出受控错误。

@@ -1,5 +1,6 @@
-package com.qm.base.shared.base;
+package com.qm.base.shared.base.result;
 
+import com.qm.base.shared.base.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

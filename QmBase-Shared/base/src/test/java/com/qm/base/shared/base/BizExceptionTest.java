@@ -1,5 +1,7 @@
 package com.qm.base.shared.base;
 
+import com.qm.base.shared.base.exception.BizException;
+import com.qm.base.shared.base.exception.ErrorCode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
