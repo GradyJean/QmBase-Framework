@@ -1,4 +1,37 @@
 package com.qm.base.shared.cache.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+/**
+ * QmCacheProperties - 缓存配置属性类。
+ * 用于读取 application.yml 中的配置项 qm.base.cache.*
+ */
+@ConfigurationProperties(prefix = "qm.base.cache")
 public class QmCacheProperties {
+
+    /**
+     * 缓存类型（redis / caffeine），默认 redis
+     */
+    private String type = "redis";
+
+    /**
+     * 默认缓存过期时间（单位：秒）
+     */
+    private int ttl = 300;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getTtl() {
+        return ttl;
+    }
+
+    public void setTtl(int ttl) {
+        this.ttl = ttl;
+    }
 }
