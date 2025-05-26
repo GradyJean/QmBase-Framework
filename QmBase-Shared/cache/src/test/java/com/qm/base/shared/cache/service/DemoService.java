@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class DemoService {
 
-    @QmCacheable(name = "demo", key = "#id", ttl = 30)
+    @QmCacheable(name = "demo", key = "#id", ttl = 5)
     public String getTime(String id) {
         return "Data for " + id + " at " + System.currentTimeMillis();
     }

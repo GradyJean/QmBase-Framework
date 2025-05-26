@@ -26,8 +26,6 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class QmCacheAspect {
-    private static final NullValue NULL_HOLDER = NullValue.INSTANCE;
-
     @Resource
     private QmKeyGenerator keyGenerator;
     private final ExpressionParser parser = new SpelExpressionParser();

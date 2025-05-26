@@ -42,7 +42,7 @@ public class QmCacheApplicationTest {
     public void testCacheMissAfterTTL() throws InterruptedException {
         String key = "ttl-expire";
         String v1 = demoService.getTime(key);
-        Thread.sleep(5000);
+        Thread.sleep(6000);
         String v2 = demoService.getTime(key);
         assertNotEquals(v1, v2);
     }
