@@ -16,9 +16,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(QmCacheProperties.class)
 public class CaffeineCacheAutoConfiguration {
 
-    @Bean
+    /**
+     * 注册 Caffeine 缓存管理器，当配置 qm.base.cache.type=caffeine 时生效。
+     * - ttl > 0：设置为指定秒数
+     * - ttl == -1：永久缓存
+     * - ttl == 0（默认未配置）：使用默认 300 秒
+     */
+    @Bean(name = "caffeineQmCacheManager")
     public QmCacheManager caffeineQmCacheManager(QmCacheProperties properties) {
-        int ttl = properties.getTtl() > 0 ? properties.getTtl() : 300;
+        int configTtl = properties.getTtl();
+        int ttl = (configTtl != 0) ? configTtl : 300;
         return new CaffeineQmCacheManager(ttl);
     }
 }

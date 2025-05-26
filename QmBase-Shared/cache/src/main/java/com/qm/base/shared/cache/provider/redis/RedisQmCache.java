@@ -1,6 +1,7 @@
 package com.qm.base.shared.cache.provider.redis;
 
 import com.qm.base.shared.cache.api.QmCache;
+import com.qm.base.shared.cache.core.support.CacheValueUtil;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,7 +31,8 @@ public class RedisQmCache implements QmCache {
 
     @Override
     public <T> T get(String key) {
-        return (T) redisTemplate.opsForValue().get(buildKey(key));
+        Object raw = redisTemplate.opsForValue().get(buildKey(key));
+        return CacheValueUtil.unwrap(raw);
     }
 
     @Override
@@ -38,16 +40,19 @@ public class RedisQmCache implements QmCache {
         T value = get(key);
         if (value == null) {
             value = loader.get();
-            if (value != null) {
-                put(key, value, defaultTtlSeconds);
-            }
+            put(key, value, defaultTtlSeconds); // 不再判断 null，由 put 封装
         }
         return value;
     }
 
     @Override
     public <T> void put(String key, T value, int ttlSeconds) {
-        redisTemplate.opsForValue().set(buildKey(key), value, java.time.Duration.ofSeconds(ttlSeconds));
+        Object toStore = CacheValueUtil.wrap(value);
+        if (ttlSeconds <= 0) {
+            redisTemplate.opsForValue().set(buildKey(key), toStore);
+        } else {
+            redisTemplate.opsForValue().set(buildKey(key), toStore, java.time.Duration.ofSeconds(ttlSeconds));
+        }
     }
 
     @Override

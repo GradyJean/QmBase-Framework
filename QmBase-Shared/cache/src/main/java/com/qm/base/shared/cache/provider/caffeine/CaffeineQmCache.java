@@ -2,6 +2,8 @@ package com.qm.base.shared.cache.provider.caffeine;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.qm.base.shared.cache.api.QmCache;
+import com.qm.base.shared.cache.core.support.CacheValueUtil;
+
 
 import java.util.function.Supplier;
 
@@ -24,17 +26,25 @@ public class CaffeineQmCache implements QmCache {
 
     @Override
     public <T> T get(String key) {
-        return (T) cache.getIfPresent(buildKey(key));
+        Object obj = cache.getIfPresent(buildKey(key));
+        if (obj instanceof TimedValue<?> timed) {
+            return CacheValueUtil.unwrap(timed.getValue());
+        }
+        return CacheValueUtil.unwrap(obj);
     }
 
     @Override
     public <T> T get(String key, Supplier<T> loader) {
-        return (T) cache.get(buildKey(key), k -> loader.get());
+        Object obj = cache.get(buildKey(key), k -> new TimedValue<>(CacheValueUtil.wrap(loader.get()), -1));
+        if (obj instanceof TimedValue<?> timed) {
+            return CacheValueUtil.unwrap(timed.getValue());
+        }
+        return CacheValueUtil.unwrap(obj);
     }
 
     @Override
     public <T> void put(String key, T value, int ttlSeconds) {
-        cache.put(buildKey(key), value); // TTL 由 cache 初始化时统一配置
+        cache.put(buildKey(key), new TimedValue<>(CacheValueUtil.wrap(value), ttlSeconds));
     }
 
     @Override

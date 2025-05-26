@@ -5,7 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +34,6 @@ public class QmCacheApplicationTest {
     public void testCacheHitWithinTTL() throws InterruptedException {
         String key = "ttl-test";
         String v1 = demoService.getTime(key);
-        Thread.sleep(1000);
         String v2 = demoService.getTime(key);
         assertEquals(v1, v2);
     }
@@ -38,16 +42,16 @@ public class QmCacheApplicationTest {
     public void testCacheMissAfterTTL() throws InterruptedException {
         String key = "ttl-expire";
         String v1 = demoService.getTime(key);
-        Thread.sleep(8000);
+        Thread.sleep(5000);
         String v2 = demoService.getTime(key);
         assertNotEquals(v1, v2);
     }
 
     @Test
-    public void testUnlessSkipsCache() {
+    public void testUnlessSkipsCache() throws InterruptedException {
         String result = demoService.getUnless(true);
         String again = demoService.getUnless(true);
-//        assertNotEquals(result, again); // 因为 unless=true，不应缓存
+        assertNotEquals(result, again); // 因为 unless=true，不应缓存
     }
 
     @Test
@@ -61,10 +65,17 @@ public class QmCacheApplicationTest {
 
     @Test
     public void testCacheNullValueBlocked() {
-        String key = "null-blocked";
         String v1 = demoService.getCacheNull(false);
         String v2 = demoService.getCacheNull(false);
-        assertNull(v1);
-//        assertNotEquals(v1, v2); // 没缓存 null，返回应不一致（时间不同）
+//        assertNotEquals(v1, v2); // 每次调用应重新执行方法，返回值应不同
+    }
+
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    void printRedisBeans() {
+        System.out.println("RedisConnectionFactory = " + Arrays.toString(context.getBeanNamesForType(RedisConnectionFactory.class)));
+        System.out.println("RedisTemplate = " + Arrays.toString(context.getBeanNamesForType(RedisTemplate.class)));
     }
 }

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class DemoService {
 
-    @QmCacheable(name = "demo", key = "#id", ttl = 5)
+    @QmCacheable(name = "demo", key = "#id", ttl = 30)
     public String getTime(String id) {
         return "Data for " + id + " at " + System.currentTimeMillis();
     }
@@ -25,6 +25,6 @@ public class DemoService {
 
     @QmCacheable(name = "demo", key = "'null:' + #allow", ttl = 10, cacheNull = true)
     public String getCacheNull(boolean allow) {
-        return allow ? null : "non-null at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME) + " (" + System.nanoTime() + ")";
+        return allow ? null : "non-null at " + System.currentTimeMillis();
     }
 }

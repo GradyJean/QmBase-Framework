@@ -1,6 +1,7 @@
 package com.qm.base.shared.cache.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.qm.base.shared.cache.enums.CacheType;
 
 /**
  * QmCacheProperties - 缓存配置属性类。
@@ -12,18 +13,18 @@ public class QmCacheProperties {
     /**
      * 缓存类型（redis / caffeine），默认 redis
      */
-    private String type = "redis";
+    private CacheType type = CacheType.REDIS;
 
     /**
      * 默认缓存过期时间（单位：秒）
      */
     private int ttl = 300;
 
-    public String getType() {
+    public CacheType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(CacheType type) {
         this.type = type;
     }
 

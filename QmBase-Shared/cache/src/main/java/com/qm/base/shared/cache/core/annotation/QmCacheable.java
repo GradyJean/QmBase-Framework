@@ -22,9 +22,9 @@ public @interface QmCacheable {
     String key();
 
     /**
-     * 缓存过期时间（单位秒），0 表示使用默认 ttl
+     * 缓存过期时间（单位秒），300 表示使用默认 ttl
      */
-    int ttl() default 0;
+    int ttl() default 300;
 
     /**
      * 是否缓存 null 值，默认为 false

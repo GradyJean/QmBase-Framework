@@ -2,8 +2,8 @@
   "properties": [
     {
       "name": "qm.base.cache.type",
-      "type": "java.lang.String",
-      "description": "缓存类型（redis 或 caffeine）"
+      "type": "com.qm.base.shared.cache.enums.CacheType",
+      "description": "缓存类型（REDIS 或 CAFFEINE）"
     },
     {
       "name": "qm.base.cache.ttl",

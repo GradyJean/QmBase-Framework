@@ -1,14 +1,14 @@
-
-
 package com.qm.base.shared.cache.core.aspect;
 
 import com.qm.base.shared.cache.api.QmCache;
 import com.qm.base.shared.cache.api.QmCacheManager;
 import com.qm.base.shared.cache.core.annotation.QmCacheable;
 import com.qm.base.shared.cache.core.key.QmKeyGenerator;
+import com.qm.base.shared.cache.core.support.CacheValueUtil;
 import com.qm.base.shared.cache.core.support.QmCacheContext;
 import com.qm.base.shared.cache.logging.QmCacheLogger;
 import com.qm.base.shared.cache.metrics.QmCacheMetricsRecorder;
+import com.qm.base.shared.cache.model.NullValue;
 import jakarta.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -26,6 +26,8 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class QmCacheAspect {
+    private static final NullValue NULL_HOLDER = NullValue.INSTANCE;
+
     @Resource
     private QmKeyGenerator keyGenerator;
     private final ExpressionParser parser = new SpelExpressionParser();
@@ -39,8 +41,8 @@ public class QmCacheAspect {
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
         Object[] args = pjp.getArgs();
 
-        // 1. 构造上下文用于 SpEL 解析
-        StandardEvaluationContext context = new MethodBasedEvaluationContext(null, method, args, nameDiscoverer);
+        // 1. 构造上下文用于 SpEL 解析，确保参数绑定完整
+        StandardEvaluationContext context = new MethodBasedEvaluationContext(pjp.getTarget(), method, args, nameDiscoverer);
 
         // 2. 解析 key 与 condition
         String cacheKey;
@@ -49,9 +51,11 @@ public class QmCacheAspect {
         } else {
             cacheKey = keyGenerator.generate(pjp.getTarget(), method, args);
         }
+        // 安全解析 condition 表达式
         boolean conditionMatch = true;
         if (!qmCacheable.condition().isBlank()) {
-            conditionMatch = parser.parseExpression(qmCacheable.condition()).getValue(context, Boolean.class) != Boolean.FALSE;
+            Boolean evaluated = parser.parseExpression(qmCacheable.condition()).getValue(context, Boolean.class);
+            conditionMatch = Boolean.TRUE.equals(evaluated);
         }
 
         long start = System.currentTimeMillis();
@@ -69,20 +73,24 @@ public class QmCacheAspect {
 
             QmCache cache = qmCacheManager.getCache(qmCacheable.name());
             Object cacheResult = cache.get(cacheKey);
-            hit = cacheResult != null || (cacheResult == null && qmCacheable.cacheNull());
+            boolean isCachedNull = cacheResult instanceof NullValue;
+            hit = cacheResult != null;
 
             if (hit) {
-                result = cacheResult;
+                result = isCachedNull ? null : cacheResult;
             } else {
                 result = pjp.proceed();
+                // 设置上下文变量，保证 SpEL 可用 result
                 context.setVariable("result", result);
+                // 安全解析 unless 表达式
                 boolean unlessMatch = false;
                 if (!qmCacheable.unless().isBlank()) {
-                    unlessMatch = parser.parseExpression(qmCacheable.unless()).getValue(context, Boolean.class) == Boolean.TRUE;
+                    Boolean evaluated = parser.parseExpression(qmCacheable.unless()).getValue(context, Boolean.class);
+                    unlessMatch = Boolean.TRUE.equals(evaluated);
                 }
                 if (!unlessMatch && (result != null || qmCacheable.cacheNull())) {
                     int ttl = qmCacheable.ttl() > 0 ? qmCacheable.ttl() : 300;
-                    cache.put(cacheKey, result, ttl);
+                    cache.put(cacheKey, CacheValueUtil.wrap(result), ttl);
                 }
             }
 

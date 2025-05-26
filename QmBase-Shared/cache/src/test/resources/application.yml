@@ -1,4 +1,10 @@
 qm:
   base:
     cache:
-      type: caffeine
+      type: redis
+
+spring:
+  data:
+    redis:
+      host: 159.75.106.155
+      password: Tracy@redis01194!
