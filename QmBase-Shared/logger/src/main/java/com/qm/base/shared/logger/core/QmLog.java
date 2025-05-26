@@ -2,8 +2,11 @@ package com.qm.base.shared.logger.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +27,7 @@ public class QmLog {
     public static void info(String module, String action, Object... args) {
         Logger logger = LoggerFactory.getLogger(getCallerClass());
         if (logger.isInfoEnabled()) {
-            logger.info("[{}-{}] {}", module, action, formatArgs(args));
+            logger.info("[{}-{}][traceId={}] {}", module, action, getTraceId(), formatArgs(args));
         }
     }
 
@@ -37,7 +40,7 @@ public class QmLog {
      */
     public static void error(String module, String action, Throwable ex) {
         Logger logger = LoggerFactory.getLogger(getCallerClass());
-        logger.error("[{}-{}] 异常: {}", module, action, ex.toString(), ex);
+        logger.error("[{}-{}][traceId={}] 异常: {}", module, action, getTraceId(), ex.toString(), ex);
     }
 
     /**
@@ -50,7 +53,7 @@ public class QmLog {
     public static void debug(String module, String action, Object... args) {
         Logger logger = LoggerFactory.getLogger(getCallerClass());
         if (logger.isDebugEnabled()) {
-            logger.debug("[{}-{}] {}", module, action, formatArgs(args));
+            logger.debug("[{}-{}][traceId={}] {}", module, action, getTraceId(), formatArgs(args));
         }
     }
 
@@ -64,7 +67,7 @@ public class QmLog {
     public static void warn(String module, String action, Object... args) {
         Logger logger = LoggerFactory.getLogger(getCallerClass());
         if (logger.isWarnEnabled()) {
-            logger.warn("[{}-{}] {}", module, action, formatArgs(args));
+            logger.warn("[{}-{}][traceId={}] {}", module, action, getTraceId(), formatArgs(args));
         }
     }
 
@@ -122,6 +125,11 @@ public class QmLog {
      * 参数格式化（用 ｜ 分隔）
      */
     private static String formatArgs(Object... args) {
+        if (args.length == 1 && args[0] instanceof Map<?, ?> map) {
+            return map.entrySet().stream()
+                    .map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining(" | "));
+        }
         return Arrays.stream(args)
                 .map(arg -> arg == null ? "null" : arg.toString())
                 .collect(Collectors.joining(" | "));
@@ -136,5 +144,9 @@ public class QmLog {
                 .findFirst()
                 .map(StackWalker.StackFrame::getDeclaringClass)
                 .orElse(null));
+    }
+
+    private static String getTraceId() {
+        return Optional.ofNullable(MDC.get("traceId")).orElse("-");
     }
 }
