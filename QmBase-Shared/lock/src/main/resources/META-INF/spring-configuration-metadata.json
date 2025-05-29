@@ -1,27 +1,27 @@
 {
   "groups": [
     {
-      "name": "qm.base.lock.distributed",
+      "name": "qm.lock.distributed",
       "type": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
       "sourceType": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
       "description": "General distributed lock settings"
     },
     {
-      "name": "qm.base.lock.zookeeper",
+      "name": "qm.lock.zookeeper",
       "type": "com.qm.base.shared.lock.distribute.zookeeper.ZookeeperProperties",
       "sourceType": "com.qm.base.shared.lock.distribute.zookeeper.ZookeeperProperties"
     }
   ],
   "properties": [
     {
-      "name": "qm.base.lock.distributed.type",
+      "name": "qm.lock.distributed.type",
       "type": "com.qm.base.shared.lock.enums.DistributedLockType",
       "description": "Distributed lock type. Supported values: REDIS, ZOOKEEPER",
       "sourceType": "com.qm.base.shared.lock.distribute.core.DistributedLockProperties",
       "defaultValue": "REDIS"
     },
     {
-      "name": "qm.base.lock.zookeeper.connect-string",
+      "name": "qm.lock.zookeeper.connect-string",
       "type": "java.lang.String",
       "description": "Zookeeper connection string, e.g. localhost:2181"
     },

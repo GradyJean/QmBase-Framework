@@ -19,8 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(DistributedLockProperties.class)
 public class LockAutoConfiguration {
 
-    private static final Logger logger = LoggerFactory.getLogger(LockAutoConfiguration.class);
-
     /**
      * 注册默认本地锁实现（始终启用）
      * 你可以考虑是否为 `ReentrantLocalLockService` 提供一个 `@ConditionalOnMissingBean(LocalLockService.class)` 以支持用户自定义实现。

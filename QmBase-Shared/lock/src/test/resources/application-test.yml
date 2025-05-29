@@ -1,9 +1,10 @@
 qm:
-  base:
-    lock:
-      distributed:
-        type: redis  # 可切换为 redis 或 zookeeper
+  lock:
+    distributed:
+      type: redis
 spring:
   data:
     redis:
       host: localhost
+      port: 6379
+      password: 1

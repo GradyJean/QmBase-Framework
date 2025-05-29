@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  */
 @Configuration
 @ConditionalOnClass(StringRedisTemplate.class)
-@ConditionalOnProperty(name = "qm.base.lock.distributed.type", havingValue = "redis")
+@ConditionalOnProperty(name = "qm.lock.distributed.type", havingValue = "redis")
 public class RedisLockAutoConfiguration {
     /**
      * 注入基于 Redis 的分布式锁实现
