@@ -1,5 +1,4 @@
 qm:
-  base:
-    cache:
-      type: caffeine
-      ttl: 300
+  cache:
+    ttl: 300
+    type: caffeine

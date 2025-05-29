@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  * 当 qm.base.cache.type=redis 时生效，注册 RedisQmCacheManager。
  */
 @Configuration
-@ConditionalOnProperty(name = "qm.base.cache.type", havingValue = "redis")
+@ConditionalOnProperty(name = "qm.cache.type", havingValue = "redis")
 @EnableConfigurationProperties(QmCacheProperties.class)
 public class RedisCacheAutoConfiguration {
 

@@ -7,7 +7,7 @@ import com.qm.base.shared.cache.enums.CacheType;
  * QmCacheProperties - 缓存配置属性类。
  * 用于读取 application.yml 中的配置项 qm.base.cache.*
  */
-@ConfigurationProperties(prefix = "qm.base.cache")
+@ConfigurationProperties(prefix = "qm.cache")
 public class QmCacheProperties {
 
     /**

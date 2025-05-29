@@ -1,12 +1,12 @@
 {
   "properties": [
     {
-      "name": "qm.base.cache.type",
+      "name": "qm.cache.type",
       "type": "com.qm.base.shared.cache.enums.CacheType",
       "description": "缓存类型（REDIS 或 CAFFEINE）"
     },
     {
-      "name": "qm.base.cache.ttl",
+      "name": "qm.cache.ttl",
       "type": "java.lang.Integer",
       "description": "缓存默认 TTL（秒）"
     }

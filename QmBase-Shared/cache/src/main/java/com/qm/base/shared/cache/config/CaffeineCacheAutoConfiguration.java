@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * 在配置 qm.base.cache.type=caffeine 时激活。
  */
 @Configuration
-@ConditionalOnProperty(name = "qm.base.cache.type", havingValue = "caffeine")
+@ConditionalOnProperty(name = "qm.cache.type", havingValue = "caffeine")
 @EnableConfigurationProperties(QmCacheProperties.class)
 public class CaffeineCacheAutoConfiguration {
 
