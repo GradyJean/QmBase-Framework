@@ -1,26 +1,26 @@
 {
   "groups": [
     {
-      "name": "qm.base.logger",
+      "name": "qm.logger",
       "type": "com.qm.base.shared.logger.config.QmLoggerProperties",
       "sourceType": "com.qm.base.shared.logger.config.QmLoggerProperties"
     }
   ],
   "properties": [
     {
-      "name": "qm.base.logger.log-params",
+      "name": "qm.logger.log-params",
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "description": "是否打印方法入参"
     },
     {
-      "name": "qm.base.logger.log-result",
+      "name": "qm.logger.log-result",
       "type": "java.lang.Boolean",
       "defaultValue": true,
       "description": "是否打印方法返回值"
     },
     {
-      "name": "qm.base.logger.level",
+      "name": "qm.logger.level",
       "type": "com.qm.base.shared.logger.enums.LogLevel",
       "defaultValue": "INFO",
       "description": "日志打印级别（TRACE/DEBUG/INFO/WARN/ERROR）"

@@ -16,7 +16,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *     level: INFO
  */
 @Data
-@ConfigurationProperties(prefix = "qm.base.logger")
+@ConfigurationProperties(prefix = "qm.logger")
 public class QmLoggerProperties {
 
     /**
