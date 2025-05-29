@@ -1,7 +1,7 @@
 package com.qm.base.shared.base.exception;
 
-import com.qm.base.shared.base.result.Result;
-import com.qm.base.shared.base.result.ResultCode;
+import com.qm.base.shared.base.model.Result;
+import com.qm.base.shared.base.model.ResultCode;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

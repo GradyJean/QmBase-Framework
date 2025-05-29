@@ -1,6 +1,6 @@
 package com.qm.base.shared.base.exception;
 
-import com.qm.base.shared.base.result.ResultCode;
+import com.qm.base.shared.base.model.ResultCode;
 import org.springframework.util.StringUtils;
 
 /**
@@ -48,9 +48,9 @@ public class AssertUtils {
     /**
      * 判断两个对象相等（支持 null 值比较）
      *
-     * @param a        第一个对象
-     * @param b        第二个对象
-     * @param message  异常信息
+     * @param a       第一个对象
+     * @param b       第二个对象
+     * @param message 异常信息
      */
     public static void equals(Object a, Object b, String message) {
         if (a == null || !a.equals(b)) {

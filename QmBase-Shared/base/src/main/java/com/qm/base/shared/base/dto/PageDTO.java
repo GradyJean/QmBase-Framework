@@ -1,6 +1,5 @@
 package com.qm.base.shared.base.dto;
 
-import lombok.Data;
 
 import java.util.List;
 
@@ -9,7 +8,6 @@ import java.util.List;
  *
  * @param <T> 每页记录的数据类型
  */
-@Data
 public class PageDTO<T> {
 
     /**
@@ -30,6 +28,22 @@ public class PageDTO<T> {
      */
     public PageDTO(long total, List<T> records) {
         this.total = total;
+        this.records = records;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public List<T> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<T> records) {
         this.records = records;
     }
 }

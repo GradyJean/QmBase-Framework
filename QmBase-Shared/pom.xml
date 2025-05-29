@@ -46,6 +46,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.qm.base</groupId>
+            <artifactId>QmBase-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
         </dependency>

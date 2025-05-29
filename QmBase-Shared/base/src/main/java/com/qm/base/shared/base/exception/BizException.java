@@ -1,10 +1,12 @@
 package com.qm.base.shared.base.exception;
 
+import com.qm.base.core.exception.QmException;
+
 /**
  * 自定义业务异常，用于在领域层或应用层显式抛出受控错误。
  * 支持统一错误码和提示信息处理，便于前后端协议规范一致。
  */
-public class BizException extends RuntimeException {
+public class BizException extends QmException {
 
     /**
      * 自定义业务错误码，建议对应 ResultCode 或 ErrorCode 中定义的常量

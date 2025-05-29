@@ -1,4 +1,4 @@
-package com.qm.base.shared.id.core;
+package com.qm.base.shared.id.api;
 
 /**
  * 通用 ID 生成器接口，支持分布式主键生成策略。

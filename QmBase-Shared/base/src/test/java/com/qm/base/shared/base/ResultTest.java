@@ -1,8 +1,8 @@
 package com.qm.base.shared.base;
 
 import com.qm.base.shared.base.exception.ErrorCode;
-import com.qm.base.shared.base.result.Result;
-import com.qm.base.shared.base.result.ResultCode;
+import com.qm.base.shared.base.model.Result;
+import com.qm.base.shared.base.model.ResultCode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

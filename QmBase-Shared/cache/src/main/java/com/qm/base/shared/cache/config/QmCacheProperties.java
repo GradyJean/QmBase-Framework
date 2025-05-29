@@ -1,7 +1,7 @@
 package com.qm.base.shared.cache.config;
 
-import com.qm.base.shared.cache.enums.CacheType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.qm.base.shared.cache.enums.CacheType;
 
 /**
  * QmCacheProperties - 缓存配置属性类。

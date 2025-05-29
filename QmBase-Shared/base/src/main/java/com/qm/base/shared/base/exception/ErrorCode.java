@@ -1,14 +1,13 @@
 package com.qm.base.shared.base.exception;
 
-import lombok.Getter;
-
 /**
  * 系统通用错误码枚举类。
  * <p>
- * 每个错误码对应一个明确的错误语义，便于业务异常统一处理。
- * 全局通用错误码集合，供各模块统一使用。
+ * 每个错误码代表一个明确的业务错误语义，适用于 {@code Result<T>} 和异常体系。
+ * 建议在 {@code BizException} 或控制器中统一使用，用于前后端错误对齐。
+ * 可与 {@code ResultCode} 并存，前者语义更强，后者适合与状态码组合。
+ * </p>
  */
-@Getter
 public enum ErrorCode {
     /**
      * 用户不存在
@@ -38,9 +37,10 @@ public enum ErrorCode {
      */
     SYSTEM_ERROR("Internal server error");
 
-    /** 错误提示信息
+    /**
+     * 错误提示信息
      * -- GETTER --
-     *  获取错误提示文本。
+     * 获取错误提示文本。
      *
      */
     private final String message;
@@ -54,4 +54,12 @@ public enum ErrorCode {
         this.message = message;
     }
 
+    /**
+     * 获取错误码对应的提示信息。
+     *
+     * @return 错误提示文本
+     */
+    public String getMessage() {
+        return message;
+    }
 }

@@ -1,7 +1,6 @@
 package com.qm.base.shared.cache.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import java.io.Serializable;
 
 /**

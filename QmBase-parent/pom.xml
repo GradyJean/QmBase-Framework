@@ -22,6 +22,7 @@
     <properties>
         <java.version>24</java.version>
         <spring.boot.version>3.4.5</spring.boot.version>
+        <qm.base.version>1.0-SNAPSHOT</qm.base.version>
         <redis.version>3.4.5</redis.version>
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
@@ -36,7 +37,11 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>com.qm.base</groupId>
+                <artifactId>QmBase-core</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
             <!-- Spring Boot BOM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
