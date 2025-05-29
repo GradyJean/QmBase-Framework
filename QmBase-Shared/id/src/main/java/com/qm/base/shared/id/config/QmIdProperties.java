@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * qmbase.id.datacenter-id
  */
 @Data
-@ConfigurationProperties(prefix = "qm.base.id")
+@ConfigurationProperties(prefix = "qm.id")
 public class QmIdProperties {
 
     /**
