@@ -14,19 +14,12 @@
     <artifactId>QmBase-Shared</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>base</module>
-        <module>infra</module>
-        <module>event</module>
-        <module>security</module>
-        <module>logger</module>
-        <module>config</module>
-        <module>tracing</module>
-        <module>resilience</module>
-        <module>lock</module>
-        <module>cache</module>
-        <module>id</module>
-        <module>audit</module>
-        <module>utils</module>
+        <module>QmBase-Base</module>
+        <module>QmBase-Security</module>
+        <module>QmBase-Logger</module>
+        <module>QmBase-Lock</module>
+        <module>QmBase-Cache</module>
+        <module>QmBase-Id</module>
     </modules>
 
     <properties>

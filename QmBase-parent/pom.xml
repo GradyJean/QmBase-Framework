@@ -39,10 +39,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.qm.base.shared</groupId>
-            <artifactId>base</artifactId>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -62,22 +58,32 @@
             </dependency>
             <dependency>
                 <groupId>com.qm.base.shared</groupId>
-                <artifactId>id</artifactId>
+                <artifactId>QmBase-Id</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.qm.base.shared</groupId>
-                <artifactId>logger</artifactId>
+                <artifactId>QmBase-Logger</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.qm.base.shared</groupId>
-                <artifactId>cache</artifactId>
+                <artifactId>QmBase-Cache</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.qm.base.shared</groupId>
-                <artifactId>base</artifactId>
+                <artifactId>QmBase-Base</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qm.base.auth</groupId>
+                <artifactId>QmBase-Auth</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qm.base.shared</groupId>
+                <artifactId>QmBase-Security</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
             <!-- Lombok -->

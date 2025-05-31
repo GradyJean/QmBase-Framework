@@ -4,37 +4,38 @@ import com.qm.base.auth.model.dto.LoginRequest;
 import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.auth.service.AuthService;
 import com.qm.base.auth.service.TokenService;
+import com.qm.base.auth.service.UserService;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.dto.JwtPayload;
+import com.qm.base.core.user.User;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
 
     private final TokenService tokenService;
+    private final UserService userService;
 
-    public AuthServiceImpl(TokenService tokenService) {
+    public AuthServiceImpl(TokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
+        this.userService = userService;
     }
 
     @Override
     public AuthToken login(LoginRequest request) {
-        // 模拟将 openId 映射为 userId（实际应通过数据库或远程服务）
-        String openId = request.getCredential();
-        if (openId == null || openId.isEmpty()) {
-            throw new IllegalArgumentException("OpenId must not be empty");
+        String credential = request.getCredential();
+        if (credential == null || credential.isEmpty()) {
+            throw new IllegalArgumentException("Credential must not be empty");
+        }
+        User user = userService.findByIdentifier(credential);
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("User not found for credential: " + credential);
         }
 
-        // 示例映射：生成一个 mock userId
-        Long userId = 10000L + openId.hashCode();
-
-        // 构造 payload
-        JwtPayload payload = new JwtPayload();
-        payload.setUserId(userId);
-
-        // 调用 tokenService 生成 token
-        return tokenService.generateToken(payload);
+        return tokenService.generateToken(JwtPayload.ofUser(user.getUserId()));
     }
 
     @Override

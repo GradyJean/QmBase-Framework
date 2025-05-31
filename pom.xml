@@ -15,6 +15,7 @@
         <module>QmBase-User</module>
         <module>QmBase-Job</module>
         <module>QmBase-core</module>
+        <module>QmBase-Example</module>
     </modules>
 
     <properties>

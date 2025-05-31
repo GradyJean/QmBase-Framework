@@ -3,30 +3,32 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/QmBase-Auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Job/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Job/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Base/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Base/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Cache/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Id/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Id/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Lock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Lock/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Logger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Logger/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/audit/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/audit/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/base/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/base/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/cache/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/cache/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/config/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/config/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/event/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/event/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/id/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/id/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/infra/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/lock/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/lock/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/logger/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/logger/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/resilience/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/resilience/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/security/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/QmBase-Shared/security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/tracing/src/main/java" charset="UTF-8" />

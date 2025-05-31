@@ -21,15 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>com.qm.base.shared</groupId>
-            <artifactId>id</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qm.base.shared</groupId>
-            <artifactId>logger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qm.base.shared</groupId>
-            <artifactId>cache</artifactId>
+            <artifactId>QmBase-Base</artifactId>
         </dependency>
         <!-- JWT -->
         <dependency>

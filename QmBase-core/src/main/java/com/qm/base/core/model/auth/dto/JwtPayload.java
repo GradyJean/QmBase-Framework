@@ -33,6 +33,19 @@ public class JwtPayload implements Serializable {
     }
 
     /**
+     * 创建一个仅包含用户 ID 的简化 JwtPayload 实例。
+     * 常用于无需设置 issuedAt、expiresAt 和 type 的场景。
+     *
+     * @param userId 用户唯一标识
+     * @return JwtPayload 实例
+     */
+    public static JwtPayload ofUser(Long userId) {
+        JwtPayload payload = new JwtPayload();
+        payload.setUserId(userId);
+        return payload;
+    }
+
+    /**
      * 获取用户 ID。
      */
     public Long getUserId() {
