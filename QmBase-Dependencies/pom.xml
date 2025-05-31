@@ -1,0 +1,50 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.qm.base</groupId>
+    <artifactId>QmBase-Dependencies</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>QmBase Dependency Aggregator</name>
+    <description>Aggregated dependencies for shared QmBase modules</description>
+    <parent>
+        <groupId>com.qm.base.parent</groupId>
+        <artifactId>QmBase-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../QmBase-parent/pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Logger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Id</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Lock</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.auth</groupId>
+            <artifactId>QmBase-Auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>QmBase-Security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+</project>

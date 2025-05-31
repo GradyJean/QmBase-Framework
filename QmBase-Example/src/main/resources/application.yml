@@ -1,0 +1,12 @@
+server:
+  port: 8080
+qm:
+  cache:
+    type: caffeine
+    ttl: 300
+  logger:
+    log-params: false
+    log-result: false
+spring:
+  application:
+    name: example

@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/QmBase-Auth/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Auth/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Dependencies/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Job/src/main/java" charset="UTF-8" />

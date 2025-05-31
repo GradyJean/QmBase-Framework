@@ -86,6 +86,11 @@
                 <artifactId>QmBase-Security</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.qm.base.shared</groupId>
+                <artifactId>QmBase-Lock</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
             <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
