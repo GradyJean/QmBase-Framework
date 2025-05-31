@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.qm.base</groupId>
-        <artifactId>QmBase-Framework</artifactId>
+        <groupId>com.qm.base.parent</groupId>
+        <artifactId>QmBase-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../QmBase-parent/pom.xml</relativePath>
     </parent>
 
     <groupId>com.qm.base.auth</groupId>
@@ -17,5 +18,40 @@
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>id</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>logger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.qm.base.shared</groupId>
+            <artifactId>cache</artifactId>
+        </dependency>
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+        </dependency>
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+    </dependencies>
 </project>

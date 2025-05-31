@@ -3,8 +3,6 @@ package com.qm.base.shared.lock.config;
 import com.qm.base.shared.lock.distribute.core.DistributedLockProperties;
 import com.qm.base.shared.lock.local.LocalLockService;
 import com.qm.base.shared.lock.local.ReentrantLocalLockService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
