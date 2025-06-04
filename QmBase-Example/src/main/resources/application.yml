@@ -7,6 +7,9 @@ qm:
   logger:
     log-params: false
     log-result: false
+  auth:
+    jwt:
+      secret: b2df428b9929d3ace7c598bbf4e496b2
 spring:
   application:
     name: example

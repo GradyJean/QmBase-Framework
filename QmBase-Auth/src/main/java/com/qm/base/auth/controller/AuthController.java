@@ -1,6 +1,9 @@
 package com.qm.base.auth.controller;
 
 import com.qm.base.auth.model.dto.LoginRequest;
+import com.qm.base.auth.model.dto.LogoutRequest;
+import com.qm.base.auth.model.dto.RefreshTokenRequest;
+import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.auth.service.AuthService;
 import com.qm.base.shared.base.model.Result;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * 认证相关控制器。
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -35,25 +38,35 @@ public class AuthController {
     }
 
     /**
+     * 注册接口。
+     *
+     * @param request 注册请求参数
+     * @return 注册响应结果
+     */
+    @PostMapping("/register")
+    public Result<AuthToken> register(@RequestBody RegisterRequest request) {
+        return Result.SUCCESS(authService.register(request));
+    }
+
+    /**
      * 刷新Token接口。
      *
-     * @param refreshToken refreshToken字符串
+     * @param request refreshToken字符串
      * @return 新的Token
      */
     @PostMapping("/refresh")
-    public Result<AuthToken> refresh(@RequestParam("refreshToken") String refreshToken) {
-        return Result.SUCCESS(authService.refresh(refreshToken));
+    public Result<AuthToken> refresh(@RequestBody RefreshTokenRequest request) {
+        return Result.SUCCESS(authService.refresh(request.getRefreshToken()));
     }
 
     /**
      * 登出接口。
      *
-     * @param accessToken 当前 accessToken
+     * @param request 当前 accessToken
      * @return 操作结果
      */
     @PostMapping("/logout")
-    public Result<Void> logout(@RequestHeader(name = "Authorization") String accessToken) {
-        // TODO: 可选实现缓存失效、黑名单、上下文清理等
-        return Result.SUCCESS();
+    public Result<Boolean> logout(@RequestBody LogoutRequest request) {
+        return Result.SUCCESS(authService.logout(request.getAccessToken()));
     }
 }

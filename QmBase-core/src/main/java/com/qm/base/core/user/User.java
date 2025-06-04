@@ -23,4 +23,13 @@ public interface User extends Serializable {
     default boolean isAnonymous() {
         return getUserId() == null || getUserId() <= 0;
     }
+
+    /**
+     * 判断用户是否启用
+     *
+     * @return true 表示启用
+     */
+    default boolean isEnabled() {
+        return true;
+    }
 }

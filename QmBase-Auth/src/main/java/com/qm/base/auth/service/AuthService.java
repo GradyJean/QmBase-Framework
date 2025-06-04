@@ -3,6 +3,7 @@ package com.qm.base.auth.service;
 import com.qm.base.auth.model.dto.LoginRequest;
 import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.core.model.auth.dto.AuthToken;
+import com.qm.base.core.model.auth.enums.IdentifierType;
 
 /**
  * 用户认证服务接口。
@@ -43,4 +44,20 @@ public interface AuthService {
      * @return 新的授权 Token 信息
      */
     AuthToken refresh(String refreshToken);
+
+    /**
+     *
+     * @param identifier     用户标识
+     * @param identifierType 用户类型
+     * @return 用户标识是否存在
+     */
+    public boolean identifierExists(String identifier, IdentifierType identifierType);
+
+    /**
+     * 登出
+     *
+     * @param accessToken 登录的 accessToken
+     * @return 是否登出成功
+     */
+    Boolean logout(String accessToken);
 }

@@ -1,10 +1,13 @@
 package com.qm.base.auth.service.impl;
 
+import com.qm.base.auth.exception.AuthException;
+import com.qm.base.auth.model.constant.AuthErrorCodeEnum;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.dto.JwtPayload;
 import com.qm.base.auth.model.token.JwtTokenGenerator;
 import com.qm.base.auth.model.token.JwtTokenParser;
 import com.qm.base.auth.service.TokenService;
+import io.jsonwebtoken.JwtException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,12 +30,12 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public JwtPayload parseToken(String token) {
-        return jwtTokenParser.parse(token);
-    }
-
-    @Override
-    public AuthToken refreshToken(String refreshToken) {
-        JwtPayload payload = parseToken(refreshToken);
-        return generateToken(payload);
+        JwtPayload jwtPayload = null;
+        try {
+            jwtPayload = jwtTokenParser.parse(token);
+        } catch (JwtException e) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_TOKEN_INVALID);
+        }
+        return jwtPayload;
     }
 }

@@ -6,32 +6,40 @@ package com.qm.base.core.model.auth.enums;
 public enum IdentifierType {
 
     /**
-     * 用户名密码登录
+     * 用户名
      */
-    PASSWORD,
+    USER_NAME,
 
     /**
-     * 短信验证码登录
+     * 电话号码
      */
-    SMS,
-
-    /**
-     * 微信登录
-     */
-    WECHAT,
+    PHONE_NUMBER,
 
     /**
      * 邮箱验证码登录
      */
-    EMAIL_CODE,
+    EMAIL,
+    /**
+     * 微信
+     */
+    WECHAT,
+    /**
+     * QQ
+     */
+    QQ,
 
     /**
-     * GitHub 登录
+     * 支付宝
+     */
+    ALIPAY,
+
+    /**
+     * GitHub
      */
     GITHUB,
 
     /**
-     * Apple 登录
+     * Google
      */
-    APPLE
+    GOOGLE
 }
