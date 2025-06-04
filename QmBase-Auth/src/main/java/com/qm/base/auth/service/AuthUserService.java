@@ -67,4 +67,11 @@ public interface AuthUserService {
      * @param userId 登录的用户 ID
      */
     void logoutHandler(Long userId);
+
+    /**
+     * 更新密码
+     *
+     * @param authUser 用户对象
+     */
+    Boolean updatePassword(AuthUser authUser);
 }

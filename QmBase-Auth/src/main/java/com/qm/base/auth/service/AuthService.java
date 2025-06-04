@@ -31,11 +31,12 @@ public interface AuthService {
      * 重置密码。
      * 通常会验证验证码或 token，并更新用户密码。
      *
-     * @param identifier  用户标识（如邮箱、手机号）
-     * @param newPassword 新密码
-     * @param credential  验证码或 token 等凭证
+     * @param identifier       用户标识（如邮箱、手机号）
+     * @param newCredential    新密码
+     * @param verificationCode 验证码
+     * @param identifierType   标识类型
      */
-    void resetPassword(String identifier, String newPassword, String credential);
+    Boolean resetPassword(String identifier, String newCredential, String verificationCode, IdentifierType identifierType);
 
     /**
      * 刷新 Token。

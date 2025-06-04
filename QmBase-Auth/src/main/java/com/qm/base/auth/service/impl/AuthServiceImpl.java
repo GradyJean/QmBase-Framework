@@ -162,8 +162,43 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void resetPassword(String identifier, String newPassword, String credential) {
-
+    public Boolean resetPassword(String identifier, String newCredential, String verificationCode, IdentifierType identifierType) {
+        // 用户标识为空
+        if (StringUtils.isBlank(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_EMPTY);
+        }
+        // 新密码为空
+        if (StringUtils.isBlank(newCredential)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_PASSWORD_EMPTY);
+        }
+        // 验证码为空
+        if (StringUtils.isBlank(verificationCode)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
+        }
+        // 用户标识不为 EMAIL 也不为 手机号码
+        if (identifierType != IdentifierType.EMAIL && identifierType != IdentifierType.PHONE_NUMBER) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
+        }
+        // 手机号码格式不正确
+        if (identifierType == IdentifierType.PHONE_NUMBER && !RegexUtils.isPhone(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_PHONE_INVALID);
+        }
+        // 邮箱格式不正确
+        if (identifierType == IdentifierType.EMAIL && !RegexUtils.isEmail(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_INVALID);
+        }
+        // 邮箱或手机未注册
+        AuthUser authUser = authUserService.findByIdentifier(identifier, identifierType);
+        if (Objects.isNull(authUser)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_NOT_EXIST);
+        }
+        // 验证码校验
+        if (!authUserService.verifyIdentifierCode(identifier, newCredential, identifierType)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
+        }
+        // 更新密码
+        authUser.setCredential(PasswordUtils.encode(newCredential));
+        return authUserService.updatePassword(authUser);
     }
 
     @Override

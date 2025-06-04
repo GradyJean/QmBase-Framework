@@ -1,9 +1,6 @@
 package com.qm.base.auth.controller;
 
-import com.qm.base.auth.model.dto.LoginRequest;
-import com.qm.base.auth.model.dto.LogoutRequest;
-import com.qm.base.auth.model.dto.RefreshTokenRequest;
-import com.qm.base.auth.model.dto.RegisterRequest;
+import com.qm.base.auth.model.dto.*;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.auth.service.AuthService;
 import com.qm.base.shared.base.model.Result;
@@ -57,6 +54,18 @@ public class AuthController {
     @PostMapping("/refresh")
     public Result<AuthToken> refresh(@RequestBody RefreshTokenRequest request) {
         return Result.SUCCESS(authService.refresh(request.getRefreshToken()));
+    }
+
+    /**
+     * 密码重置。
+     *
+     * @param request 当前 accessToken
+     * @return 操作结果
+     */
+    @PostMapping("/resetPassword")
+    public Result<Boolean> resetPassword(@RequestBody ResetPasswordRequest request) {
+        boolean result = authService.resetPassword(request.getIdentifier(), request.getCredential(), request.getVerificationCode(), request.getIdentifierType());
+        return Result.SUCCESS(result);
     }
 
     /**

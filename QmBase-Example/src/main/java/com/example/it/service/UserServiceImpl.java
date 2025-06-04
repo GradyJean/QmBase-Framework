@@ -42,4 +42,9 @@ public class UserServiceImpl implements AuthUserService {
     @Override
     public void logoutHandler(Long userId) {
     }
+
+    @Override
+    public Boolean updatePassword(AuthUser authUser) {
+        return false;
+    }
 }
