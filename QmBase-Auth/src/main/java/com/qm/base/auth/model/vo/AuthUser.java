@@ -4,6 +4,7 @@ import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.model.auth.dto.AbstractAuth;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.core.user.User;
+import com.qm.base.shared.base.utils.StringUtils;
 
 /**
  * AuthUser 是认证完成后的用户视图对象，用于封装登录信息和用户状态。
@@ -61,7 +62,7 @@ public class AuthUser extends AbstractAuth implements User {
     public static AuthUser of(String identifier, String credential, IdentifierType identifierType) {
         AuthUser authUser = new AuthUser();
         authUser.setIdentifier(identifier);
-        authUser.setCredential(PasswordUtils.encode(credential)); // 明文密码加密
+        authUser.setCredential(StringUtils.isBlank(credential) ? null : PasswordUtils.encode(credential)); // 明文密码加密
         authUser.setIdentifierType(identifierType);
         authUser.setEnabled(true);
         return authUser;

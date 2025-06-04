@@ -10,6 +10,9 @@ qm:
   auth:
     jwt:
       secret: b2df428b9929d3ace7c598bbf4e496b2
+  id:
+    worker-id: 22
+    datacenter-id: 22
 spring:
   application:
     name: example

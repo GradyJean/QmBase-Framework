@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             if (StringUtils.isBlank(verificationCode)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
             }
-            if (credentialService.verifyCode(identifier, verificationCode, identifierType)) {
+            if (!credentialService.verifyCode(identifier, verificationCode, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
             authUser = credentialService.findByIdentifier(identifier, identifierType);
@@ -62,28 +62,29 @@ public class AuthServiceImpl implements AuthService {
             if (Objects.isNull(authUser)) {
                 authUser = credentialService.createUser(AuthUser.of(identifier, null, identifierType));
             }
-        }
-        // 获取密码
-        String credential = request.getCredential();
-        if (StringUtils.isBlank(credential)) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_CREDENTIAL_EMPTY);
-        }
-        // 非验证码登录
-        authUser = credentialService.findByIdentifier(identifier, identifierType);
-        if (Objects.isNull(authUser)) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
+        } else {
+            // 获取密码
+            String credential = request.getCredential();
+            if (StringUtils.isBlank(credential)) {
+                throw new AuthException(AuthErrorCodeEnum.AUTH_CREDENTIAL_EMPTY);
+            }
+            // 非验证码登录
+            authUser = credentialService.findByIdentifier(identifier, identifierType);
+            if (Objects.isNull(authUser)) {
+                throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
+            }
+            // 密码未设置
+            if (StringUtils.isBlank(authUser.getCredential())) {
+                throw new AuthException(AuthErrorCodeEnum.AUTH_PASSWORD_NOT_SET);
+            }
+            // 密码对比
+            if (!PasswordUtils.matches(credential, authUser.getCredential())) {
+                throw new AuthException(AuthErrorCodeEnum.AUTH_LOGIN_FAILED);
+            }
         }
         // 账号被禁用
         if (!authUser.isEnabled()) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_DISABLED);
-        }
-        // 密码未设置
-        if (StringUtils.isBlank(authUser.getCredential())) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_PASSWORD_NOT_SET);
-        }
-        // 密码对比
-        if (!PasswordUtils.matches(credential, authUser.getCredential())) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_LOGIN_FAILED);
         }
         return tokenService.generateToken(JwtPayload.ofUser(authUser.getUserId()));
     }
@@ -183,7 +184,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_NOT_EXIST);
         }
         // 验证码校验
-        if (!credentialService.verifyCode(identifier, newCredential, identifierType)) {
+        if (!credentialService.verifyCode(identifier, verificationCode, identifierType)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
         }
         // 更新密码
