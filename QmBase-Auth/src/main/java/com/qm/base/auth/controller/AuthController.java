@@ -85,7 +85,7 @@ public class AuthController {
      * @param request 当前 accessToken
      * @return 操作结果
      */
-    @PostMapping("/resetPassword")
+    @PostMapping("/password/reset")
     public Result<Boolean> resetPassword(@RequestBody ResetPasswordRequest request) {
         boolean result = authService.resetPassword(request.getIdentifier(), request.getCredential(), request.getVerificationCode(), request.getIdentifierType());
         return Result.SUCCESS(result);
