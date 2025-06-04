@@ -7,7 +7,7 @@ import com.qm.base.core.model.auth.enums.IdentifierType;
 /**
  * 用户服务接口，定义用户认证体系中涉及的操作，如注册、验证、找回密码等。
  */
-public interface AuthUserService {
+public interface CredentialService {
 
     /**
      * 根据用户名查找用户信息（用户名可以是手机号、邮箱或其他凭证标识）

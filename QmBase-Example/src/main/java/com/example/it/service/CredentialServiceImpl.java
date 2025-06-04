@@ -1,12 +1,12 @@
 package com.example.it.service;
 
 import com.qm.base.auth.model.vo.AuthUser;
-import com.qm.base.auth.service.AuthUserService;
+import com.qm.base.auth.service.CredentialService;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements AuthUserService {
+public class CredentialServiceImpl implements CredentialService {
 
     @Override
     public AuthUser findByIdentifier(String identifier, IdentifierType identifierType) {
