@@ -25,7 +25,7 @@ public interface CredentialService {
      * @param verificationCode 用户提交的凭证（如明文密码或验证码）
      * @return 是否验证通过
      */
-    boolean verifyIdentifierCode(String identifier, String verificationCode, IdentifierType identifierType);
+    boolean verifyCode(String identifier, String verificationCode, IdentifierType identifierType);
 
     /**
      * 发送验证码
@@ -34,16 +34,16 @@ public interface CredentialService {
      * @param identifierType 用户类型
      * @return 是否发送成功
      */
-    boolean sendVerifyIdentifierCode(String identifier, IdentifierType identifierType);
+    boolean sendVerifyCode(String identifier, IdentifierType identifierType);
 
     /**
      * 重置密码
      *
-     * @param identifier    用户凭证标识
+     * @param userId        用户 ID
      * @param newCredential 新密码或新凭证
      * @return 是否重置成功
      */
-    boolean resetCredential(String identifier, String newCredential);
+    Boolean resetCredential(Long userId, String newCredential);
 
     /**
      * 注册新用户
@@ -67,11 +67,4 @@ public interface CredentialService {
      * @param userId 登录的用户 ID
      */
     void logoutHandler(Long userId);
-
-    /**
-     * 更新密码
-     *
-     * @param authUser 用户对象
-     */
-    Boolean updatePassword(AuthUser authUser);
 }

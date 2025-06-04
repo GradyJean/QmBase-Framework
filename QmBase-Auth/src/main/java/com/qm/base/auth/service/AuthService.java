@@ -55,6 +55,15 @@ public interface AuthService {
     public boolean identifierExists(String identifier, IdentifierType identifierType);
 
     /**
+     * 发送验证码
+     *
+     * @param identifier     用户标识
+     * @param identifierType 用户类型
+     * @return 是否发送成功
+     */
+    boolean sendVerifyCode(String identifier, IdentifierType identifierType);
+
+    /**
      * 登出
      *
      * @param accessToken 登录的 accessToken

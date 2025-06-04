@@ -3,6 +3,7 @@ package com.qm.base.auth.controller;
 import com.qm.base.auth.model.dto.*;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.auth.service.AuthService;
+import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.base.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,29 @@ public class AuthController {
     @PostMapping("/register")
     public Result<AuthToken> register(@RequestBody RegisterRequest request) {
         return Result.SUCCESS(authService.register(request));
+    }
+
+    /**
+     * 用户标识是否存在。
+     *
+     * @param identifier     用户标识
+     * @param identifierType 标识类型
+     * @return 注册响应结果
+     */
+    @GetMapping("identifier/exists")
+    public Result<Boolean> identifierExists(@RequestParam("identifier") String identifier, @RequestParam("type") IdentifierType identifierType) {
+        return Result.SUCCESS(authService.identifierExists(identifier, identifierType));
+    }
+
+    /**
+     * 发送验证码
+     *
+     * @param request 用户标识
+     * @return 注册响应结果
+     */
+    @PostMapping("verifyCode/send")
+    public Result<Boolean> sendVerifyCode(@RequestBody VerifyCodeRequest request) {
+        return Result.SUCCESS(authService.sendVerifyCode(request.getIdentifier(), request.getIdentifierType()));
     }
 
     /**

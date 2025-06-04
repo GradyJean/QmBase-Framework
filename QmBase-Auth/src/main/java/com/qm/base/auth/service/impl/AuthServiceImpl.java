@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
             if (StringUtils.isBlank(verificationCode)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
             }
-            if (credentialService.verifyIdentifierCode(identifier, verificationCode, identifierType)) {
+            if (credentialService.verifyCode(identifier, verificationCode, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
             authUser = credentialService.findByIdentifier(identifier, identifierType);
@@ -148,7 +148,7 @@ public class AuthServiceImpl implements AuthService {
             if (StringUtils.isBlank(code)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
             }
-            if (credentialService.verifyIdentifierCode(identifier, code, identifierType)) {
+            if (credentialService.verifyCode(identifier, code, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
         }
@@ -175,30 +175,19 @@ public class AuthServiceImpl implements AuthService {
         if (StringUtils.isBlank(verificationCode)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
         }
-        // 用户标识不为 EMAIL 也不为 手机号码
-        if (identifierType != IdentifierType.EMAIL && identifierType != IdentifierType.PHONE_NUMBER) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
-        }
-        // 手机号码格式不正确
-        if (identifierType == IdentifierType.PHONE_NUMBER && !RegexUtils.isPhone(identifier)) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_PHONE_INVALID);
-        }
-        // 邮箱格式不正确
-        if (identifierType == IdentifierType.EMAIL && !RegexUtils.isEmail(identifier)) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_INVALID);
-        }
+        // 验证邮箱或手机号
+        validateIdentifier(identifier, identifierType);
         // 邮箱或手机未注册
         AuthUser authUser = credentialService.findByIdentifier(identifier, identifierType);
         if (Objects.isNull(authUser)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_NOT_EXIST);
         }
         // 验证码校验
-        if (!credentialService.verifyIdentifierCode(identifier, newCredential, identifierType)) {
+        if (!credentialService.verifyCode(identifier, newCredential, identifierType)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
         }
         // 更新密码
-        authUser.setCredential(PasswordUtils.encode(newCredential));
-        return credentialService.updatePassword(authUser);
+        return credentialService.resetCredential(authUser.getUserId(), PasswordUtils.encode(newCredential));
     }
 
     @Override
@@ -219,7 +208,41 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean identifierExists(String identifier, IdentifierType identifierType) {
+        if (StringUtils.isBlank(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_USERNAME_INVALID);
+        }
+        if (identifierType == null) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
+        }
         return credentialService.findByIdentifier(identifier, identifierType) != null;
+    }
+
+    @Override
+    public boolean sendVerifyCode(String identifier, IdentifierType identifierType) {
+        // 验证邮箱或手机号
+        validateIdentifier(identifier, identifierType);
+        return credentialService.sendVerifyCode(identifier, identifierType);
+    }
+
+    /**
+     * 验证是否为邮箱或手机号
+     *
+     * @param identifier     用户标识
+     * @param identifierType 标识类型
+     */
+    private void validateIdentifier(String identifier, IdentifierType identifierType) {
+        if (StringUtils.isBlank(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_EMPTY);
+        }
+        if (identifierType != IdentifierType.EMAIL && identifierType != IdentifierType.PHONE_NUMBER) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
+        }
+        if (identifierType == IdentifierType.PHONE_NUMBER && !RegexUtils.isPhone(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_PHONE_INVALID);
+        }
+        if (identifierType == IdentifierType.EMAIL && !RegexUtils.isEmail(identifier)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_INVALID);
+        }
     }
 
     @Override

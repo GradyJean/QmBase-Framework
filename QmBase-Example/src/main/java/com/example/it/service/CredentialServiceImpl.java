@@ -14,20 +14,21 @@ public class CredentialServiceImpl implements CredentialService {
     }
 
     @Override
-    public boolean verifyIdentifierCode(String identifier, String verificationCode, IdentifierType identifierType) {
+    public boolean verifyCode(String identifier, String verificationCode, IdentifierType identifierType) {
         return true;
     }
 
 
     @Override
-    public boolean sendVerifyIdentifierCode(String identifier, IdentifierType identifierType) {
+    public boolean sendVerifyCode(String identifier, IdentifierType identifierType) {
         return false;
     }
 
     @Override
-    public boolean resetCredential(String identifier, String newCredential) {
-        return false;
+    public Boolean resetCredential(Long userId, String newCredential) {
+        return null;
     }
+
 
     @Override
     public AuthUser createUser(AuthUser authUser) {
@@ -41,10 +42,5 @@ public class CredentialServiceImpl implements CredentialService {
 
     @Override
     public void logoutHandler(Long userId) {
-    }
-
-    @Override
-    public Boolean updatePassword(AuthUser authUser) {
-        return false;
     }
 }
