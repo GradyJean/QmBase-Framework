@@ -1,7 +1,7 @@
 package com.example.it.service;
 
-import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.manager.CredentialManager;
+import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.id.api.QmId;

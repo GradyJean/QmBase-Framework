@@ -1,12 +1,12 @@
 package com.qm.base.auth.service.impl;
 
 import com.qm.base.auth.exception.AuthException;
+import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.constant.AuthErrorCodeEnum;
 import com.qm.base.auth.model.dto.LoginRequest;
 import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.AuthService;
-import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.service.token.TokenService;
 import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.model.auth.dto.AuthToken;

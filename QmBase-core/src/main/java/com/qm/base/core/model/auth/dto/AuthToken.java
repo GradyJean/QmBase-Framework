@@ -1,7 +1,6 @@
 package com.qm.base.core.model.auth.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 用户认证后的 Token 信息封装。

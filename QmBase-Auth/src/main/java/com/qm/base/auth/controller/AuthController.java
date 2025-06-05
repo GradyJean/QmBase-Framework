@@ -1,8 +1,11 @@
 package com.qm.base.auth.controller;
 
-import com.qm.base.auth.model.dto.*;
-import com.qm.base.core.model.auth.dto.AuthToken;
+import com.qm.base.auth.model.dto.CredentialRequest;
+import com.qm.base.auth.model.dto.LoginRequest;
+import com.qm.base.auth.model.dto.RegisterRequest;
+import com.qm.base.auth.model.dto.TokenRequest;
 import com.qm.base.auth.service.AuthService;
+import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.base.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,6 @@ package com.qm.base.core.model.auth.dto;
 import com.qm.base.core.model.auth.enums.TokenType;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Date;
 
 /**
