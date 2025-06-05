@@ -1,12 +1,11 @@
-package com.qm.base.auth.service.impl;
+package com.qm.base.auth.service.token.impl;
 
 import com.qm.base.auth.exception.AuthException;
 import com.qm.base.auth.model.constant.AuthErrorCodeEnum;
 import com.qm.base.auth.model.token.JwtTokenManager;
-import com.qm.base.auth.service.TokenService;
+import com.qm.base.auth.service.token.TokenService;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.dto.JwtPayload;
-import com.qm.base.shared.base.utils.StringUtils;
 import io.jsonwebtoken.JwtException;
 import org.springframework.stereotype.Service;
 

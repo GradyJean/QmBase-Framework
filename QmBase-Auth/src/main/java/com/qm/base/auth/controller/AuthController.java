@@ -75,8 +75,8 @@ public class AuthController {
      * @return 新的Token
      */
     @PostMapping("/refresh")
-    public Result<AuthToken> refresh(@RequestBody RefreshTokenRequest request) {
-        return Result.SUCCESS(authService.refresh(request.getRefreshToken()));
+    public Result<AuthToken> refresh(@RequestBody TokenRequest request) {
+        return Result.SUCCESS(authService.refresh(request.getToken()));
     }
 
     /**
@@ -86,8 +86,8 @@ public class AuthController {
      * @return 操作结果
      */
     @PostMapping("/password/reset")
-    public Result<Boolean> resetPassword(@RequestBody ResetPasswordRequest request) {
-        boolean result = authService.resetPassword(request.getIdentifier(), request.getCredential(), request.getVerificationCode(), request.getIdentifierType());
+    public Result<Boolean> resetPassword(@RequestBody CredentialRequest request) {
+        boolean result = authService.resetPassword(request.getIdentifier(), request.getCredential(), request.getVerifyCode(), request.getIdentifierType());
         return Result.SUCCESS(result);
     }
 
@@ -98,7 +98,7 @@ public class AuthController {
      * @return 操作结果
      */
     @PostMapping("/logout")
-    public Result<Boolean> logout(@RequestBody LogoutRequest request) {
-        return Result.SUCCESS(authService.logout(request.getAccessToken()));
+    public Result<Boolean> logout(@RequestBody TokenRequest request) {
+        return Result.SUCCESS(authService.logout(request.getToken()));
     }
 }

@@ -6,8 +6,8 @@ import com.qm.base.auth.model.dto.LoginRequest;
 import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.AuthService;
-import com.qm.base.auth.service.CredentialService;
-import com.qm.base.auth.service.TokenService;
+import com.qm.base.auth.manager.CredentialManager;
+import com.qm.base.auth.service.token.TokenService;
 import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.dto.JwtPayload;
@@ -25,11 +25,11 @@ public class AuthServiceImpl implements AuthService {
 
 
     private final TokenService tokenService;
-    private final CredentialService credentialService;
+    private final CredentialManager credentialManager;
 
-    public AuthServiceImpl(TokenService tokenService, CredentialService credentialService) {
+    public AuthServiceImpl(TokenService tokenService, CredentialManager credentialManager) {
         this.tokenService = tokenService;
-        this.credentialService = credentialService;
+        this.credentialManager = credentialManager;
     }
 
     @Override
@@ -46,22 +46,22 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_EMPTY);
         }
         // 是否验证码登录
-        if (request.isUseVerificationCode()) {
+        if (request.isVerifyCodeLogin()) {
             if (identifierType == IdentifierType.USER_NAME) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_LOGIN_TYPE_ERROR);
             }
             // 获取验证码
-            String verificationCode = request.getVerificationCode();
-            if (StringUtils.isBlank(verificationCode)) {
+            String verifyCode = request.getVerifyCode();
+            if (StringUtils.isBlank(verifyCode)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
             }
-            if (!credentialService.verifyCode(identifier, verificationCode, identifierType)) {
+            if (!credentialManager.verifyCode(identifier, verifyCode, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
-            authUser = credentialService.findByIdentifier(identifier, identifierType);
+            authUser = credentialManager.findByIdentifier(identifier, identifierType);
             // 如果第一次验证码登录记录不存在则直接注册
             if (Objects.isNull(authUser)) {
-                authUser = credentialService.createUser(AuthUser.of(identifier, null, identifierType));
+                authUser = credentialManager.createUser(AuthUser.of(identifier, null, identifierType));
             }
         } else {
             // 获取密码
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_CREDENTIAL_EMPTY);
             }
             // 非验证码登录
-            authUser = credentialService.findByIdentifier(identifier, identifierType);
+            authUser = credentialManager.findByIdentifier(identifier, identifierType);
             if (Objects.isNull(authUser)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
             }
@@ -146,17 +146,17 @@ public class AuthServiceImpl implements AuthService {
 
         // 验证码校验（如果需要）
         if (requiresVerificationCode) {
-            String code = request.getVerificationCode();
-            if (StringUtils.isBlank(code)) {
+            String verifyCode = request.getVerifyCode();
+            if (StringUtils.isBlank(verifyCode)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_EMPTY);
             }
-            if (credentialService.verifyCode(identifier, code, identifierType)) {
+            if (credentialManager.verifyCode(identifier, verifyCode, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
         }
         // 创建用户
         try {
-            User newUser = credentialService.createUser(AuthUser.of(identifier, credential, identifierType));
+            User newUser = credentialManager.createUser(AuthUser.of(identifier, credential, identifierType));
             return tokenService.generateToken(JwtPayload.ofUser(newUser.getUserId()));
         } catch (Exception e) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_ERROR);
@@ -180,16 +180,16 @@ public class AuthServiceImpl implements AuthService {
         // 验证邮箱或手机号
         validateIdentifier(identifier, identifierType);
         // 邮箱或手机未注册
-        AuthUser authUser = credentialService.findByIdentifier(identifier, identifierType);
+        AuthUser authUser = credentialManager.findByIdentifier(identifier, identifierType);
         if (Objects.isNull(authUser)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_NOT_EXIST);
         }
         // 验证码校验
-        if (!credentialService.verifyCode(identifier, verificationCode, identifierType)) {
+        if (!credentialManager.verifyCode(identifier, verificationCode, identifierType)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
         }
         // 更新密码
-        return credentialService.resetCredential(authUser.getUserId(), PasswordUtils.encode(newCredential));
+        return credentialManager.resetCredential(authUser.getUserId(), PasswordUtils.encode(newCredential));
     }
 
     @Override
@@ -204,7 +204,7 @@ public class AuthServiceImpl implements AuthService {
         if (!TokenType.REFRESH.equals(payload.getType())) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
-        AuthUser authUser = credentialService.findByUserId(payload.getUserId());
+        AuthUser authUser = credentialManager.findByUserId(payload.getUserId());
         if (Objects.isNull(authUser) || !authUser.isEnabled()) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
         }
@@ -219,14 +219,14 @@ public class AuthServiceImpl implements AuthService {
         if (identifierType == null) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
         }
-        return credentialService.findByIdentifier(identifier, identifierType) != null;
+        return credentialManager.findByIdentifier(identifier, identifierType) != null;
     }
 
     @Override
     public boolean sendVerifyCode(String identifier, IdentifierType identifierType) {
         // 验证邮箱或手机号
         validateIdentifier(identifier, identifierType);
-        return credentialService.sendVerifyCode(identifier, identifierType);
+        return credentialManager.sendVerifyCode(identifier, identifierType);
     }
 
     /**
@@ -259,7 +259,7 @@ public class AuthServiceImpl implements AuthService {
         if (Objects.isNull(payload) || payload.getUserId() == null) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
-        credentialService.logoutHandler(payload.getUserId());
+        credentialManager.revokeToken(payload.getUserId());
         return true;
     }
 }

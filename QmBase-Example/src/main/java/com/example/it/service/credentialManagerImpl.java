@@ -1,7 +1,7 @@
 package com.example.it.service;
 
 import com.qm.base.auth.model.vo.AuthUser;
-import com.qm.base.auth.service.CredentialService;
+import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.id.api.QmId;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class CredentialServiceImpl implements CredentialService {
+public class credentialManagerImpl implements CredentialManager {
     static final Map<Long, Map<String, AuthUser>> DATA_MAP = new HashMap<>();
     static final Map<String, String> CODE_MAP = new HashMap<>();
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
  * <p>
  * 适用于支持多种登录方式的统一认证接口设计，有助于身份认证流程的抽象与复用。
  */
-public abstract class AbstractAuth implements Serializable {
+public class AuthCredential implements Serializable {
     /**
      * 用户登录标识，例如手机号、邮箱、用户名或第三方平台唯一ID（如 openid）。
      */
