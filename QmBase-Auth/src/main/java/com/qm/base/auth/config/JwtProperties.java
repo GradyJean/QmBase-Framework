@@ -23,11 +23,6 @@ public class JwtProperties {
     private String issuer = "QmBase";
 
     /**
-     * Token前缀，一般为 "Bearer "。
-     */
-    private String tokenPrefix = "Bearer ";
-
-    /**
      * Token有效时间（单位：秒）。
      */
     private long expirationSeconds = 3600;
@@ -51,14 +46,6 @@ public class JwtProperties {
 
     public void setIssuer(String issuer) {
         this.issuer = issuer;
-    }
-
-    public String getTokenPrefix() {
-        return tokenPrefix;
-    }
-
-    public void setTokenPrefix(String tokenPrefix) {
-        this.tokenPrefix = tokenPrefix;
     }
 
     public long getExpirationSeconds() {
