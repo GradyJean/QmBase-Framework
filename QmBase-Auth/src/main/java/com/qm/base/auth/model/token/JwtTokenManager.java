@@ -83,7 +83,6 @@ public class JwtTokenManager {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
         JwtPayload payload = new JwtPayload();
         payload.setUserId(claims.get(AuthConstants.AUTH_USER_ID, Long.class));
         payload.setType(TokenType.valueOf(claims.get(AuthConstants.AUTH_TOKEN_TYPE, String.class)));
@@ -91,6 +90,4 @@ public class JwtTokenManager {
         payload.setExpiresAt(claims.get(AuthConstants.AUTH_TOKEN_EXPIRATION, Date.class));
         return payload;
     }
-
-
 }

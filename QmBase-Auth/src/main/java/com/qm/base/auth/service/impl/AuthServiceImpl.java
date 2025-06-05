@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
             if (!credentialManager.verifyCode(identifier, verifyCode, identifierType)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
             }
-            authUser = credentialManager.findByIdentifier(identifier, identifierType);
+            authUser = credentialManager.findByIdentifier(identifier);
             // 如果第一次验证码登录记录不存在则直接注册
             if (Objects.isNull(authUser)) {
                 authUser = credentialManager.createUser(AuthUser.of(identifier, null, identifierType));
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_CREDENTIAL_EMPTY);
             }
             // 非验证码登录
-            authUser = credentialManager.findByIdentifier(identifier, identifierType);
+            authUser = credentialManager.findByIdentifier(identifier);
             if (Objects.isNull(authUser)) {
                 throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
             }
@@ -87,7 +87,21 @@ public class AuthServiceImpl implements AuthService {
         if (!authUser.isEnabled()) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_DISABLED);
         }
-        return tokenService.generateToken(JwtPayload.ofUser(authUser.getUserId()));
+
+        return generateAuthToken(authUser.getUserId());
+    }
+
+    /**
+     * 生成 AuthToken
+     *
+     * @param userId 用户 ID
+     * @return AuthToken
+     */
+    private AuthToken generateAuthToken(Long userId) {
+        credentialManager.revokeToken(userId);
+        AuthToken authToken = tokenService.generateToken(JwtPayload.ofUser(userId));
+        credentialManager.saveToken(userId, authToken);
+        return authToken;
     }
 
     /**
@@ -140,7 +154,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 用户是否已存在
-        if (identifierExists(identifier, identifierType)) {
+        if (identifierExists(identifier)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_EXIST);
         }
 
@@ -180,7 +194,7 @@ public class AuthServiceImpl implements AuthService {
         // 验证邮箱或手机号
         validateIdentifier(identifier, identifierType);
         // 邮箱或手机未注册
-        AuthUser authUser = credentialManager.findByIdentifier(identifier, identifierType);
+        AuthUser authUser = credentialManager.findByIdentifier(identifier);
         if (Objects.isNull(authUser)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_NOT_EXIST);
         }
@@ -189,37 +203,44 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorCodeEnum.AUTH_VERIFICATION_CODE_ERROR);
         }
         // 更新密码
-        return credentialManager.resetCredential(authUser.getUserId(), PasswordUtils.encode(newCredential));
+        return credentialManager.updateCredential(authUser.getUserId(), PasswordUtils.encode(newCredential));
     }
 
     @Override
     public AuthToken refresh(String refreshToken) {
+        // 刷新 token 判空
         if (StringUtils.isBlank(refreshToken)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_EMPTY);
         }
+        // 解析 refreshToken
         JwtPayload payload = tokenService.parseToken(refreshToken);
         if (Objects.isNull(payload) || payload.getUserId() == null) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
+        // 判断 Token 类型是否匹配
         if (!TokenType.REFRESH.equals(payload.getType())) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
-        AuthUser authUser = credentialManager.findByUserId(payload.getUserId());
-        if (Objects.isNull(authUser) || !authUser.isEnabled()) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_ACCOUNT_NOT_EXIST);
+        // 获取用户 ID
+        Long userId = payload.getUserId();
+        // 查询 AuthToken
+        AuthToken authToken = credentialManager.findTokenByUserId(userId);
+        if (Objects.isNull(authToken)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_UNAUTHORIZED);
         }
-        return tokenService.generateToken(JwtPayload.ofUser(authUser.getUserId()));
+        // 匹配 refreshToken
+        if (!authToken.getRefreshToken().equals(refreshToken)) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
+        }
+        return generateAuthToken(userId);
     }
 
     @Override
-    public boolean identifierExists(String identifier, IdentifierType identifierType) {
+    public boolean identifierExists(String identifier) {
         if (StringUtils.isBlank(identifier)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_USERNAME_INVALID);
         }
-        if (identifierType == null) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
-        }
-        return credentialManager.findByIdentifier(identifier, identifierType) != null;
+        return credentialManager.findByIdentifier(identifier) != null;
     }
 
     @Override
@@ -259,6 +280,7 @@ public class AuthServiceImpl implements AuthService {
         if (Objects.isNull(payload) || payload.getUserId() == null) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
+        // 失效 Token
         credentialManager.revokeToken(payload.getUserId());
         return true;
     }

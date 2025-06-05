@@ -49,10 +49,9 @@ public interface AuthService {
     /**
      *
      * @param identifier     用户标识
-     * @param identifierType 用户类型
      * @return 用户标识是否存在
      */
-    public boolean identifierExists(String identifier, IdentifierType identifierType);
+    boolean identifierExists(String identifier);
 
     /**
      * 发送验证码

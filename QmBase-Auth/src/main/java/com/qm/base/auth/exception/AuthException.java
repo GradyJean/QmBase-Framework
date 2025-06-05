@@ -35,15 +35,4 @@ public class AuthException extends QmException {
     public String getCode() {
         return code;
     }
-
-    /**
-     * 快捷构造方法
-     *
-     * @param code    错误码
-     * @param message 错误信息
-     * @return AuthException 实例
-     */
-    public static AuthException of(String code, String message) {
-        return new AuthException(code, message);
-    }
 }

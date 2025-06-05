@@ -2,6 +2,7 @@ package com.example.it.service;
 
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.manager.CredentialManager;
+import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.id.api.QmId;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class credentialManagerImpl implements CredentialManager {
     static final Map<String, String> CODE_MAP = new HashMap<>();
 
     @Override
-    public AuthUser findByIdentifier(String identifier, IdentifierType identifierType) {
+    public AuthUser findByIdentifier(String identifier) {
         if (DATA_MAP.isEmpty()) {
             return null;
         }
@@ -54,11 +55,17 @@ public class credentialManagerImpl implements CredentialManager {
     }
 
     @Override
-    public Boolean resetCredential(Long userId, String newCredential) {
-        DATA_MAP.get(userId).values().forEach((v) -> {
-            v.setCredential(newCredential);
-        });
-        return true;
+    public AuthToken findTokenByUserId(Long userId) {
+        return null;
+    }
+
+    @Override
+    public void saveToken(Long userId, AuthToken authToken) {
+
+    }
+
+    @Override
+    public void revokeToken(Long userId) {
     }
 
 
@@ -78,7 +85,10 @@ public class credentialManagerImpl implements CredentialManager {
     }
 
     @Override
-    public void logoutHandler(Long userId) {
-        DATA_MAP.remove(userId);
+    public Boolean updateCredential(Long userId, String newCredential) {
+        DATA_MAP.get(userId).values().forEach((v) -> {
+            v.setCredential(newCredential);
+        });
+        return true;
     }
 }

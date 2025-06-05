@@ -54,7 +54,7 @@ public class AuthController {
      */
     @GetMapping("identifier/exists")
     public Result<Boolean> identifierExists(@RequestParam("identifier") String identifier, @RequestParam("type") IdentifierType identifierType) {
-        return Result.SUCCESS(authService.identifierExists(identifier, identifierType));
+        return Result.SUCCESS(authService.identifierExists(identifier));
     }
 
     /**
