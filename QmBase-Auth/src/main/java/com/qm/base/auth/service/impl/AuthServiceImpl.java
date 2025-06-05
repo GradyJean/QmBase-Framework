@@ -12,6 +12,7 @@ import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.model.auth.dto.AuthToken;
 import com.qm.base.core.model.auth.dto.JwtPayload;
 import com.qm.base.core.model.auth.enums.IdentifierType;
+import com.qm.base.core.model.auth.enums.TokenType;
 import com.qm.base.core.user.User;
 import com.qm.base.shared.base.utils.RegexUtils;
 import com.qm.base.shared.base.utils.StringUtils;
@@ -198,6 +199,9 @@ public class AuthServiceImpl implements AuthService {
         }
         JwtPayload payload = tokenService.parseToken(refreshToken);
         if (Objects.isNull(payload) || payload.getUserId() == null) {
+            throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
+        }
+        if (!TokenType.REFRESH.equals(payload.getType())) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_INVALID);
         }
         AuthUser authUser = credentialService.findByUserId(payload.getUserId());

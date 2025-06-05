@@ -41,4 +41,12 @@ public final class AuthConstants {
      * Token 类型标识
      */
     public static final String AUTH_TOKEN_TYPE = "type";
+    /**
+     * token 签发者标识
+     */
+    public static final String AUTH_TOKEN_ISSUER = "issuer";
+    /**
+     * 过期时间 标识
+     */
+    public static final String AUTH_TOKEN_EXPIRATION = "expiration";
 }

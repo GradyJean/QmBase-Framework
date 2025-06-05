@@ -1,6 +1,7 @@
 package com.qm.base.core.model.auth.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户认证后的 Token 信息封装。
@@ -18,23 +19,24 @@ public class AuthToken implements Serializable {
     private String refreshToken;
 
     /**
-     * accessToken 的过期时间（秒）
+     * accessToken 过期时间
      */
-    private Long expiresIn;
+    private Long expiration;
 
-    public AuthToken() {}
-
-    public AuthToken(String accessToken, String refreshToken, Long expiresIn) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expiresIn = expiresIn;
+    public AuthToken() {
     }
 
-    public static AuthToken of(String accessToken, String refreshToken, Long expiresIn) {
+    public AuthToken(String accessToken, String refreshToken, Long expiration) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expiration = expiration;
+    }
+
+    public static AuthToken of(String accessToken, String refreshToken, Long expiration) {
         AuthToken token = new AuthToken();
         token.setAccessToken(accessToken);
         token.setRefreshToken(refreshToken);
-        token.setExpiresIn(expiresIn);
+        token.setExpiration(expiration);
         return token;
     }
 
@@ -54,11 +56,11 @@ public class AuthToken implements Serializable {
         this.refreshToken = refreshToken;
     }
 
-    public Long getExpiresIn() {
-        return expiresIn;
+    public Long getExpiration() {
+        return expiration;
     }
 
-    public void setExpiresIn(Long expiresIn) {
-        this.expiresIn = expiresIn;
+    public void setExpiration(Long expiration) {
+        this.expiration = expiration;
     }
 }

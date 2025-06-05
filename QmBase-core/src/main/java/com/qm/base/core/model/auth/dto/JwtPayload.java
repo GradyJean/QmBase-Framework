@@ -4,6 +4,7 @@ import com.qm.base.core.model.auth.enums.TokenType;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 
 /**
  * JWT Payload 标准结构。
@@ -18,18 +19,11 @@ import java.time.Instant;
 public class JwtPayload implements Serializable {
 
     private Long userId;
-    private Instant issuedAt;
-    private Instant expiresAt;
+    private String issuer;
+    private Date expiresAt;
     private TokenType type; // Token 类型字段，区分 ACCESS、REFRESH 等用途，类型为 TokenType 枚举
 
     public JwtPayload() {
-    }
-
-    public JwtPayload(Long userId, Instant issuedAt, Instant expiresAt, TokenType type) {
-        this.userId = userId;
-        this.issuedAt = issuedAt;
-        this.expiresAt = expiresAt;
-        this.type = type;
     }
 
     /**
@@ -45,9 +39,6 @@ public class JwtPayload implements Serializable {
         return payload;
     }
 
-    /**
-     * 获取用户 ID。
-     */
     public Long getUserId() {
         return userId;
     }
@@ -56,32 +47,22 @@ public class JwtPayload implements Serializable {
         this.userId = userId;
     }
 
-    /**
-     * 获取签发时间。
-     */
-    public Instant getIssuedAt() {
-        return issuedAt;
+    public String getIssuer() {
+        return issuer;
     }
 
-    public void setIssuedAt(Instant issuedAt) {
-        this.issuedAt = issuedAt;
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
     }
 
-    /**
-     * 获取过期时间。
-     */
-    public Instant getExpiresAt() {
+    public Date getExpiresAt() {
         return expiresAt;
     }
 
-    public void setExpiresAt(Instant expiresAt) {
+    public void setExpiresAt(Date expiresAt) {
         this.expiresAt = expiresAt;
     }
 
-    /**
-     * 获取 Token 类型。
-     * 如 ACCESS 或 REFRESH。
-     */
     public TokenType getType() {
         return type;
     }
