@@ -207,7 +207,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthToken refresh(String refreshToken) {
+    public AuthToken tokenRefresh(String refreshToken) {
         // 刷新 token 判空
         if (StringUtils.isBlank(refreshToken)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_REFRESH_TOKEN_EMPTY);

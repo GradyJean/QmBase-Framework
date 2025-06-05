@@ -44,7 +44,7 @@ public interface AuthService {
      * @param refreshToken refresh token 字符串
      * @return 新的授权 Token 信息
      */
-    AuthToken refresh(String refreshToken);
+    AuthToken tokenRefresh(String refreshToken);
 
     /**
      *

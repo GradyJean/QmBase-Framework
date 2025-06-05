@@ -6,7 +6,6 @@ import com.qm.base.auth.model.dto.RegisterRequest;
 import com.qm.base.auth.model.dto.TokenRequest;
 import com.qm.base.auth.service.AuthService;
 import com.qm.base.core.model.auth.dto.AuthToken;
-import com.qm.base.core.model.auth.enums.IdentifierType;
 import com.qm.base.shared.base.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,12 +50,11 @@ public class AuthController {
     /**
      * 用户标识是否存在。
      *
-     * @param identifier     用户标识
-     * @param identifierType 标识类型
+     * @param identifier 用户标识
      * @return 注册响应结果
      */
     @GetMapping("identifier/exists")
-    public Result<Boolean> identifierExists(@RequestParam("identifier") String identifier, @RequestParam("type") IdentifierType identifierType) {
+    public Result<Boolean> identifierExists(@RequestParam("identifier") String identifier) {
         return Result.SUCCESS(authService.identifierExists(identifier));
     }
 
@@ -77,9 +75,9 @@ public class AuthController {
      * @param request refreshToken字符串
      * @return 新的Token
      */
-    @PostMapping("/refresh")
-    public Result<AuthToken> refresh(@RequestBody TokenRequest request) {
-        return Result.SUCCESS(authService.refresh(request.getToken()));
+    @PostMapping("/token/refresh")
+    public Result<AuthToken> tokenRefresh(@RequestBody TokenRequest request) {
+        return Result.SUCCESS(authService.tokenRefresh(request.getToken()));
     }
 
     /**
