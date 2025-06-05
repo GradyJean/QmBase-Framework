@@ -261,7 +261,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_EMPTY);
         }
         if (identifierType != IdentifierType.EMAIL && identifierType != IdentifierType.PHONE_NUMBER) {
-            throw new AuthException(AuthErrorCodeEnum.AUTH_IDENTIFIER_TYPE_INVALID);
+            throw new AuthException(AuthErrorCodeEnum.AUTH_EMAIL_OR_PHONE_INVALID);
         }
         if (identifierType == IdentifierType.PHONE_NUMBER && !RegexUtils.isPhone(identifier)) {
             throw new AuthException(AuthErrorCodeEnum.AUTH_PHONE_INVALID);

@@ -64,7 +64,7 @@ public class AuthController {
      * @return 注册响应结果
      */
     @PostMapping("verifyCode/send")
-    public Result<Boolean> sendVerifyCode(@RequestBody VerifyCodeRequest request) {
+    public Result<Boolean> sendVerifyCode(@RequestBody CredentialRequest request) {
         return Result.SUCCESS(authService.sendVerifyCode(request.getIdentifier(), request.getIdentifierType()));
     }
 
