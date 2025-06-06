@@ -1,6 +1,6 @@
 package com.example.it.controller;
 
-import com.qm.base.shared.base.model.Result;
+import com.qm.base.core.common.model.Result;
 import com.qm.base.shared.logger.annotation.Log;
 import com.qm.base.shared.logger.core.QmLog;
 import lombok.extern.log4j.Log4j2;

@@ -23,14 +23,6 @@ public interface AuthUserService {
     AuthUser createUser(AuthUser authUser);
 
     /**
-     * 用 userId 查询用户信息
-     *
-     * @param userId 用户 ID
-     * @return user 对象
-     */
-    AuthUser findByUserId(Long userId);
-
-    /**
      * 更新密码
      *
      * @param userId        用户 ID

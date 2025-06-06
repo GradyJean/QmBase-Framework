@@ -16,10 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>com.qm.base.shared</groupId>
-            <artifactId>QmBase-Base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qm.base.shared</groupId>
             <artifactId>QmBase-Logger</artifactId>
         </dependency>
         <dependency>

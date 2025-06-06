@@ -1,7 +1,8 @@
 package com.qm.base.auth.handler;
 
-import com.qm.base.auth.exception.AuthException;
-import com.qm.base.shared.base.model.Result;
+import com.qm.base.core.auth.exception.AuthException;
+import com.qm.base.core.common.model.Result;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,7 +16,9 @@ public class AuthExceptionHandler {
      * 捕获认证模块异常
      */
     @ExceptionHandler(AuthException.class)
-    public Result<String> handleAuthException(AuthException ex) {
-        return Result.FAIL(ex.getCode(), ex.getMessage());
+    public ResponseEntity<Result<String>> handleAuthException(AuthException ex) {
+        return ResponseEntity
+                .status(ex.getStatus())
+                .body(Result.FAIL(ex.getCode(), ex.getMessage()));
     }
 }

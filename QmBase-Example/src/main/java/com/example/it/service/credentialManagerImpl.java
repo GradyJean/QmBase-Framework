@@ -2,8 +2,8 @@ package com.example.it.service;
 
 import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.vo.AuthUser;
-import com.qm.base.core.model.auth.dto.AuthToken;
-import com.qm.base.core.model.auth.enums.IdentifierType;
+import com.qm.base.core.auth.enums.IdentifierType;
+import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.shared.id.api.QmId;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class credentialManagerImpl implements CredentialManager {
+public class credentialManagerImpl extends CredentialManager {
     static final Map<Long, Map<String, AuthUser>> DATA_MAP = new HashMap<>();
     static final Map<String, String> CODE_MAP = new HashMap<>();
 
@@ -38,8 +38,12 @@ public class credentialManagerImpl implements CredentialManager {
         return code.equals(verificationCode);
     }
 
-
     @Override
+    public boolean generateVerifyCode(String identifier, IdentifierType identifierType) {
+        return false;
+    }
+
+
     public boolean sendVerifyCode(String identifier, IdentifierType identifierType) {
         // 生成 6 位随机数字验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000); // 保证首位不为 0
@@ -55,21 +59,6 @@ public class credentialManagerImpl implements CredentialManager {
     }
 
     @Override
-    public AuthToken findTokenByUserId(Long userId) {
-        return null;
-    }
-
-    @Override
-    public void saveToken(Long userId, AuthToken authToken) {
-
-    }
-
-    @Override
-    public void revokeToken(Long userId) {
-    }
-
-
-    @Override
     public AuthUser createUser(AuthUser authUser) {
         Long userId = QmId.nextId();
         authUser.setUserId(userId);
@@ -80,15 +69,25 @@ public class credentialManagerImpl implements CredentialManager {
     }
 
     @Override
-    public AuthUser findByUserId(Long userId) {
-        return DATA_MAP.get(userId).values().stream().findFirst().orElse(null);
-    }
-
-    @Override
     public Boolean updateCredential(Long userId, String newCredential) {
         DATA_MAP.get(userId).values().forEach((v) -> {
             v.setCredential(newCredential);
         });
         return true;
+    }
+
+    @Override
+    public AuthToken findAuthTokenByUserId(Long userId, String deviceId) {
+        return null;
+    }
+
+    @Override
+    public void saveAuthToken(Long userId, String deviceId, AuthToken authToken) {
+
+    }
+
+    @Override
+    public void revokeToken(Long userId, String deviceId) {
+
     }
 }

@@ -9,6 +9,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/QmBase-Shared/QmBase-Base/pom.xml" />
         <option value="$PROJECT_DIR$/QmBase-Shared/audit/pom.xml" />
         <option value="$PROJECT_DIR$/QmBase-Shared/config/pom.xml" />
         <option value="$PROJECT_DIR$/QmBase-Shared/event/pom.xml" />

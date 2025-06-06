@@ -1,5 +1,9 @@
 package com.qm.base.core.exception;
 
+import com.qm.base.core.code.ICode;
+
+import java.io.Serial;
+
 /**
  * Qm 系统通用基础异常类
  *
@@ -10,22 +14,29 @@ package com.qm.base.core.exception;
  * 以确保异常体系的一致性和可控性。</p>
  */
 public class QmException extends RuntimeException {
-    public QmException(String message) {
-        super(message);
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private final String code;
+    private final String message;
+    private final int status;
+
+    public QmException(ICode iCode) {
+        super(iCode.getMessage());
+        this.code = iCode.getCode();
+        this.message = iCode.getMessage();
+        this.status = iCode.getStatus().getCode();
     }
 
-    public QmException(String message, Throwable cause) {
-        super(message, cause);
+    public String getCode() {
+        return code;
     }
 
-    public QmException(Throwable cause) {
-        super(cause);
+    @Override
+    public String getMessage() {
+        return message;
     }
 
-    public QmException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public QmException() {
+    public int getStatus() {
+        return status;
     }
 }

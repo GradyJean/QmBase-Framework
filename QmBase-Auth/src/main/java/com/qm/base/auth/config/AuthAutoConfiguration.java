@@ -1,6 +1,9 @@
 package com.qm.base.auth.config;
 
+import com.qm.base.auth.token.JwtTokenManager;
+import com.qm.base.core.auth.token.TokenManager;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +14,16 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan(basePackages = "com.qm.base.auth")
-@EnableConfigurationProperties({AuthProperties.class, JwtProperties.class})
+@EnableConfigurationProperties({AuthProperties.class})
 public class AuthAutoConfiguration {
+    /**
+     * token 管理器 bean
+     *
+     * @param properties 配置文件
+     * @return TokenManager
+     */
+    @Bean
+    public TokenManager tokenManager(AuthProperties properties) {
+        return new JwtTokenManager(properties);
+    }
 }

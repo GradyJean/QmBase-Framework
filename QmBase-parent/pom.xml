@@ -26,7 +26,6 @@
         <redis.version>3.4.5</redis.version>
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
-        <jjwt.version>0.12.6</jjwt.version>
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.10.2</junit.version>
@@ -72,11 +71,6 @@
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.qm.base.shared</groupId>
-                <artifactId>QmBase-Base</artifactId>
-                <version>${qm.base.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.qm.base.auth</groupId>
                 <artifactId>QmBase-Auth</artifactId>
                 <version>${qm.base.version}</version>
@@ -91,13 +85,17 @@
                 <artifactId>QmBase-Lock</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.qm.base</groupId>
+                <artifactId>QmBase-Token</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
             <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-
             <!-- MyBatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -109,37 +107,13 @@
                 <artifactId>caffeine</artifactId>
                 <version>3.1.8</version>
             </dependency>
-            <!-- JWT -->
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-api</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-impl</artifactId>
-                <version>${jjwt.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-jackson</artifactId>
-                <version>${jjwt.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-
             <!-- Redis -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${redis.version}</version>
             </dependency>
-            <!-- Kafka -->
-            <dependency>
-                <groupId>org.springframework.kafka</groupId>
-                <artifactId>spring-kafka</artifactId>
-            </dependency>
-            <!--zookeeper-->
+
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
@@ -151,18 +125,12 @@
                 <artifactId>curator-recipes</artifactId>
                 <version>${curator.version}</version>
             </dependency>
-            <!-- Gateway -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-gateway</artifactId>
-            </dependency>
             <!-- Config Processor -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <optional>true</optional>
             </dependency>
-
             <!-- JUnit 5 -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>

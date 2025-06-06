@@ -7,6 +7,10 @@
     <file url="file://$PROJECT_DIR$/QmBase-Dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Token/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Token/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Job/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Job/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Base/src/main/java" charset="UTF-8" />

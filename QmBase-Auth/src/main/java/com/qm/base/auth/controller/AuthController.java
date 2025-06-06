@@ -1,12 +1,12 @@
 package com.qm.base.auth.controller;
 
-import com.qm.base.auth.model.dto.CredentialRequest;
-import com.qm.base.auth.model.dto.LoginRequest;
-import com.qm.base.auth.model.dto.RegisterRequest;
-import com.qm.base.auth.model.dto.TokenRequest;
-import com.qm.base.auth.service.AuthService;
-import com.qm.base.core.model.auth.dto.AuthToken;
-import com.qm.base.shared.base.model.Result;
+import com.qm.base.auth.model.request.CredentialRequest;
+import com.qm.base.auth.model.request.LoginRequest;
+import com.qm.base.auth.model.request.RegisterRequest;
+import com.qm.base.auth.model.request.TokenRequest;
+import com.qm.base.auth.service.auth.AuthService;
+import com.qm.base.core.auth.model.AuthToken;
+import com.qm.base.core.common.model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +43,7 @@ public class AuthController {
      * @return 注册响应结果
      */
     @PostMapping("/register")
-    public Result<AuthToken> register(@RequestBody RegisterRequest request) {
+    public Result<Boolean> register(@RequestBody RegisterRequest request) {
         return Result.SUCCESS(authService.register(request));
     }
 
@@ -86,9 +86,9 @@ public class AuthController {
      * @param request 当前 accessToken
      * @return 操作结果
      */
-    @PostMapping("/password/reset")
-    public Result<Boolean> resetPassword(@RequestBody CredentialRequest request) {
-        boolean result = authService.resetPassword(request.getIdentifier(), request.getCredential(), request.getVerifyCode(), request.getIdentifierType());
+    @PostMapping("/credential/reset")
+    public Result<Boolean> resetCredential(@RequestBody CredentialRequest request) {
+        boolean result = authService.resetCredential(request);
         return Result.SUCCESS(result);
     }
 

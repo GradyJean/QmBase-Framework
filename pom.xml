@@ -17,6 +17,7 @@
         <module>QmBase-core</module>
         <module>QmBase-Example</module>
         <module>QmBase-Dependencies</module>
+        <module>QmBase-Infra</module>
     </modules>
 
     <properties>
