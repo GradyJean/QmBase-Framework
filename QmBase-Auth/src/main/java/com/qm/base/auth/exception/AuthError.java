@@ -1,4 +1,4 @@
-package com.qm.base.core.auth.enums;
+package com.qm.base.auth.exception;
 
 import com.qm.base.core.code.ICode;
 import com.qm.base.core.http.HttpStatus;
@@ -39,7 +39,7 @@ public enum AuthError implements ICode {
     AUTH_ERROR("AUTH_ERROR", "认证模块异常", HttpStatus.BAD_REQUEST),
     AUTH_REQUEST_ERROR("AUTH_REQUEST_ERROR", "请求参数错误", HttpStatus.BAD_REQUEST),
     // Token 相关
-    AUTH_TOKEN_EMPTY("AUTH_REFRESH_TOKEN_EMPTY", "令牌为空", HttpStatus.BAD_REQUEST),
+    AUTH_TOKEN_EMPTY("AUTH_TOKEN_EMPTY", "令牌为空", HttpStatus.BAD_REQUEST),
     AUTH_TOKEN_INVALID("AUTH_TOKEN_INVALID", "令牌无效", HttpStatus.BAD_REQUEST),
     AUTH_TOKEN_EXPIRED("AUTH_TOKEN_EXPIRED", "令牌过期", HttpStatus.BAD_REQUEST),
     AUTH_TOKEN_MISSING("AUTH_TOKEN_MISSING", "缺少认证令牌", HttpStatus.BAD_REQUEST),
@@ -83,22 +83,6 @@ public enum AuthError implements ICode {
     @Override
     public HttpStatus getStatus() {
         return status;
-    }
-
-    /**
-     * 根据错误码获取对应枚举实例
-     *
-     * @param code 错误码
-     * @return 对应的 AuthErrorCodeEnum 枚举值
-     * @throws IllegalArgumentException 如果没有匹配的枚举值
-     */
-    public static AuthError fromCode(String code) {
-        for (AuthError value : values()) {
-            if (value.code.equals(code)) {
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("无效的认证错误码: " + code);
     }
 
     @Override

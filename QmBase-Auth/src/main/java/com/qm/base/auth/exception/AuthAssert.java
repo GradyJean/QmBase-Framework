@@ -1,7 +1,6 @@
-package com.qm.base.core.auth.exception;
+package com.qm.base.auth.exception;
 
 
-import com.qm.base.core.auth.enums.AuthError;
 import com.qm.base.core.exception.AbstractAssert;
 
 /**
@@ -11,6 +10,10 @@ import com.qm.base.core.exception.AbstractAssert;
  */
 public class AuthAssert extends AbstractAssert<AuthException, AuthError> {
     public static final AuthAssert INSTANCE = new AuthAssert();
+
+    private AuthAssert() {
+
+    }
 
     @Override
     public AuthException createException(AuthError authError) {

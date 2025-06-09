@@ -16,8 +16,19 @@ import java.io.Serial;
 public class QmException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1L;
+    /**
+     * 业务错误码（如 "AUTH_TOKEN_EXPIRED"）
+     */
     private final String code;
+
+    /**
+     * 错误消息，用于展示给用户或日志记录（如 "Token has expired"）
+     */
     private final String message;
+
+    /**
+     * HTTP 状态码数值（如 401、500 等），供 Web 层响应使用
+     */
     private final int status;
 
     public QmException(ICode iCode) {
@@ -27,15 +38,30 @@ public class QmException extends RuntimeException {
         this.status = iCode.getStatus().getCode();
     }
 
+    /**
+     * 返回错误码字符串，通常用于标识业务错误类型。
+     *
+     * @return 业务错误码（如 "AUTH_TOKEN_EXPIRED"）
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     * 返回异常的描述信息，通常用于展示给用户或日志记录。
+     *
+     * @return 错误消息（如 "Token has expired"）
+     */
     @Override
     public String getMessage() {
         return message;
     }
 
+    /**
+     * 返回建议的 HTTP 状态码数值，供 Web 层响应时使用。
+     *
+     * @return HTTP 状态码（如 401、500 等）
+     */
     public int getStatus() {
         return status;
     }

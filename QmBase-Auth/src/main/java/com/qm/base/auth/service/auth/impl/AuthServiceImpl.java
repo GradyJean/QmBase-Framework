@@ -6,11 +6,11 @@ import com.qm.base.auth.model.request.LoginRequest;
 import com.qm.base.auth.model.request.RegisterRequest;
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.auth.AuthService;
-import com.qm.base.core.auth.enums.AuthError;
+import com.qm.base.auth.exception.AuthError;
 import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
-import com.qm.base.core.auth.exception.AuthAssert;
-import com.qm.base.core.auth.exception.AuthException;
+import com.qm.base.auth.exception.AuthAssert;
+import com.qm.base.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.crypto.PasswordUtils;
@@ -155,7 +155,7 @@ public class AuthServiceImpl implements AuthService {
                 credentialManager.findAuthTokenByUserId(refreshPayload.getUserId(), refreshPayload.getDeviceId()),
                 AuthError.AUTH_UNAUTHORIZED);
         // refreshToken 匹配
-        AuthAssert.INSTANCE.isTrue(authToken.getRefreshToken().equals(refreshToken), AuthError.AUTH_TOKEN_INVALID);
+        AuthAssert.INSTANCE.isTrue(authToken.refreshToken().equals(refreshToken), AuthError.AUTH_TOKEN_INVALID);
         return credentialManager.tokenRefresh(refreshPayload);
     }
 
@@ -200,8 +200,12 @@ public class AuthServiceImpl implements AuthService {
         identifier = AuthAssert.INSTANCE.notBlank(identifier, AuthError.AUTH_EMAIL_OR_PHONE_EMPTY);
         // 必须为手机号或者邮箱
         AuthAssert.INSTANCE.isTrue(identifierType == IdentifierType.EMAIL || identifierType == IdentifierType.PHONE_NUMBER, AuthError.AUTH_EMAIL_OR_PHONE_INVALID);
-        AuthAssert.INSTANCE.isTrue(identifierType == IdentifierType.PHONE_NUMBER && RegexUtils.isPhone(identifier), AuthError.AUTH_PHONE_NUMBER_INVALID);
-        AuthAssert.INSTANCE.isTrue(identifierType == IdentifierType.EMAIL && RegexUtils.isEmail(identifier), AuthError.AUTH_EMAIL_INVALID);
+        if (identifierType == IdentifierType.PHONE_NUMBER) {
+            AuthAssert.INSTANCE.isTrue(RegexUtils.isPhone(identifier), AuthError.AUTH_PHONE_NUMBER_INVALID);
+        }
+        if (identifierType == IdentifierType.EMAIL) {
+            AuthAssert.INSTANCE.isTrue(RegexUtils.isEmail(identifier), AuthError.AUTH_EMAIL_INVALID);
+        }
     }
 
     @Override
