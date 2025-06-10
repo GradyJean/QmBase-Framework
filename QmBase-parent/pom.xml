@@ -90,6 +90,11 @@
                 <artifactId>QmBase-Token</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.qm.base</groupId>
+                <artifactId>QmBase-Crypto</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
             <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>

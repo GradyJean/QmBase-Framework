@@ -1,4 +1,6 @@
-package com.qm.base.core.crypto;
+package com.qm.base.crypto;
+
+import com.qm.base.core.crypto.PasswordEncryptor;
 
 /**
  * 密码工具类，提供加密与验证功能。

@@ -13,8 +13,8 @@ import com.qm.base.auth.exception.AuthAssert;
 import com.qm.base.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
-import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.utils.RegexUtils;
+import com.qm.base.crypto.PasswordUtils;
 import io.jsonwebtoken.JwtException;
 import org.springframework.stereotype.Service;
 

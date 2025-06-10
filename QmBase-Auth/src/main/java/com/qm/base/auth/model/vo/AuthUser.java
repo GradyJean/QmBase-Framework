@@ -2,9 +2,9 @@ package com.qm.base.auth.model.vo;
 
 import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.model.AuthCredential;
-import com.qm.base.core.crypto.PasswordUtils;
 import com.qm.base.core.user.User;
 import com.qm.base.core.utils.StringUtils;
+import com.qm.base.crypto.PasswordUtils;
 
 /**
  * AuthUser 是认证完成后的用户视图对象，用于封装登录信息和用户状态。

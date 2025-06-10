@@ -1,4 +1,6 @@
-package com.qm.base.core.crypto;
+package com.qm.base.crypto;
+
+import com.qm.base.core.crypto.PasswordEncryptor;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

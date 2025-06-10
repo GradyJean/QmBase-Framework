@@ -23,5 +23,9 @@
             <groupId>com.qm.base</groupId>
             <artifactId>QmBase-Token</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.qm.base</groupId>
+            <artifactId>QmBase-Crypto</artifactId>
+        </dependency>
     </dependencies>
 </project>
