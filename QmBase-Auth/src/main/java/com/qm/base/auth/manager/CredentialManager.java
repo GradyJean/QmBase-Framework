@@ -1,7 +1,7 @@
 package com.qm.base.auth.manager;
 
 import com.qm.base.auth.config.AuthProperties;
-import com.qm.base.auth.service.token.TokenService;
+import com.qm.base.core.auth.token.TokenService;
 import com.qm.base.auth.service.user.AuthUserService;
 import com.qm.base.auth.service.verify.VerifyService;
 import com.qm.base.core.auth.enums.TokenType;

@@ -1,4 +1,4 @@
-package com.qm.base.auth.service.token;
+package com.qm.base.core.auth.token;
 
 import com.qm.base.core.auth.model.AuthToken;
 
