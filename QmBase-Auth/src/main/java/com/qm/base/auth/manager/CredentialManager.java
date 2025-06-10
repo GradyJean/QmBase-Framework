@@ -7,6 +7,7 @@ import com.qm.base.auth.service.verify.VerifyService;
 import com.qm.base.core.auth.enums.TokenType;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
+import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.auth.token.TokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,11 +37,13 @@ public abstract class CredentialManager implements AuthUserService, VerifyServic
      */
     public AuthToken generateAuthToken(Long userId, String deviceId) {
         Date now = new Date();
-        Date accessExpiration = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getExpirationSeconds()));
-        Date refreshExpiration = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getRefreshIntervalSeconds()));
-        String accessToken = generateToken(userId, TokenType.ACCESS, now, accessExpiration, deviceId);
-        String refreshToken = generateToken(userId, TokenType.REFRESH, now, refreshExpiration, deviceId);
-        AuthToken authToken = AuthToken.getInstance(accessToken, refreshToken, accessExpiration.getTime());
+        Date accessExpireAt = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getExpirationSeconds()));
+        Date refreshExpireAt = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getRefreshIntervalSeconds()));
+        String accessTokenStr = generateToken(userId, TokenType.ACCESS, now, accessExpireAt, deviceId);
+        String refreshTokenStr = generateToken(userId, TokenType.REFRESH, now, refreshExpireAt, deviceId);
+        Token accessToken = new Token(accessTokenStr, accessExpireAt.getTime());
+        Token refreshToken = new Token(refreshTokenStr, refreshExpireAt.getTime());
+        AuthToken authToken = new AuthToken(accessToken, refreshToken);
         saveAuthToken(userId, deviceId, authToken);
         return authToken;
     }
@@ -55,13 +58,14 @@ public abstract class CredentialManager implements AuthUserService, VerifyServic
         Long userId = refreshPayload.getUserId();
         String deviceId = refreshPayload.getDeviceId();
         // token 过期时间不变
-        Date refreshExpiration = refreshPayload.getExpiresAt();
+        Date refreshExpireAt = refreshPayload.getExpiresAt();
         Date now = new Date();
-        Date accessExpiration = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getExpirationSeconds()));
-        AuthToken authToken = AuthToken.getInstance(
-                generateToken(userId, TokenType.ACCESS, now, accessExpiration, deviceId)
-                , generateToken(userId, TokenType.REFRESH, now, refreshExpiration, deviceId)
-                , accessExpiration.getTime());
+        Date accessExpireAt = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getExpirationSeconds()));
+        Token accessToken = new Token(
+                generateToken(userId, TokenType.ACCESS, now, accessExpireAt, deviceId), accessExpireAt.getTime());
+        Token refreshToken = new Token(generateToken(userId, TokenType.REFRESH, now, refreshExpireAt, deviceId)
+                , refreshExpireAt.getTime());
+        AuthToken authToken = new AuthToken(accessToken, refreshToken);
         saveAuthToken(userId, deviceId, authToken);
         return authToken;
     }

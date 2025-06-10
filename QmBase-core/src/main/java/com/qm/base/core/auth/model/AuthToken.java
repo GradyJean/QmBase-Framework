@@ -1,18 +1,64 @@
 package com.qm.base.core.auth.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * 用户认证后的 Token 信息封装。
- *
- * @param accessToken  访问令牌
- * @param refreshToken 刷新令牌
- * @param expiration   accessToken 过期时间
+ * 封装 accessToken 与 refreshToken 的 token 值和过期时间。
  */
-public record AuthToken(String accessToken, String refreshToken, Long expiration) implements Serializable {
+public class AuthToken implements Serializable {
 
-    public static AuthToken getInstance(String accessToken, String refreshToken, Long expiration) {
-        return new AuthToken(accessToken, refreshToken, expiration);
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 访问令牌结构
+     */
+    private Token accessToken;
+
+    /**
+     * 刷新令牌结构
+     */
+    private Token refreshToken;
+
+    public AuthToken() {
     }
 
+    public AuthToken(Token accessToken, Token refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
+
+    public Token getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(Token accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public Token getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(Token refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getRefreshTokenValue() {
+        return refreshToken.getToken();
+    }
+
+    public String getAccessTokenValue() {
+        return accessToken.getToken();
+    }
+
+    @Override
+    public String toString() {
+        return "AuthToken{" +
+                "accessToken=" + accessToken +
+                ", refreshToken=" + refreshToken +
+                '}';
+    }
 }
