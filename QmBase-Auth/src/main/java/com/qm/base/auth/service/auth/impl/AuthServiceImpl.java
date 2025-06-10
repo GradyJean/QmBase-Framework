@@ -1,16 +1,16 @@
 package com.qm.base.auth.service.auth.impl;
 
+import com.qm.base.auth.exception.AuthAssert;
+import com.qm.base.auth.exception.AuthError;
+import com.qm.base.auth.exception.AuthException;
 import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.request.CredentialRequest;
 import com.qm.base.auth.model.request.LoginRequest;
 import com.qm.base.auth.model.request.RegisterRequest;
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.auth.AuthService;
-import com.qm.base.auth.exception.AuthError;
 import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
-import com.qm.base.auth.exception.AuthAssert;
-import com.qm.base.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.utils.RegexUtils;

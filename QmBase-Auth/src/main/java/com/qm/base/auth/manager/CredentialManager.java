@@ -1,7 +1,6 @@
 package com.qm.base.auth.manager;
 
 import com.qm.base.auth.config.AuthProperties;
-import com.qm.base.core.auth.token.TokenService;
 import com.qm.base.auth.service.user.AuthUserService;
 import com.qm.base.auth.service.verify.VerifyService;
 import com.qm.base.core.auth.enums.TokenType;
@@ -9,6 +8,7 @@ import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.auth.token.TokenManager;
+import com.qm.base.core.auth.token.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
