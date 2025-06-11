@@ -67,4 +67,5 @@ public interface AuthService {
      * @return 是否登出成功
      */
     Boolean logout(String accessToken);
+
 }

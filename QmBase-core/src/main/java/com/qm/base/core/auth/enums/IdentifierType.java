@@ -41,5 +41,13 @@ public enum IdentifierType {
     /**
      * Google
      */
-    GOOGLE
+    GOOGLE,
+    /**
+     * FACEBOOK
+     */
+    FACEBOOK,
+    /**
+     * DING_TALK
+     */
+    DING_TALK
 }
