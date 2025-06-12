@@ -18,5 +18,10 @@
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.qm.base</groupId>
+            <artifactId>QmBase-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>

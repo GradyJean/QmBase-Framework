@@ -48,6 +48,7 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
     @Override
     public AuthToken login(String platform, HttpServletRequest request) {
         Map<String, String> params = extractParams(request);
+        AuthAssert.INSTANCE.isTrue(params != null && !params.isEmpty(), AuthError.AUTH_THIRD_LOGIN_CALLBACK_ERROR);
         LoginProvider loginProvider = getLoginProvider(platform);
         LoginHandler loginHandler = AuthAssert.INSTANCE.notNull(loginProvider.getLoginHandler(), AuthError.AUTH_THIRD_ERROR);
         String openId = AuthAssert.INSTANCE.notBlank(loginHandler.handleLogin(params), AuthError.AUTH_THIRD_LOGIN_INVALID);
