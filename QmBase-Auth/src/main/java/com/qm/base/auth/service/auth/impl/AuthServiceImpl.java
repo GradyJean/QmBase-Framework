@@ -155,7 +155,7 @@ public class AuthServiceImpl implements AuthService {
                 credentialManager.findAuthTokenByUserId(refreshPayload.getUserId(), refreshPayload.getDeviceId()),
                 AuthError.AUTH_UNAUTHORIZED);
         // refreshToken 匹配
-        AuthAssert.INSTANCE.isTrue(authToken.getRefreshTokenValue().equals(refreshToken), AuthError.AUTH_TOKEN_INVALID);
+        AuthAssert.INSTANCE.isTrue(authToken.getRefreshToken().getToken().equals(refreshToken), AuthError.AUTH_TOKEN_INVALID);
         return credentialManager.tokenRefresh(refreshPayload);
     }
 

@@ -9,9 +9,11 @@ qm:
     log-result: false
   auth:
     secret: b2df428b9929d3ace7c598bbf4e496b2
-    wechat:
-      app-id: wx2530a86caf4887b5
-      redirect-uri: https://www.qmvector.com/
+    third:
+      wechat:
+        app-id: wx2530a86caf4887b5
+        redirect-uri: https://www.qmvector.com/
+        app-secret: 957968150ec89ffa574a4a20850d4f9c
   id:
     worker-id: 22
     datacenter-id: 22

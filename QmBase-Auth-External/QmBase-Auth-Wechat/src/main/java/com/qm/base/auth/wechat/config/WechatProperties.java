@@ -3,7 +3,7 @@ package com.qm.base.auth.wechat.config;
 import com.qm.base.core.auth.third.config.LoginProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "qm.auth.wechat")
+@ConfigurationProperties(prefix = "qm.auth.third.wechat")
 public class WechatProperties implements LoginProperties {
     /**
      * 是否启用微信登录功能。为 true 时才会加载相关配置并注册 provider。

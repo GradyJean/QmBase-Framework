@@ -46,14 +46,6 @@ public class AuthToken implements Serializable {
         this.refreshToken = refreshToken;
     }
 
-    public String getRefreshTokenValue() {
-        return refreshToken.getToken();
-    }
-
-    public String getAccessTokenValue() {
-        return accessToken.getToken();
-    }
-
     @Override
     public String toString() {
         return "AuthToken{" +

@@ -35,8 +35,7 @@ public class WechatProvider implements LoginProvider {
                 + "&redirect_uri=" + redirectUri
                 + "&state=" + state
                 + "&response_type=code"
-                + "&scope=snsapi_login"
-                + "&state=" + state;
+                + "&scope=snsapi_login";
     }
 
     @Override
