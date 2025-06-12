@@ -76,6 +76,11 @@
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.qm.base.auth</groupId>
+                <artifactId>QmBase-Auth-Wechat</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.qm.base.shared</groupId>
                 <artifactId>QmBase-Security</artifactId>
                 <version>${qm.base.version}</version>
