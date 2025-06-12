@@ -1,8 +1,8 @@
 package com.qm.base.auth.service.auth.impl;
 
-import com.qm.base.auth.exception.AuthAssert;
-import com.qm.base.auth.exception.AuthError;
-import com.qm.base.auth.exception.AuthException;
+import com.qm.base.core.auth.exception.AuthAssert;
+import com.qm.base.core.auth.exception.AuthError;
+import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.request.CredentialRequest;
 import com.qm.base.auth.model.request.LoginRequest;

@@ -1,6 +1,6 @@
 package com.qm.base.auth.handler;
 
-import com.qm.base.auth.exception.AuthException;
+import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.core.common.model.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

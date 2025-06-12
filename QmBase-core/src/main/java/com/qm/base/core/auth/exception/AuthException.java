@@ -1,4 +1,4 @@
-package com.qm.base.auth.exception;
+package com.qm.base.core.auth.exception;
 
 import com.qm.base.core.exception.QmException;
 

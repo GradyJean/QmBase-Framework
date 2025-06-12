@@ -1,4 +1,4 @@
-package com.qm.base.auth.exception;
+package com.qm.base.core.auth.exception;
 
 import com.qm.base.core.code.ICode;
 import com.qm.base.core.http.HttpStatus;
@@ -49,8 +49,12 @@ public enum AuthError implements ICode {
     // 密码重置相关
     AUTH_EMAIL_OR_PHONE_EMPTY("AUTH_EMAIL_OR_PHONE_EMPTY", "邮箱或手机号码为空", HttpStatus.BAD_REQUEST),
     AUTH_EMAIL_OR_PHONE_NOT_EXIST("AUTH_EMAIL_OR_PHONE_NOT_EXIST", "邮箱或手机号码未绑定", HttpStatus.BAD_REQUEST),
-    AUTH_EMAIL_OR_PHONE_INVALID("AUTH_EMAIL_OR_PHONE_INVALID", "邮箱或手机号码格式错误", HttpStatus.BAD_REQUEST);
-
+    AUTH_EMAIL_OR_PHONE_INVALID("AUTH_EMAIL_OR_PHONE_INVALID", "邮箱或手机号码格式错误", HttpStatus.BAD_REQUEST),
+    // 第三方登录相关
+    AUTH_THIRD_PLATFORM_NOT_EXIST("AUTH_THIRD_PLATFORM_NOT_EXIST", "第三方登录类型不存在", HttpStatus.BAD_REQUEST),
+    AUTH_THIRD_LOGIN_INVALID("AUTH_THIRD_LOGIN_INVALID", "第三方登录失败", HttpStatus.UNAUTHORIZED),
+    AUTH_THIRD_LOGIN_STATE_EMPTY("AUTH_THIRD_LOGIN_STATE_EMPTY", "第三方登录state字段缺失", HttpStatus.BAD_REQUEST),
+    AUTH_THIRD_ERROR("AUTH_THIRD_ERROR", "第三方登录异常", HttpStatus.INTERNAL_SERVER_ERROR);
     // 错误码
     private final String code;
     // 错误信息

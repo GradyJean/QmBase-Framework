@@ -9,52 +9,23 @@ public class Platform {
     /**
      * 平台名称（如：微信、支付宝）
      */
-    private String name;
+    private final String name;
 
     /**
      * 平台唯一编码（如：wechat、alipay）
      */
-    private String code;
+    private final String platform;
 
-    /**
-     * 平台图标 URL（用于前端展示）
-     */
-    private String icon;
-
-    /**
-     * 平台描述（可选说明文字）
-     */
-    private String description;
+    public Platform(String name, String platform) {
+        this.name = name;
+        this.platform = platform;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getPlatform() {
+        return platform;
     }
 }
