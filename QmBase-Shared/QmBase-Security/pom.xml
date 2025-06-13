@@ -17,28 +17,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <!-- 支持 Web Filter 注入与 servlet 环境 -->
+        <dependency>
+            <groupId>com.qm.base</groupId>
+            <artifactId>QmBase-Token</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope> <!-- 用于模块抽象 starter，不强依赖 -->
-        </dependency>
-        <!-- 核心 API -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-        </dependency>
-        <!-- 实现类（运行时使用） -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- 支持 Jackson 序列化解析（用于 Claims 的 JSON 转换） -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <scope>runtime</scope>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 </project>

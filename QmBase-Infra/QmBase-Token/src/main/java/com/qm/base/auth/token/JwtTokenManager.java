@@ -8,6 +8,7 @@ import com.qm.base.core.auth.token.TokenManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.lang.Assert;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
@@ -24,6 +25,9 @@ public class JwtTokenManager implements TokenManager {
     private final String issuer;
 
     public JwtTokenManager(TokenProperties properties) {
+        Assert.notNull(properties, "TokenProperties must not be null");
+        Assert.isTrue(properties.getIssuer() != null && !properties.getIssuer().isEmpty(), "TokenProperties issuer must not be null");
+        Assert.isTrue(properties.getSecret() != null && !properties.getSecret().isEmpty(), "TokenProperties secret must not be null");
         this.secretKey = Keys.hmacShaKeyFor(properties.getSecret().getBytes(StandardCharsets.UTF_8));
         this.issuer = properties.getIssuer();
     }

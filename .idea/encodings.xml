@@ -11,6 +11,8 @@
     <file url="file://$PROJECT_DIR$/QmBase-Dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Example/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Context/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Context/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Crypto/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Crypto/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Infra/QmBase-Token/src/main/java" charset="UTF-8" />
