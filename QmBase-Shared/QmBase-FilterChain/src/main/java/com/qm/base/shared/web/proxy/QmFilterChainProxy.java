@@ -11,6 +11,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +21,8 @@ import java.util.List;
  * QmFilterChainProxy 是一个自定义的过滤器链代理类，
  * 负责顺序执行注册的 Filter，实现类似 Spring Security 的拦截器链机制。
  */
-public class QmFilterChainProxy implements Filter {
+@Component
+public class QmFilterChainProxy extends GenericFilterBean {
 
     private final List<QmFilter> filters;
 

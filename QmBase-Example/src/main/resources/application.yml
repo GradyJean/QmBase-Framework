@@ -2,7 +2,7 @@ server:
   port: 8080
 qm:
   cache:
-    type: redis
+    type: caffeine
     ttl: 300
   logger:
     log-params: false
@@ -19,7 +19,7 @@ qm:
     datacenter-id: 22
   lock:
     distributed:
-      type:
+      type: redis
 spring:
   application:
     name: example

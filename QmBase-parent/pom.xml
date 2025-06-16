@@ -24,6 +24,7 @@
         <spring.boot.version>3.4.5</spring.boot.version>
         <qm.base.version>1.0-SNAPSHOT</qm.base.version>
         <redis.version>3.4.5</redis.version>
+        <sapl.version>2.0.1</sapl.version>
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
@@ -128,7 +129,12 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${redis.version}</version>
             </dependency>
-
+            <!--sqpl-->
+            <dependency>
+                <groupId>io.sapl</groupId>
+                <artifactId>sapl-pdp-embedded</artifactId>
+                <version>${sapl.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>

@@ -25,5 +25,9 @@
             <groupId>com.qm.base.shared</groupId>
             <artifactId>QmBase-FilterChain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.sapl</groupId>
+            <artifactId>sapl-pdp-embedded</artifactId>
+        </dependency>
     </dependencies>
 </project>

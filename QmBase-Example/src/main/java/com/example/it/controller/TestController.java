@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @Log
     @RequestMapping("test")
-    @QmCacheable(name = "222",key = "#param",ttl = 400,condition = "#param !=null")
     public Result<String> test(String param) {
         QmLog.info("test");
         log.info("test");
