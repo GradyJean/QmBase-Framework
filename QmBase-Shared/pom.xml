@@ -19,6 +19,7 @@
         <module>QmBase-Lock</module>
         <module>QmBase-Cache</module>
         <module>QmBase-Id</module>
+        <module>QmBase-FilterChain</module>
     </modules>
 
     <properties>

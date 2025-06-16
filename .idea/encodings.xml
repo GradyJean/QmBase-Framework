@@ -25,6 +25,8 @@
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Base/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Cache/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-FilterChain/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-FilterChain/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Id/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Id/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Lock/src/main/java" charset="UTF-8" />

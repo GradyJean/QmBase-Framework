@@ -100,6 +100,11 @@
                 <artifactId>QmBase-Crypto</artifactId>
                 <version>${qm.base.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.qm.base.shared</groupId>
+                <artifactId>QmBase-FilterChain</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
             <!-- Lombok -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
