@@ -41,11 +41,7 @@ public class QmFilterChainAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public QmFilterRegistry qmFilterRegistry(List<QmFilter> filters) {
-        QmFilterRegistry registry = new QmFilterRegistry();
-        for (QmFilter filter : filters) {
-            registry.register(filter);
-        }
-        return registry;
+    public QmFilterRegistry qmFilterRegistry() {
+        return new QmFilterRegistry();
     }
 }
