@@ -4,6 +4,7 @@ import com.qm.base.shared.logger.aspect.LogAspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * 支持通过 application.yml 配置日志打印行为
  */
 @Configuration
+@ComponentScan(basePackages = "com.qm.base.shared.logger")
 @EnableConfigurationProperties(QmLoggerProperties.class)
 public class QmLoggerAutoConfiguration {
 

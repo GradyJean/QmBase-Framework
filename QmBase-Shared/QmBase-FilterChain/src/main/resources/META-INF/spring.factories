@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.qm.base.shared.web.config.QmFilterChainAutoConfiguration

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * 引入 qmbase-id-starter 后，将自动注入一个 SnowflakeIdGenerator
  * 支持通过 application.yml 配置 workerId 和 datacenterId
  */
+@ComponentScan(basePackages = "com.qm.base.shared.id")
 @Configuration
 @EnableConfigurationProperties(QmIdProperties.class)
 public class QmIdAutoConfiguration {

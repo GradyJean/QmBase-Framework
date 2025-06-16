@@ -6,6 +6,7 @@ import com.qm.base.shared.lock.local.ReentrantLocalLockService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * - 根据配置项 qm.base.lock.distributed.type 注册分布式锁实现
  */
 @Configuration
+@ComponentScan(basePackages = "com.qm.base.shared.lock")
 @EnableConfigurationProperties(DistributedLockProperties.class)
 public class LockAutoConfiguration {
 
