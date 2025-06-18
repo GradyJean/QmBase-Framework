@@ -33,6 +33,8 @@
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Lock/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Logger/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Logger/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Notifier/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Notifier/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Security/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/QmBase-Security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/QmBase-Shared/audit/src/main/java" charset="UTF-8" />

@@ -20,6 +20,7 @@
         <module>QmBase-Cache</module>
         <module>QmBase-Id</module>
         <module>QmBase-FilterChain</module>
+        <module>QmBase-Notifier</module>
     </modules>
 
     <properties>

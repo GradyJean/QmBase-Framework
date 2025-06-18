@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * <p>用于提供聚合根或实体类中常见的统一字段结构，具备可序列化能力。
  * 推荐所有基础数据对象继承该类。</p>
- *
+ * <p>
  * 字段说明：
  * <ul>
  *     <li>{@code id} 主键 ID，可由雪花算法或数据库生成</li>
@@ -50,11 +50,6 @@ public abstract class QmEntity implements Serializable {
      */
     protected String updatedBy;
 
-    /**
-     * 逻辑删除标识：0 = 正常，1 = 已删除
-     */
-    protected Integer deleted = 0;
-
     public Long getId() {
         return id;
     }
@@ -93,13 +88,5 @@ public abstract class QmEntity implements Serializable {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
-    }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
     }
 }

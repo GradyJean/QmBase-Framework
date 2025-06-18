@@ -24,10 +24,10 @@
         <spring.boot.version>3.4.5</spring.boot.version>
         <qm.base.version>1.0-SNAPSHOT</qm.base.version>
         <redis.version>3.4.5</redis.version>
-        <sapl.version>2.0.1</sapl.version>
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
+        <casbin.version>1.82.0</casbin.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.10.2</junit.version>
         <maven.compiler.source>24</maven.compiler.source>
@@ -104,7 +104,12 @@
             <dependency>
                 <groupId>com.qm.base.shared</groupId>
                 <artifactId>QmBase-FilterChain</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qm.base.shared</groupId>
+                <artifactId>QmBase-Notifier</artifactId>
+                <version>${qm.base.version}</version>
             </dependency>
             <!-- Lombok -->
             <dependency>
@@ -129,11 +134,11 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${redis.version}</version>
             </dependency>
-            <!--sqpl-->
+            <!--casbin-->
             <dependency>
-                <groupId>io.sapl</groupId>
-                <artifactId>sapl-pdp-embedded</artifactId>
-                <version>${sapl.version}</version>
+                <groupId>org.casbin</groupId>
+                <artifactId>jcasbin</artifactId>
+                <version>${casbin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>

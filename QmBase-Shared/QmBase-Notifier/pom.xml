@@ -9,25 +9,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>QmBase-Security</artifactId>
+    <artifactId>QmBase-Notifier</artifactId>
 
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.qm.base</groupId>
-            <artifactId>QmBase-Token</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.qm.base.shared</groupId>
-            <artifactId>QmBase-FilterChain</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.casbin</groupId>
-            <artifactId>jcasbin</artifactId>
-        </dependency>
-    </dependencies>
+
 </project>
