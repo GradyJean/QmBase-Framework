@@ -1,6 +1,7 @@
 package com.qm.base.core.auth.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 /**
  * 通用 Token 数据结构，用于封装 accessToken 或 refreshToken。
@@ -39,6 +40,15 @@ public class Token implements Serializable {
 
     public void setExpireAt(Long expireAt) {
         this.expireAt = expireAt;
+    }
+
+    /**
+     * 判断当前 Token 是否已过期
+     *
+     * @return true 如果当前时间晚于 expireAt
+     */
+    public boolean isExpired() {
+        return expireAt != null && Instant.now().isAfter(Instant.ofEpochSecond(expireAt));
     }
 
     @Override

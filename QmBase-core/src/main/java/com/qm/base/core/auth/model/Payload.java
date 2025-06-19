@@ -22,10 +22,6 @@ public class Payload implements Serializable {
      */
     private Long userId;
     /**
-     * 签发平台
-     */
-    private String issuer;
-    /**
      * 过期时间
      */
     private Date expiresAt;
@@ -41,34 +37,12 @@ public class Payload implements Serializable {
     public Payload() {
     }
 
-    /**
-     * 创建一个仅包含用户 ID 的简化 JwtPayload 实例。
-     * 常用于无需设置 issuedAt、expiresAt 和 type 的场景。
-     *
-     * @param userId 用户唯一标识
-     * @return JwtPayload 实例
-     */
-    public static Payload ofUser(Long userId, String deviceId) {
-        Payload payload = new Payload();
-        payload.setUserId(userId);
-        payload.setDeviceId(deviceId);
-        return payload;
-    }
-
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getIssuer() {
-        return issuer;
-    }
-
-    public void setIssuer(String issuer) {
-        this.issuer = issuer;
     }
 
     public Date getExpiresAt() {

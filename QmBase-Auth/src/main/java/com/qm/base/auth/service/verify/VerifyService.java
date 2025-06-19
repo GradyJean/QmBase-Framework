@@ -27,4 +27,32 @@ public interface VerifyService {
      * 根据标识类型（如邮箱或手机号）发送对应验证码，用于注册或登录验证。
      */
     boolean generateVerifyCode(String identifier, IdentifierType identifierType);
+
+    /**
+     * 校验当前是否允许发送验证码（频率控制）
+     *
+     * <p>用于控制同一个标识（如手机号、邮箱）在单位时间内重复发送验证码的频率，
+     * 默认由业务方实现，例如限制 60 秒内只能发送一次。</p>
+     *
+     * @param identifier     验证标识（如手机号、邮箱、用户名等）
+     * @param identifierType 标识类型（如手机、邮箱、用户名等枚举）
+     * @return true 表示允许发送，false 表示未达到发送间隔要求
+     */
+    default boolean isSendIntervalAllowed(String identifier, IdentifierType identifierType) {
+        return true;
+    }
+
+    /**
+     * 撤销验证码。
+     * <p>
+     * 当验证码已经成功使用、主动废弃或被判定为无效时，
+     * 应调用此方法将其从存储中移除，以防止验证码被重复使用或滥用。
+     * </p>
+     *
+     * @param identifier     验证标识（如手机号、邮箱、用户名等）
+     * @param identifierType 标识类型（如手机、邮箱、用户名等枚举）
+     */
+    default boolean revokeVerifyCode(String identifier, IdentifierType identifierType) {
+        return true;
+    }
 }

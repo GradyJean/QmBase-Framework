@@ -6,6 +6,7 @@ import com.qm.base.auth.service.user.AuthUserService;
 import com.qm.base.auth.service.verify.VerifyService;
 import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
+import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
@@ -13,6 +14,8 @@ import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.auth.token.TokenService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -92,11 +95,25 @@ public class CredentialManager {
     }
 
     private String generateToken(Long userId, TokenType tokenType, Date now, Date expiration, String deviceId) {
-        return tokenManager.generateToken(userId, tokenType, now, expiration, deviceId);
+        try {
+            return tokenManager.generateToken(userId, tokenType, now, expiration, deviceId);
+        } catch (JwtException e) {
+            logger.error(e.getMessage(), e);
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
     }
 
     public Payload parseToken(String tokenString) {
-        return tokenManager.parse(tokenString);
+        try {
+            return tokenManager.parse(tokenString);
+        } catch (ExpiredJwtException e) {
+            throw new AuthException(AuthError.AUTH_TOKEN_EXPIRED);
+        } catch (SecurityException e) {
+            throw new AuthException(AuthError.AUTH_TOKEN_INVALID);
+        } catch (JwtException e) {
+            logger.error(e.getMessage(), e);
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
     }
 
     /**
@@ -190,6 +207,8 @@ public class CredentialManager {
      */
     public boolean generateVerifyCode(String identifier, IdentifierType identifierType) {
         try {
+            // 发送验证码频率控制
+            AuthAssert.INSTANCE.isTrue(verifyService.isSendIntervalAllowed(identifier, identifierType), AuthError.AUTH_ERROR);
             return verifyService.generateVerifyCode(identifier, identifierType);
         } catch (Exception e) {
             logger.error("Failed to call verifyService.generateVerifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);

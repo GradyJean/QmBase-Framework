@@ -14,6 +14,7 @@ import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
+import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.utils.RegexUtils;
 import com.qm.base.crypto.PasswordUtils;
 import io.jsonwebtoken.JwtException;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Objects;
 
 
@@ -68,6 +70,11 @@ public class AuthServiceImpl implements AuthService {
         }
         // 账号被禁用
         AuthAssert.INSTANCE.isTrue(authUser.isEnabled(), AuthError.AUTH_ACCOUNT_DISABLED);
+        // 如果 accessToken 没过期就返回旧 token
+        AuthToken authToken = credentialManager.findAuthTokenByUserId(authUser.getUserId(), deviceId);
+        if (!Objects.isNull(authToken) && !authToken.getAccessToken().isExpired()) {
+            return authToken;
+        }
         return credentialManager.generateAuthToken(authUser.getUserId(), deviceId);
     }
 
@@ -145,13 +152,7 @@ public class AuthServiceImpl implements AuthService {
      */
     private Payload parseToken(String token) {
         token = AuthAssert.INSTANCE.notBlank(token, AuthError.AUTH_TOKEN_EMPTY);
-        Payload payload;
-        try {
-            payload = credentialManager.parseToken(token);
-        } catch (JwtException e) {
-            logger.error(e.getMessage(), e);
-            throw new AuthException(AuthError.AUTH_TOKEN_INVALID);
-        }
+        Payload payload = credentialManager.parseToken(token);
         AuthAssert.INSTANCE.notNull(payload, AuthError.AUTH_TOKEN_INVALID);
         return payload;
     }

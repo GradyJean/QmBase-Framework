@@ -43,7 +43,6 @@ public class JwtTokenManager implements TokenManager {
         Payload payload = new Payload();
         payload.setUserId(claims.get(AuthConstants.AUTH_USER_ID, Long.class));
         payload.setType(TokenType.valueOf(claims.get(AuthConstants.AUTH_TOKEN_TYPE, String.class)));
-        payload.setIssuer(claims.get(AuthConstants.AUTH_TOKEN_ISSUER, String.class));
         payload.setExpiresAt(claims.get(AuthConstants.AUTH_TOKEN_EXPIRATION, Date.class));
         return payload;
     }
@@ -67,7 +66,6 @@ public class JwtTokenManager implements TokenManager {
                 .add(AuthConstants.AUTH_USER_ID, userId)
                 // Token 类型（如 ACCESS、REFRESH），用于区分用途
                 .add(AuthConstants.AUTH_TOKEN_TYPE, tokenType.name())
-                .add(AuthConstants.AUTH_TOKEN_ISSUER, issuer)
                 .add(AuthConstants.AUTH_TOKEN_EXPIRATION, expiration)
                 .add(AuthConstants.AUTH_TOKEN_DEVICE_ID, deviceId);
 

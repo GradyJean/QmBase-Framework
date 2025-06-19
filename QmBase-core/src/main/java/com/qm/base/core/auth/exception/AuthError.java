@@ -23,6 +23,7 @@ public enum AuthError implements ICode {
     // 验证码相关
     AUTH_VERIFY_CODE_EMPTY("AUTH_VERIFY_CODE_EMPTY", "验证码为空", HttpStatus.BAD_REQUEST),
     AUTH_VERIFY_CODE_ERROR("AUTH_VERIFY_CODE_ERROR", "验证码错误", HttpStatus.BAD_REQUEST),
+    AUTH_VERIFY_CODE_TOO_FREQUENT("AUTH_VERIFY_CODE_TOO_FREQUENT", "验证码请求过于频繁", HttpStatus.BAD_REQUEST),
     // 登录相关
     AUTH_DEVICE_ID_EMPTY("AUTH_DEVICE_ID_EMPTY", "设备ID为空，请求 Header 中需要包含 X-Device-Id", HttpStatus.BAD_REQUEST),
     // 系统相关
