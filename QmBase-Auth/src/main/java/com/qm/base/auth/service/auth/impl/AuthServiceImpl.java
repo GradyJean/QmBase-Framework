@@ -58,13 +58,13 @@ public class AuthServiceImpl implements AuthService {
         } else {
             // 非验证码登录
             // 账号不存在
-            AuthAssert.INSTANCE.notNullObject(authUser, AuthError.AUTH_ACCOUNT_NOT_EXIST);
+            AuthAssert.INSTANCE.notNullObject(authUser, AuthError.AUTH_ACCOUNT_OR_PASSWORD_ERROR);
             // 获取密码
             String credential = AuthAssert.INSTANCE.notBlank(request.getCredential(), AuthError.AUTH_CREDENTIAL_EMPTY);
             // 密码未设置
             String authUserCredential = AuthAssert.INSTANCE.notBlank(authUser.getCredential(), AuthError.AUTH_CREDENTIAL_NOT_SET);
             // 密码对比
-            AuthAssert.INSTANCE.isTrue(PasswordUtils.matches(credential, authUserCredential), AuthError.AUTH_LOGIN_FAILED);
+            AuthAssert.INSTANCE.isTrue(PasswordUtils.matches(credential, authUserCredential), AuthError.AUTH_ACCOUNT_OR_PASSWORD_ERROR);
         }
         // 账号被禁用
         AuthAssert.INSTANCE.isTrue(authUser.isEnabled(), AuthError.AUTH_ACCOUNT_DISABLED);
