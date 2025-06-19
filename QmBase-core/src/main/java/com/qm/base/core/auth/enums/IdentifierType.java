@@ -6,11 +6,6 @@ package com.qm.base.core.auth.enums;
 public enum IdentifierType {
 
     /**
-     * 用户名
-     */
-    USER_NAME,
-
-    /**
      * 电话号码
      */
     PHONE_NUMBER,

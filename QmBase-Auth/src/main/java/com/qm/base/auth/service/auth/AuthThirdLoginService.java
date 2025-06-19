@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface AuthThirdLoginService {
-    String generateLoginUrl(String platform, String deviceId);
+    String generateLoginUrl(String platform);
 
     AuthToken login(String platform, HttpServletRequest request);
 

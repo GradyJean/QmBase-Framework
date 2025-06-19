@@ -36,8 +36,8 @@ public class ThirdLoginController {
      * @return 包含跳转地址的响应结果
      */
     @GetMapping("{platform}/url")
-    public Result<String> generateLoginUrl(@PathVariable String platform, @RequestParam("deviceId") String deviceId) {
-        return Result.SUCCESS(authThirdLoginService.generateLoginUrl(platform, deviceId));
+    public Result<String> generateLoginUrl(@PathVariable String platform) {
+        return Result.SUCCESS(authThirdLoginService.generateLoginUrl(platform));
     }
 
     /**

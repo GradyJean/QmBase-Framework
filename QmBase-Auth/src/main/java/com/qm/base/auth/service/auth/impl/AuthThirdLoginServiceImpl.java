@@ -1,5 +1,6 @@
 package com.qm.base.auth.service.auth.impl;
 
+import com.qm.base.auth.context.AuthContextHolder;
 import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.model.vo.Platform;
@@ -36,12 +37,11 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
      * 会将传入的 deviceId 编码后注入 state 字段中，用于后续回调时识别用户来源设备。
      *
      * @param platform 第三方平台标识，如 wechat、alipay
-     * @param deviceId 当前登录设备标识，通常为临时令牌
      * @return 第三方平台跳转登录地址
      */
     @Override
-    public String generateLoginUrl(String platform, String deviceId) {
-        deviceId = AuthAssert.INSTANCE.notBlank(deviceId, AuthError.AUTH_DEVICE_ID_EMPTY);
+    public String generateLoginUrl(String platform) {
+        String deviceId = AuthAssert.INSTANCE.notBlank(AuthContextHolder.getContext().getDeviceId(), AuthError.AUTH_DEVICE_ID_EMPTY);
         return getLoginProvider(platform).getLoginUrl(deviceId);
     }
 

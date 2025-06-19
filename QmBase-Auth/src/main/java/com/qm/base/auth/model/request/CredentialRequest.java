@@ -1,6 +1,8 @@
 package com.qm.base.auth.model.request;
 
 import com.qm.base.core.auth.enums.IdentifierType;
+import com.qm.base.core.auth.exception.AuthAssert;
+import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.auth.model.AuthCredential;
 import com.qm.base.core.utils.RegexUtils;
 
@@ -12,19 +14,25 @@ public class CredentialRequest extends AuthCredential {
 
     @Override
     public IdentifierType getIdentifierType() {
-        if (identifierType != null) {
-            return identifierType;
-        }
-        String id = this.identifier;
+        String id = getIdentifier();
+        IdentifierType identifierType = null;
         if (RegexUtils.isEmail(id)) {
-            return IdentifierType.EMAIL;
+            identifierType = IdentifierType.EMAIL;
         }
 
         if (RegexUtils.isPhone(id)) {
-            return IdentifierType.PHONE_NUMBER;
+            identifierType = IdentifierType.PHONE_NUMBER;
         }
+        // 必须为手机号或者邮箱
+        AuthAssert.INSTANCE.isTrue(identifierType == IdentifierType.EMAIL
+                        || identifierType == IdentifierType.PHONE_NUMBER,
+                AuthError.AUTH_EMAIL_OR_PHONE_INVALID);
+        return identifierType;
+    }
 
-        return IdentifierType.USER_NAME;
+    @Override
+    public String getIdentifier() {
+        return AuthAssert.INSTANCE.notBlank(identifier, AuthError.AUTH_EMAIL_OR_PHONE_EMPTY);
     }
 
     public String getVerifyCode() {

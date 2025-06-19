@@ -22,6 +22,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * AuthHeaderFilter 用于拦截 /auth/** 路径的请求，
@@ -33,17 +34,24 @@ public class AuthHeaderFilter implements QmFilter {
     Logger logger = LoggerFactory.getLogger(AuthHeaderFilter.class);
     private final PathMatcher matcher = new AntPathMatcher();
     private final ObjectMapper mapper = new ObjectMapper();
+    private static final List<String> MATCH_PATHS = List.of(
+            "/auth/login",
+            "/auth/third/*/url"
+    );
 
     /**
-     * 匹配以 /auth/ 开头的请求路径。
+     * 匹配特定的 /auth/ 路径，用于决定是否执行当前过滤器。
+     * 目前仅匹配如下路径：
+     * - /auth/login
+     * - /auth/third/{platform}/url
      *
      * @param request 当前请求对象
-     * @return 如果路径匹配 /auth/**，返回 true，否则 false
+     * @return 如果路径匹配上述规则，返回 true；否则返回 false
      */
     @Override
     public boolean match(HttpServletRequest request) {
         String path = request.getServletPath();
-        return matcher.match("/auth/**", path);
+        return MATCH_PATHS.stream().anyMatch(p -> matcher.match(p, path));
     }
 
     /**
