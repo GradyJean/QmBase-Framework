@@ -44,6 +44,7 @@ public class JwtTokenManager implements TokenManager {
         payload.setUserId(claims.get(AuthConstants.AUTH_USER_ID, Long.class));
         payload.setType(TokenType.valueOf(claims.get(AuthConstants.AUTH_TOKEN_TYPE, String.class)));
         payload.setExpiresAt(claims.get(AuthConstants.AUTH_TOKEN_EXPIRATION, Date.class));
+        payload.setDeviceId(claims.get(AuthConstants.AUTH_TOKEN_DEVICE_ID, String.class));
         return payload;
     }
 
