@@ -57,6 +57,11 @@
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.qm.base</groupId>
+                <artifactId>QmBase-Context</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.qm.base.shared</groupId>
                 <artifactId>QmBase-Id</artifactId>
                 <version>${qm.base.version}</version>

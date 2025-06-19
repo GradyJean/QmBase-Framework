@@ -16,6 +16,8 @@ import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.utils.RegexUtils;
 import com.qm.base.crypto.PasswordUtils;
 import io.jsonwebtoken.JwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -23,7 +25,7 @@ import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-
+    Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
     private final CredentialManager credentialManager;
 
     public AuthServiceImpl(CredentialManager credentialManager) {
@@ -63,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
             // 密码未设置
             String authUserCredential = AuthAssert.INSTANCE.notBlank(authUser.getCredential(), AuthError.AUTH_CREDENTIAL_NOT_SET);
             // 密码对比
-            AuthAssert.INSTANCE.isTrue(!PasswordUtils.matches(credential, authUserCredential), AuthError.AUTH_LOGIN_FAILED);
+            AuthAssert.INSTANCE.isTrue(PasswordUtils.matches(credential, authUserCredential), AuthError.AUTH_LOGIN_FAILED);
         }
         // 账号被禁用
         AuthAssert.INSTANCE.isTrue(authUser.isEnabled(), AuthError.AUTH_ACCOUNT_DISABLED);
@@ -106,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
         String credential = AuthAssert.INSTANCE.notBlank(request.getCredential(), AuthError.AUTH_CREDENTIAL_EMPTY);
         AuthAssert.INSTANCE.isTrue(RegexUtils.isPassword(credential), AuthError.AUTH_CREDENTIAL_INVALID);
         // 用户是否已存在
-        AuthAssert.INSTANCE.isTrue(identifierExists(identifier), AuthError.AUTH_ACCOUNT_EXIST);
+        AuthAssert.INSTANCE.notTrue(identifierExists(identifier), AuthError.AUTH_ACCOUNT_EXIST);
         // 验证码校验（如果需要）
         if (requiresVerifyCode) {
             // 获取验证码
@@ -118,6 +120,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             return credentialManager.createUser(AuthUser.of(identifier, credential, identifierType)) != null;
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -171,6 +174,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             payload = credentialManager.parseToken(token);
         } catch (JwtException e) {
+            logger.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_TOKEN_INVALID);
         }
         AuthAssert.INSTANCE.notNull(payload, AuthError.AUTH_TOKEN_INVALID);

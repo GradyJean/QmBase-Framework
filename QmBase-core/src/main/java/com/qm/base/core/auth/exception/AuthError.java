@@ -36,7 +36,7 @@ public enum AuthError implements ICode {
     // 登录相关
     AUTH_DEVICE_ID_EMPTY("AUTH_DEVICE_ID_EMPTY", "设备ID为空", HttpStatus.BAD_REQUEST),
     // 系统相关
-    AUTH_ERROR("AUTH_ERROR", "认证模块异常", HttpStatus.BAD_REQUEST),
+    AUTH_ERROR("AUTH_ERROR", "认证模块异常", HttpStatus.INTERNAL_SERVER_ERROR),
     AUTH_REQUEST_ERROR("AUTH_REQUEST_ERROR", "请求参数错误", HttpStatus.BAD_REQUEST),
     // Token 相关
     AUTH_TOKEN_EMPTY("AUTH_TOKEN_EMPTY", "令牌为空", HttpStatus.BAD_REQUEST),
