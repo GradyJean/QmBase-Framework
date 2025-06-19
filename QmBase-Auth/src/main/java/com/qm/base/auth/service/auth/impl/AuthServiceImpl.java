@@ -83,10 +83,7 @@ public class AuthServiceImpl implements AuthService {
         // 获取账号类型
         IdentifierType identifierType = request.getIdentifierType();
         // 获取用户标识
-        String identifier = AuthAssert.INSTANCE.notBlank(request.getIdentifier(), AuthError.AUTH_ACCOUNT_EMPTY);
-        // 按类型校验用户名、手机号或邮箱
-
-
+        String identifier = request.getIdentifier();
         // 密码不能为空且必须满足密码格式要求
         String credential = AuthAssert.INSTANCE.notBlank(request.getCredential(), AuthError.AUTH_CREDENTIAL_EMPTY);
         AuthAssert.INSTANCE.isTrue(RegexUtils.isPassword(credential), AuthError.AUTH_CREDENTIAL_INVALID);

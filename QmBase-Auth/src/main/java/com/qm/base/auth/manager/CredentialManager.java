@@ -1,15 +1,20 @@
 package com.qm.base.auth.manager;
 
 import com.qm.base.auth.config.AuthProperties;
+import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.user.AuthUserService;
 import com.qm.base.auth.service.verify.VerifyService;
+import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
+import com.qm.base.core.auth.exception.AuthError;
+import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.auth.token.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -22,11 +27,25 @@ import java.util.concurrent.TimeUnit;
  * 通常由认证模块的核心服务实现，用于支持如登录、登出、Token刷新、验证码登录等完整的认证流程。
  * </p>
  */
-public abstract class CredentialManager implements AuthUserService, VerifyService, TokenService {
-    @Autowired
-    private TokenManager tokenManager;
-    @Autowired
-    private AuthProperties authProperties;
+public class CredentialManager {
+    Logger logger = LoggerFactory.getLogger(CredentialManager.class);
+    private final AuthUserService authUserService;
+    private final VerifyService verifyService;
+    private final TokenService tokenService;
+    private final TokenManager tokenManager;
+    private final AuthProperties authProperties;
+
+    public CredentialManager(AuthUserService authUserService,
+                             VerifyService verifyService,
+                             TokenService tokenService,
+                             TokenManager tokenManager,
+                             AuthProperties authProperties) {
+        this.authUserService = authUserService;
+        this.verifyService = verifyService;
+        this.tokenService = tokenService;
+        this.tokenManager = tokenManager;
+        this.authProperties = authProperties;
+    }
 
     /**
      * 生成新的 AuthToken
@@ -76,5 +95,78 @@ public abstract class CredentialManager implements AuthUserService, VerifyServic
 
     public Payload parseToken(String tokenString) {
         return tokenManager.parse(tokenString);
+    }
+
+    public AuthUser findByIdentifier(String identifier) {
+        try {
+            return authUserService.findByIdentifier(identifier);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public AuthUser createUser(AuthUser authUser) {
+        try {
+            return authUserService.createUser(authUser);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public Boolean updateCredential(Long userId, String newCredential) {
+        try {
+            return authUserService.updateCredential(userId, newCredential);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public boolean verifyCode(String identifier, String verifyCode, IdentifierType identifierType) {
+        try {
+            return verifyService.verifyCode(identifier, verifyCode, identifierType);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+
+    public boolean generateVerifyCode(String identifier, IdentifierType identifierType) {
+        try {
+            return verifyService.generateVerifyCode(identifier, identifierType);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public AuthToken findAuthTokenByUserId(Long userId, String deviceId) {
+        try {
+            return tokenService.findAuthTokenByUserId(userId, deviceId);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public void saveAuthToken(Long userId, String deviceId, AuthToken authToken) {
+        try {
+            tokenService.saveAuthToken(userId, deviceId, authToken);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
+    }
+
+    public void revokeToken(Long userId, String deviceId) {
+        try {
+            tokenService.revokeToken(userId, deviceId);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new AuthException(AuthError.AUTH_ERROR);
+        }
     }
 }

@@ -15,6 +15,10 @@ public class credentialManagerImpl extends CredentialManager {
     static final Map<Long, Map<String, AuthUser>> DATA_MAP = new HashMap<>();
     static final Map<String, String> CODE_MAP = new HashMap<>();
 
+    public credentialManagerImpl() {
+        super(, , , , );
+    }
+
     @Override
     public AuthUser findByIdentifier(String identifier) {
         if (DATA_MAP.isEmpty()) {
