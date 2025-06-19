@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
         AuthAssert.INSTANCE.isTrue(authUser.isEnabled(), AuthError.AUTH_ACCOUNT_DISABLED);
         // 如果 accessToken 没过期就返回旧 token
         AuthToken authToken = credentialManager.findAuthTokenByUserId(authUser.getUserId(), deviceId);
-        if (!Objects.isNull(authToken) && !authToken.getAccessToken().isExpired()) {
+        if (!Objects.isNull(authToken) && !authToken.getAccessToken().hasExpired()) {
             return authToken;
         }
         return credentialManager.generateAuthToken(authUser.getUserId(), deviceId);

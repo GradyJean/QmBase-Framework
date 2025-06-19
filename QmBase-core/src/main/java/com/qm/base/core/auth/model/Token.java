@@ -47,8 +47,8 @@ public class Token implements Serializable {
      *
      * @return true 如果当前时间晚于 expireAt
      */
-    public boolean isExpired() {
-        return expireAt != null && Instant.now().isAfter(Instant.ofEpochSecond(expireAt));
+    public boolean hasExpired() {
+        return expireAt != null && System.currentTimeMillis() > expireAt;
     }
 
     @Override
