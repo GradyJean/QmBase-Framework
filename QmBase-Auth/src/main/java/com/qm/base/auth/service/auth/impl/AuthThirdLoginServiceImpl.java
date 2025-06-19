@@ -47,19 +47,28 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
 
     @Override
     public AuthToken login(String platform, HttpServletRequest request) {
+        // 获取参数
         Map<String, String> params = extractParams(request);
         AuthAssert.INSTANCE.isTrue(params != null && !params.isEmpty(), AuthError.AUTH_THIRD_LOGIN_CALLBACK_ERROR);
+        // 获取第三方登录处理程序
         LoginProvider loginProvider = getLoginProvider(platform);
         LoginHandler loginHandler = AuthAssert.INSTANCE.notNull(loginProvider.getLoginHandler(), AuthError.AUTH_THIRD_ERROR);
-        String openId = AuthAssert.INSTANCE.notBlank(loginHandler.handleLogin(params), AuthError.AUTH_THIRD_LOGIN_INVALID);
+        // 获取第三方登录的 unionid
+        String unionid = AuthAssert.INSTANCE.notBlank(loginHandler.handleLogin(params), AuthError.AUTH_THIRD_LOGIN_INVALID);
         IdentifierType identifierType = IdentifierType.valueOf(platform.toUpperCase());
-        String state = AuthAssert.INSTANCE.notBlank(params.get("state"), AuthError.AUTH_THIRD_LOGIN_STATE_EMPTY);
-        AuthUser authUser = credentialManager.findByIdentifier(openId);
+        // state 字段用于传递 deviceId
+        String deviceId = AuthAssert.INSTANCE.notBlank(params.get("state"), AuthError.AUTH_THIRD_LOGIN_STATE_EMPTY);
+        AuthUser authUser = credentialManager.findByIdentifier(unionid);
         // 如果第一次验证码登录记录不存在则直接注册
         if (Objects.isNull(authUser)) {
-            authUser = credentialManager.createUser(AuthUser.of(openId, null, identifierType));
+            authUser = credentialManager.createUser(AuthUser.of(unionid, null, identifierType));
         }
-        return credentialManager.generateAuthToken(authUser.getUserId(), state);
+        // 如果 accessToken 没过期就返回旧 token
+        AuthToken authToken = credentialManager.findAuthTokenByUserId(authUser.getUserId(), deviceId);
+        if (!Objects.isNull(authToken) && !authToken.getAccessToken().hasExpired()) {
+            return authToken;
+        }
+        return credentialManager.generateAuthToken(authUser.getUserId(), deviceId);
     }
 
     @Override
