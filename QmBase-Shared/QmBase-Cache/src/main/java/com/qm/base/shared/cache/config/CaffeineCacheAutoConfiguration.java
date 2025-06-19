@@ -24,8 +24,8 @@ public class CaffeineCacheAutoConfiguration {
      */
     @Bean(name = "caffeineQmCacheManager")
     public QmCacheManager caffeineQmCacheManager(QmCacheProperties properties) {
-        int configTtl = properties.getTtl();
-        int ttl = (configTtl != 0) ? configTtl : 300;
+        long configTtl = properties.getTtl();
+        long ttl = (configTtl != 0) ? configTtl : 300;
         return new CaffeineQmCacheManager(ttl);
     }
 }

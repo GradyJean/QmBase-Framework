@@ -11,9 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisQmCacheManager implements QmCacheManager {
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private final int defaultTtlSeconds;
+    private final long defaultTtlSeconds;
 
-    public RedisQmCacheManager(RedisTemplate<String, Object> redisTemplate, int defaultTtlSeconds) {
+    public RedisQmCacheManager(RedisTemplate<String, Object> redisTemplate, long defaultTtlSeconds) {
         this.redisTemplate = redisTemplate;
         this.defaultTtlSeconds = defaultTtlSeconds;
     }

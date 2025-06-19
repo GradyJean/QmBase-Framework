@@ -18,9 +18,9 @@ public class CaffeineQmCacheManager implements QmCacheManager {
     private static final int DEFAULT_MAX_SIZE = 10000;
 
     private final ConcurrentHashMap<String, QmCache> cacheMap = new ConcurrentHashMap<>();
-    private final int defaultTtlSeconds;
+    private final long defaultTtlSeconds;
 
-    public CaffeineQmCacheManager(int defaultTtlSeconds) {
+    public CaffeineQmCacheManager(long defaultTtlSeconds) {
         this.defaultTtlSeconds = defaultTtlSeconds;
     }
 
@@ -28,7 +28,7 @@ public class CaffeineQmCacheManager implements QmCacheManager {
      * 自定义 Expiry 策略：支持 TimedValue 的 per-entry TTL 管理。
      * 非 TimedValue 实例将使用 defaultTtlSeconds 作为 fallback。
      */
-    private record TimedValueExpiry(int defaultTtlSeconds) implements Expiry<String, Object> {
+    private record TimedValueExpiry(long defaultTtlSeconds) implements Expiry<String, Object> {
 
         @Override
         public long expireAfterCreate(String key, Object value, long currentTime) {

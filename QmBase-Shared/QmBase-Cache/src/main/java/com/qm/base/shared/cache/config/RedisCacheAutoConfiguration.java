@@ -41,7 +41,7 @@ public class RedisCacheAutoConfiguration {
             throw new IllegalStateException("[QmCache] Redis 缓存已启用，但未配置 RedisTemplate 或连接工厂");
         }
 
-        int ttl = properties.getTtl() > 0 ? properties.getTtl() : 300;
+        long ttl = properties.getTtl() > 0 ? properties.getTtl() : 300;
         return new RedisQmCacheManager(redisTemplate, ttl);
     }
 }

@@ -17,9 +17,9 @@ public class RedisQmCache implements QmCache {
 
     private final String namespace;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final int defaultTtlSeconds;
+    private final long defaultTtlSeconds;
 
-    public RedisQmCache(String namespace, RedisTemplate<String, Object> redisTemplate, int defaultTtlSeconds) {
+    public RedisQmCache(String namespace, RedisTemplate<String, Object> redisTemplate, long defaultTtlSeconds) {
         this.namespace = namespace;
         this.redisTemplate = redisTemplate;
         this.defaultTtlSeconds = defaultTtlSeconds;

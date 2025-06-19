@@ -18,7 +18,7 @@ public class QmCacheProperties {
     /**
      * 默认缓存过期时间（单位：秒）
      */
-    private int ttl = 300;
+    private long ttl = 300;
 
     public CacheType getType() {
         return type;
@@ -28,11 +28,11 @@ public class QmCacheProperties {
         this.type = type;
     }
 
-    public int getTtl() {
+    public long getTtl() {
         return ttl;
     }
 
-    public void setTtl(int ttl) {
+    public void setTtl(long ttl) {
         this.ttl = ttl;
     }
 }
