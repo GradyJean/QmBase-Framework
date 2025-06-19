@@ -188,7 +188,12 @@ public class CredentialManager {
      */
     public boolean verifyCode(String identifier, String verifyCode, IdentifierType identifierType) {
         try {
-            return verifyService.verifyCode(identifier, verifyCode, identifierType);
+            boolean isValid = verifyService.verifyCode(identifier, verifyCode, identifierType);
+            // 验证成功后删除
+            if (isValid) {
+                verifyService.revokeVerifyCode(identifier, identifierType);
+            }
+            return isValid;
         } catch (Exception e) {
             logger.error("Failed to call verifyService.verifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
