@@ -12,9 +12,9 @@ package com.qm.base.shared.cache.provider.caffeine;
 public class TimedValue<T> {
 
     private final T value;
-    private final int ttlSeconds;
+    private final long ttlSeconds;
 
-    public TimedValue(T value, int ttlSeconds) {
+    public TimedValue(T value, long ttlSeconds) {
         if (ttlSeconds < -1) {
             throw new IllegalArgumentException("ttlSeconds must be >= -1");
         }
@@ -26,7 +26,7 @@ public class TimedValue<T> {
         return value;
     }
 
-    public int getTtlSeconds() {
+    public long getTtlSeconds() {
         return ttlSeconds;
     }
 }

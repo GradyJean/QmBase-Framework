@@ -46,7 +46,7 @@ public class RedisQmCache implements QmCache {
     }
 
     @Override
-    public <T> void put(String key, T value, int ttlSeconds) {
+    public <T> void put(String key, T value, long ttlSeconds) {
         Object toStore = CacheValueUtil.wrap(value);
         if (ttlSeconds <= 0) {
             redisTemplate.opsForValue().set(buildKey(key), toStore);

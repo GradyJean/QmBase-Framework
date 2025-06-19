@@ -33,7 +33,7 @@ public class CaffeineQmCacheManager implements QmCacheManager {
         @Override
         public long expireAfterCreate(String key, Object value, long currentTime) {
             if (value instanceof TimedValue<?> timed) {
-                int ttl = timed.getTtlSeconds();
+                long ttl = timed.getTtlSeconds();
                 return ttl == -1 ? Long.MAX_VALUE : TimeUnit.SECONDS.toNanos(ttl);
             }
             return TimeUnit.SECONDS.toNanos(defaultTtlSeconds); // fallback

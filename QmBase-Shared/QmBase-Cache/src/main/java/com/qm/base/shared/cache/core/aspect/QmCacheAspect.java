@@ -87,7 +87,7 @@ public class QmCacheAspect {
                     unlessMatch = Boolean.TRUE.equals(evaluated);
                 }
                 if (!unlessMatch && (result != null || qmCacheable.cacheNull())) {
-                    int ttl = qmCacheable.ttl() > 0 ? qmCacheable.ttl() : 300;
+                    long ttl = qmCacheable.ttl() > 0 ? qmCacheable.ttl() : 300;
                     cache.put(cacheKey, CacheValueUtil.wrap(result), ttl);
                 }
             }

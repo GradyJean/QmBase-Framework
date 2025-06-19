@@ -32,7 +32,7 @@ public interface QmCache {
      * @param value      值
      * @param ttlSeconds 有效期，单位秒
      */
-    <T> void put(String key, T value, int ttlSeconds);
+    <T> void put(String key, T value, long ttlSeconds);
 
     /**
      * 删除指定缓存。

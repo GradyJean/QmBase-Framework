@@ -42,7 +42,7 @@ public class CaffeineQmCache implements QmCache {
     }
 
     @Override
-    public <T> void put(String key, T value, int ttlSeconds) {
+    public <T> void put(String key, T value, long ttlSeconds) {
         cache.put(buildKey(key), new TimedValue<>(CacheValueUtil.wrap(value), ttlSeconds));
     }
 
