@@ -113,7 +113,7 @@ public class CredentialManager {
         try {
             return authUserService.findByIdentifier(identifier);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call authUserService.findByIdentifier, identifier={}", identifier, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -133,7 +133,7 @@ public class CredentialManager {
         try {
             return authUserService.createUser(authUser);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call authUserService.createUser", e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -153,7 +153,7 @@ public class CredentialManager {
         try {
             return authUserService.updateCredential(userId, newCredential);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call authUserService.updateCredential, userId:{}", userId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -173,7 +173,7 @@ public class CredentialManager {
         try {
             return verifyService.verifyCode(identifier, verifyCode, identifierType);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call verifyService.verifyCode, identifier:{}, identifierType:{}", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -192,7 +192,7 @@ public class CredentialManager {
         try {
             return verifyService.generateVerifyCode(identifier, identifierType);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call verifyService.generateVerifyCode, identifier:{}, identifierType:{}", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -209,7 +209,7 @@ public class CredentialManager {
         try {
             return tokenService.findAuthTokenByUserId(userId, deviceId);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call tokenService.findAuthTokenByUserId, userId:{}, deviceId:{}", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -228,7 +228,7 @@ public class CredentialManager {
         try {
             tokenService.saveAuthToken(userId, deviceId, authToken);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call tokenService.saveAuthToken, userId:{}, deviceId:{}", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -246,7 +246,7 @@ public class CredentialManager {
         try {
             tokenService.revokeToken(userId, deviceId);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to call tokenService.revokeToken, userId:{}, deviceId:{}", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
