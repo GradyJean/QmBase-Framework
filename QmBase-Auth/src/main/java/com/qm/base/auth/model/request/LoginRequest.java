@@ -6,10 +6,6 @@ package com.qm.base.auth.model.request;
  */
 public class LoginRequest extends CredentialRequest {
     /**
-     * 设备 ID 用于区分登录环境
-     */
-    private String deviceId;
-    /**
      * 是否为验证码登录（如短信验证码或邮箱验证码），默认为 false。
      */
     private boolean verifyCodeLogin = false;
@@ -20,13 +16,5 @@ public class LoginRequest extends CredentialRequest {
 
     public void setVerifyCodeLogin(boolean verifyCodeLogin) {
         this.verifyCodeLogin = verifyCodeLogin;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 }

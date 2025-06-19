@@ -1,5 +1,6 @@
 package com.qm.base.auth.service.auth.impl;
 
+import com.qm.base.auth.context.AuthContextHolder;
 import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.auth.exception.AuthException;
@@ -34,10 +35,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthToken login(LoginRequest request) {
+        // 设备 ID
+        String deviceId = AuthAssert.INSTANCE.notBlank(AuthContextHolder.getContext().getDeviceId(), AuthError.AUTH_DEVICE_ID_EMPTY);
         AuthUser authUser = null;
         AuthAssert.INSTANCE.notNullObject(request, AuthError.AUTH_REQUEST_ERROR);
-        // 设备 ID
-        String deviceId = AuthAssert.INSTANCE.notBlank(request.getDeviceId(), AuthError.AUTH_DEVICE_ID_EMPTY);
         // 获取用户标识
         String identifier = AuthAssert.INSTANCE.notBlank(request.getIdentifier(), AuthError.AUTH_ACCOUNT_EMPTY);
         // 获取用户
