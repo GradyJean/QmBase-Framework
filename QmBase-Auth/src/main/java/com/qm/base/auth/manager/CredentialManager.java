@@ -15,6 +15,7 @@ import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.auth.token.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * 通常由认证模块的核心服务实现，用于支持如登录、登出、Token刷新、验证码登录等完整的认证流程。
  * </p>
  */
+@Component
 public class CredentialManager {
     Logger logger = LoggerFactory.getLogger(CredentialManager.class);
     private final AuthUserService authUserService;
@@ -97,6 +99,16 @@ public class CredentialManager {
         return tokenManager.parse(tokenString);
     }
 
+    /**
+     * 根据标识符查询用户信息。
+     *
+     * <p>标识符可以是手机号、邮箱等，底层由 {@link AuthUserService} 实现。
+     * 若查询过程中发生异常，会统一封装为 {@link AuthException} 抛出。</p>
+     *
+     * @param identifier 用户登录标识
+     * @return 用户信息对象
+     * @throws AuthException 查询失败或服务异常
+     */
     public AuthUser findByIdentifier(String identifier) {
         try {
             return authUserService.findByIdentifier(identifier);
@@ -106,6 +118,17 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 创建新用户信息。
+     *
+     * <p>调用下层 AuthUserService 创建用户对象。如果创建过程发生异常（例如数据库错误、参数不合法等），
+     * 会统一捕获异常并封装为 AuthException 抛出，避免业务系统内部异常泄露到外部调用方。
+     * </p>
+     *
+     * @param authUser 要创建的用户对象
+     * @return 创建成功后的用户对象
+     * @throws AuthException 如果创建过程中发生任何异常
+     */
     public AuthUser createUser(AuthUser authUser) {
         try {
             return authUserService.createUser(authUser);
@@ -115,6 +138,17 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 更新用户的认证凭证。
+     *
+     * <p>主要用于密码修改或凭证变更，底层调用 {@link AuthUserService} 完成操作。
+     * 异常将被统一封装为 {@link AuthException}。</p>
+     *
+     * @param userId        用户 ID
+     * @param newCredential 新凭证（如新密码）
+     * @return 是否更新成功
+     * @throws AuthException 更新失败或系统异常
+     */
     public Boolean updateCredential(Long userId, String newCredential) {
         try {
             return authUserService.updateCredential(userId, newCredential);
@@ -124,6 +158,17 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 验证验证码是否正确。
+     *
+     * <p>根据标识符（手机号、邮箱）和验证码进行校验，通常用于登录或注册验证。</p>
+     *
+     * @param identifier     验证目标（如手机号或邮箱）
+     * @param verifyCode     验证码
+     * @param identifierType 标识符类型
+     * @return 验证是否成功
+     * @throws AuthException 校验过程异常
+     */
     public boolean verifyCode(String identifier, String verifyCode, IdentifierType identifierType) {
         try {
             return verifyService.verifyCode(identifier, verifyCode, identifierType);
@@ -133,7 +178,16 @@ public class CredentialManager {
         }
     }
 
-
+    /**
+     * 生成并发送验证码。
+     *
+     * <p>根据手机号或邮箱生成验证码，并通过对应通道发送。</p>
+     *
+     * @param identifier     验证目标（手机号或邮箱）
+     * @param identifierType 标识符类型
+     * @return 是否生成成功
+     * @throws AuthException 生成或发送失败
+     */
     public boolean generateVerifyCode(String identifier, IdentifierType identifierType) {
         try {
             return verifyService.generateVerifyCode(identifier, identifierType);
@@ -143,6 +197,14 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 根据用户 ID 和设备 ID 查询缓存中的认证 Token。
+     *
+     * @param userId   用户 ID
+     * @param deviceId 设备 ID
+     * @return 认证 Token 对象
+     * @throws AuthException 查询失败或缓存服务异常
+     */
     public AuthToken findAuthTokenByUserId(Long userId, String deviceId) {
         try {
             return tokenService.findAuthTokenByUserId(userId, deviceId);
@@ -152,6 +214,16 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 保存认证 Token 到缓存。
+     *
+     * <p>使用用户 ID 和设备 ID 作为缓存键，保存对应的 AccessToken 与 RefreshToken。</p>
+     *
+     * @param userId    用户 ID
+     * @param deviceId  设备 ID
+     * @param authToken Token 对象
+     * @throws AuthException 缓存服务失败
+     */
     public void saveAuthToken(Long userId, String deviceId, AuthToken authToken) {
         try {
             tokenService.saveAuthToken(userId, deviceId, authToken);
@@ -161,6 +233,15 @@ public class CredentialManager {
         }
     }
 
+    /**
+     * 撤销用户的 Token 信息。
+     *
+     * <p>通常用于用户主动退出登录，清除其缓存中的认证信息。</p>
+     *
+     * @param userId   用户 ID
+     * @param deviceId 设备 ID
+     * @throws AuthException 清除失败或缓存异常
+     */
     public void revokeToken(Long userId, String deviceId) {
         try {
             tokenService.revokeToken(userId, deviceId);
