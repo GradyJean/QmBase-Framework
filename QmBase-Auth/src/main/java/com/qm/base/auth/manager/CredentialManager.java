@@ -213,8 +213,10 @@ public class CredentialManager {
     public boolean generateVerifyCode(String identifier, IdentifierType identifierType) {
         try {
             // 发送验证码频率控制
-            AuthAssert.INSTANCE.isTrue(verifyService.isSendIntervalAllowed(identifier, identifierType), AuthError.AUTH_ERROR);
+            AuthAssert.INSTANCE.isTrue(verifyService.isSendIntervalAllowed(identifier, identifierType), AuthError.AUTH_VERIFY_CODE_TOO_FREQUENT);
             return verifyService.generateVerifyCode(identifier, identifierType);
+        } catch (AuthException e) {
+            throw e;
         } catch (Exception e) {
             logger.error("Failed to call verifyService.generateVerifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
