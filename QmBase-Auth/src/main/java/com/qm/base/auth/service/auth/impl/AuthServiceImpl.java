@@ -1,9 +1,6 @@
 package com.qm.base.auth.service.auth.impl;
 
 import com.qm.base.auth.context.AuthContextHolder;
-import com.qm.base.core.auth.exception.AuthAssert;
-import com.qm.base.core.auth.exception.AuthError;
-import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.auth.manager.CredentialManager;
 import com.qm.base.auth.model.request.CredentialRequest;
 import com.qm.base.auth.model.request.LoginRequest;
@@ -12,23 +9,23 @@ import com.qm.base.auth.model.vo.AuthUser;
 import com.qm.base.auth.service.auth.AuthService;
 import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.enums.TokenType;
+import com.qm.base.core.auth.exception.AuthAssert;
+import com.qm.base.core.auth.exception.AuthError;
+import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.utils.RegexUtils;
 import com.qm.base.crypto.PasswordUtils;
-import io.jsonwebtoken.JwtException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.qm.base.shared.logger.core.QmLog;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.Objects;
 
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
+
     private final CredentialManager credentialManager;
 
     public AuthServiceImpl(CredentialManager credentialManager) {
@@ -104,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             return credentialManager.createUser(AuthUser.of(identifier, credential, identifierType)) != null;
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            QmLog.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }

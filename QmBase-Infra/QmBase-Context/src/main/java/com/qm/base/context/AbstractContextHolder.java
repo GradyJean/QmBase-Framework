@@ -1,7 +1,7 @@
 package com.qm.base.context;
 
-import com.qm.base.core.common.context.IContextHolder;
 import com.alibaba.ttl.TransmittableThreadLocal;
+import com.qm.base.core.common.context.IContextHolder;
 
 /**
  * 通用线程上下文持有器抽象类。

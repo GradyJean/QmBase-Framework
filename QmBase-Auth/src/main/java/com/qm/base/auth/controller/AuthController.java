@@ -1,6 +1,9 @@
 package com.qm.base.auth.controller;
 
-import com.qm.base.auth.model.request.*;
+import com.qm.base.auth.model.request.CredentialRequest;
+import com.qm.base.auth.model.request.LoginRequest;
+import com.qm.base.auth.model.request.RegisterRequest;
+import com.qm.base.auth.model.request.TokenRequest;
 import com.qm.base.auth.service.auth.AuthService;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.common.model.Result;

@@ -3,20 +3,17 @@ package com.qm.base.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qm.base.auth.context.AuthContextHolder;
 import com.qm.base.auth.model.vo.AuthContext;
-import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
-import com.qm.base.core.auth.exception.AuthException;
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.core.common.model.Result;
 import com.qm.base.core.http.HttpStatus;
 import com.qm.base.core.utils.StringUtils;
+import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -31,7 +28,6 @@ import java.util.List;
  */
 @Component
 public class AuthHeaderFilter implements QmFilter {
-    Logger logger = LoggerFactory.getLogger(AuthHeaderFilter.class);
     private final PathMatcher matcher = new AntPathMatcher();
     private final ObjectMapper mapper = new ObjectMapper();
     private static final List<String> MATCH_PATHS = List.of(
@@ -77,7 +73,7 @@ public class AuthHeaderFilter implements QmFilter {
         AuthContext context = new AuthContext();
         context.setDeviceId(deviceId);
         AuthContextHolder.setContext(context);
-        logger.debug("deviceId:{}", deviceId);
+        QmLog.debug("deviceId:{}", deviceId);
         try {
             chain.doFilter(request, response);
         } finally {

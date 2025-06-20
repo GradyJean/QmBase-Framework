@@ -1,9 +1,6 @@
 package com.qm.base.auth.wechat.handler;
 
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qm.base.auth.wechat.config.WechatProperties;
 import com.qm.base.auth.wechat.model.WechatAuthResult;

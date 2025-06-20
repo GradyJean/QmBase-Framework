@@ -1,7 +1,6 @@
 package com.qm.base.core.auth.model;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 /**
  * 通用 Token 数据结构，用于封装 accessToken 或 refreshToken。

@@ -122,6 +122,17 @@ public class QmLog {
     }
 
     /**
+     * 打印 error 日志（无模块和操作名）
+     *
+     * @param message 日志消息模板
+     * @param ex      异常
+     */
+    public static void error(String message, Throwable ex) {
+        Logger logger = LoggerFactory.getLogger(getCallerClass());
+        logger.error(message, ex);
+    }
+
+    /**
      * 参数格式化（用 ｜ 分隔）
      */
     private static String formatArgs(Object... args) {
