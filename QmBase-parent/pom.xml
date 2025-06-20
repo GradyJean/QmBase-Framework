@@ -27,6 +27,7 @@
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
+        <configuration-processor.version>3.3.4</configuration-processor.version>
         <casbin.version>1.82.0</casbin.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.10.2</junit.version>
@@ -38,6 +39,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -160,6 +166,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${configuration-processor.version}</version>
                 <optional>true</optional>
             </dependency>
             <!-- JUnit 5 -->
@@ -187,6 +194,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>1.18.38</version>
+                            </path>
+                            <path>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-configuration-processor</artifactId>
+                                <version>${configuration-processor.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
