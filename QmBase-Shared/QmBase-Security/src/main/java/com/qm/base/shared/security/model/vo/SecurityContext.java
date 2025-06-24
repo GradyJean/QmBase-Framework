@@ -1,0 +1,111 @@
+package com.qm.base.shared.security.model.vo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class SecurityContext {
+
+    /**
+     * 请求链路追踪 ID，用于日志跟踪
+     */
+    private Long traceId;
+
+    /**
+     * 当前用户 ID
+     */
+    private Long userId;
+
+    /**
+     * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
+     */
+    private final Map<String, Object> attributes = new HashMap<>();
+    /**
+     * 需要传递的 Keys
+     */
+    private final List<String> propagatedKeys = new ArrayList<>();
+
+    /**
+     * 添加上下文属性，并根据需要标记为透传字段
+     *
+     * @param key          属性键名
+     * @param value        属性值（可为任意对象）
+     * @param isPropagated 是否需要向下游服务透传
+     */
+    public void addAttribute(String key, Object value, boolean isPropagated) {
+        if (isPropagated) {
+            propagatedKeys.add(key);
+        }
+        attributes.put(key, value);
+    }
+
+    /**
+     * 添加上下文属性，默认不透传
+     *
+     * @param key   属性键名
+     * @param value 属性值（可为任意对象）
+     */
+    public void addAttribute(String key, Object value) {
+        addAttribute(key, value, false);
+    }
+
+    /**
+     * 获取标记为需要透传的属性集合
+     *
+     * @return 仅包含已声明为需要透传的属性键值对
+     */
+    public Map<String, Object> getPropagatedAttributes() {
+        Map<String, Object> result = new HashMap<>();
+        for (String key : propagatedKeys) {
+            if (attributes.containsKey(key)) {
+                result.put(key, attributes.get(key));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param propagatedAttributes 设置传递过来的
+     */
+    public SecurityContext(Map<String, Object> propagatedAttributes) {
+        attributes.putAll(propagatedAttributes);
+    }
+
+    /**
+     * 按指定类型获取上下文属性值
+     *
+     * @param key  属性键名
+     * @param type 期望返回的类型类对象
+     * @param <T>  返回类型
+     * @return 若存在则返回对应类型的值，否则返回 null
+     * @throws ClassCastException 若类型不匹配则抛出异常
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getAttribute(String key, Class<T> type) {
+        Object value = attributes.get(key);
+        if (value == null) {
+            return null;
+        }
+        if (!type.isInstance(value)) {
+            throw new ClassCastException("Attribute [" + key + "] is not of type " + type.getName());
+        }
+        return (T) value;
+    }
+
+    public Long getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(Long traceId) {
+        this.traceId = traceId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+}

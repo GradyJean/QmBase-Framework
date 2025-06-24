@@ -29,5 +29,9 @@
             <groupId>org.casbin</groupId>
             <artifactId>jcasbin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.qm.base</groupId>
+            <artifactId>QmBase-Context</artifactId>
+        </dependency>
     </dependencies>
 </project>

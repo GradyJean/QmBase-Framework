@@ -38,6 +38,9 @@ public class AuthProperties implements TokenProperties {
     }
 
     public void setSecret(String secret) {
+        if (secret == null || secret.length() < 32) {
+            throw new IllegalArgumentException("JWT密钥长度不能少于32个字符");
+        }
         this.secret = secret;
     }
 
