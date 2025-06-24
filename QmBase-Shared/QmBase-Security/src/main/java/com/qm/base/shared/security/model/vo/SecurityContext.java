@@ -10,13 +10,16 @@ public class SecurityContext {
     /**
      * 请求链路追踪 ID，用于日志跟踪
      */
-    private Long traceId;
+    private String traceId;
 
     /**
      * 当前用户 ID
      */
     private Long userId;
-
+    /**
+     * 设备 ID
+     */
+    private String deviceId;
     /**
      * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
      */
@@ -93,11 +96,11 @@ public class SecurityContext {
         return (T) value;
     }
 
-    public Long getTraceId() {
+    public String getTraceId() {
         return traceId;
     }
 
-    public void setTraceId(Long traceId) {
+    public void setTraceId(String traceId) {
         this.traceId = traceId;
     }
 
@@ -107,5 +110,13 @@ public class SecurityContext {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }
