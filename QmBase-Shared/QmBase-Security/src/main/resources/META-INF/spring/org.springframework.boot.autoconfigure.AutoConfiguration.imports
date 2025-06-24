@@ -1,1 +1,2 @@
 com.qm.base.shared.security.config.SecurityAutoConfiguration
+com.qm.base.shared.security.config.SecurityPropagationAutoConfiguration
