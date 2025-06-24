@@ -34,12 +34,12 @@ public class SecurityProperties implements TokenProperties {
 
     @Override
     public String getSecret() {
-        return "";
+        return this.secret;
     }
 
     @Override
     public String getIssuer() {
-        return "";
+        return this.issuer;
     }
 
     public List<String> getExcludeUrls() {

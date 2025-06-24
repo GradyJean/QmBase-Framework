@@ -1,5 +1,8 @@
 package com.qm.base.shared.web.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qm.base.core.common.model.Result;
+import com.qm.base.core.exception.QmException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +19,7 @@ import java.util.List;
  * 保证在多线程环境下每次请求的过滤器执行顺序正确且互不干扰。
  */
 public class QmFilterChain {
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final List<QmFilter> filters;
     private final FilterChain originalChain;
     private int currentPosition = 0;
@@ -40,7 +43,15 @@ public class QmFilterChain {
             QmFilter nextFilter = filters.get(currentPosition);
             currentPosition++;
             if (nextFilter.match(request)) {
-                nextFilter.doFilter(request, response, this);
+                try {
+                    nextFilter.doFilter(request, response, this);
+                } catch (QmException e) {
+                    response.setStatus(e.getStatus());
+                    response.setContentType("application/json;charset=UTF-8");
+                    Result<String> result = Result.FAIL(e.getCode(), e.getMessage());
+                    response.getWriter().write(objectMapper.writeValueAsString(result));
+                    return; // 终止当前 filter 链执行，避免继续调用
+                }
             } else {
                 doFilter(request, response); // 跳过当前不匹配的，继续执行下一个
             }

@@ -1,13 +1,10 @@
 package com.qm.base.auth.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qm.base.auth.context.AuthContextHolder;
 import com.qm.base.auth.model.vo.AuthContext;
+import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.common.constants.FilterOrder;
-import com.qm.base.core.common.model.Result;
-import com.qm.base.core.http.HttpStatus;
-import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
@@ -29,7 +26,6 @@ import java.util.List;
 @Component
 public class AuthHeaderFilter implements QmFilter {
     private final PathMatcher matcher = new AntPathMatcher();
-    private final ObjectMapper mapper = new ObjectMapper();
     private static final List<String> MATCH_PATHS = List.of(
             "/auth/login",
             "/auth/third/*/url"
@@ -61,15 +57,7 @@ public class AuthHeaderFilter implements QmFilter {
      */
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
-        String deviceId = request.getHeader("X-Device-Id");
-        if (StringUtils.isBlank(deviceId)) {
-            response.setContentType("application/json;charset=UTF-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setStatus(HttpStatus.BAD_REQUEST.getCode());
-            Result<String> result = Result.FAIL(AuthError.AUTH_DEVICE_ID_EMPTY.getCode(), AuthError.AUTH_DEVICE_ID_EMPTY.getMessage());
-            response.getWriter().write(mapper.writeValueAsString(result));
-            return;
-        }
+        String deviceId = AuthAssert.INSTANCE.notBlank(request.getHeader("X-Device-Id"), AuthError.AUTH_DEVICE_ID_EMPTY);
         AuthContext context = new AuthContext();
         context.setDeviceId(deviceId);
         AuthContextHolder.setContext(context);
