@@ -71,8 +71,14 @@ public class SecurityContext {
     /**
      * @param propagatedAttributes 设置传递过来的
      */
-    public SecurityContext(Map<String, Object> propagatedAttributes) {
+    public SecurityContext(Long userId, String traceId, String deviceId, Map<String, Object> propagatedAttributes) {
         attributes.putAll(propagatedAttributes);
+    }
+
+    public SecurityContext(Long userId, String traceId, String deviceId) {
+        this.traceId = traceId;
+        this.userId = userId;
+        this.deviceId = deviceId;
     }
 
     /**

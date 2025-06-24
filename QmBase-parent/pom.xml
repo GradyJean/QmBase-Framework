@@ -29,6 +29,7 @@
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
         <configuration-processor.version>3.3.4</configuration-processor.version>
         <casbin.version>1.82.0</casbin.version>
+        <feign.version>4.3.0</feign.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.10.2</junit.version>
         <maven.compiler.source>24</maven.compiler.source>
@@ -156,7 +157,12 @@
                 <artifactId>curator-framework</artifactId>
                 <version>${curator.version}</version>
             </dependency>
-
+            <!--openfeign-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>

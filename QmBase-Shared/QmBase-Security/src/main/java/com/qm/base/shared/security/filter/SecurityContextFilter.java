@@ -1,12 +1,11 @@
 package com.qm.base.shared.security.filter;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qm.base.auth.token.JwtTokenManager;
 import com.qm.base.core.auth.enums.TokenType;
 import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.common.constants.FilterOrder;
+import com.qm.base.core.common.constants.HeaderConstant;
 import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.id.api.QmId;
 import com.qm.base.shared.logger.core.QmLog;
@@ -15,7 +14,7 @@ import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityAssert;
 import com.qm.base.shared.security.exception.SecurityError;
 import com.qm.base.shared.security.model.vo.SecurityContext;
-import com.qm.base.shared.security.model.vo.SecurityContextVo;
+import com.qm.base.shared.security.util.SecurityContextTransmitter;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -27,8 +26,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 安全上下文过滤器，用于解析 accessToken 或上游传递的安全上下文信息，
@@ -36,8 +33,6 @@ import java.util.Map;
  */
 @Component
 public class SecurityContextFilter implements QmFilter {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 配置文件
      */
@@ -85,16 +80,13 @@ public class SecurityContextFilter implements QmFilter {
      */
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
-        String authorization = request.getHeader("authorization");
+        String authorization = request.getHeader(HeaderConstant.AUTHORIZATION);
         String accessToken = null;
-        Long userId;
-        String traceId;
-        String deviceId;
-        Map<String, Object> propagatedAttributes = new HashMap<>();
-        if (authorization != null && authorization.startsWith("Bearer ")) {
+
+        if (authorization != null && authorization.startsWith(HeaderConstant.BEARER)) {
             accessToken = authorization.substring(7);
         }
-        String contextJsonStr = request.getHeader("X-Security-Context");
+        String contextStr = request.getHeader(HeaderConstant.SECURITY_CONTEXT);
         // accessToken 存在为新入口
         if (!StringUtils.isBlank(accessToken)) {
             try {
@@ -103,11 +95,13 @@ public class SecurityContextFilter implements QmFilter {
                 // 判断令牌类型
                 SecurityAssert.INSTANCE.isTrue(TokenType.ACCESS.equals(payload.getType()), SecurityError.SECURITY_TOKEN_INVALID);
                 // 设置 userId
-                userId = payload.getUserId();
+                Long userId = payload.getUserId();
                 // 设置设备 ID
-                deviceId = payload.getDeviceId();
+                String deviceId = payload.getDeviceId();
                 // 生成新traceId
-                traceId = String.format("%s:%s", "trace-", QmId.nextId());
+                String traceId = String.format("%s:%s", "trace-", QmId.nextId());
+                // 设置上下文
+                SecurityContextHolder.setContext(new SecurityContext(userId, traceId, deviceId));
             } catch (ExpiredJwtException e) {
                 throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_TOKEN_EXPIRED);
             } catch (SecurityException e) {
@@ -116,27 +110,13 @@ public class SecurityContextFilter implements QmFilter {
                 QmLog.error(e.getMessage(), e);
                 throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_ERROR);
             }
-        } else if (StringUtils.isNotBlank(contextJsonStr)) {
-            try {
-                // 传递上下文不为空
-                SecurityContextVo contextVo = objectMapper.readValue(contextJsonStr, SecurityContextVo.class);
-                propagatedAttributes.putAll(contextVo.getAttributes());
-                userId = contextVo.getUserId();
-                deviceId = contextVo.getDeviceId();
-                traceId = contextVo.getTraceId();
-            } catch (JacksonException e) {
-                QmLog.error(e.getMessage(), e);
-                throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_ERROR);
-            }
+        } else if (StringUtils.isNotBlank(contextStr)) {
+            // 解析并设置上下文
+            SecurityContextTransmitter.decodeAndSetContext(contextStr);
         } else {
             throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_UNAUTHORIZED);
         }
-        SecurityContext context = new SecurityContext(propagatedAttributes);
-        context.setUserId(userId);
-        context.setDeviceId(deviceId);
-        context.setTraceId(traceId);
         try {
-            SecurityContextHolder.setContext(context);
             chain.doFilter(request, response);
         } finally {
             SecurityContextHolder.clearContext();

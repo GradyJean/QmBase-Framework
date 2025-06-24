@@ -8,6 +8,15 @@ public class SecurityContextVo {
     private String deviceId;
     private Map<String, Object> attributes;
 
+    public static SecurityContextVo from(SecurityContext context) {
+        SecurityContextVo vo = new SecurityContextVo();
+        vo.attributes = context.getPropagatedAttributes();
+        vo.userId = context.getUserId();
+        vo.traceId = context.getTraceId();
+        vo.deviceId = context.getDeviceId();
+        return vo;
+    }
+
     public Long getUserId() {
         return userId;
     }
