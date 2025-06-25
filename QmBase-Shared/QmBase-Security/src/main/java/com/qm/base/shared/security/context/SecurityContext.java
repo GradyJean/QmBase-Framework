@@ -1,4 +1,4 @@
-package com.qm.base.shared.security.model.vo;
+package com.qm.base.shared.security.context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +20,11 @@ public class SecurityContext {
      * 设备 ID
      */
     private String deviceId;
+    /**
+     * 是否已授权，默认为 false
+     * 在实际业务中可根据需要设置为 true 或 false
+     */
+    private boolean authorized = false;
     /**
      * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
      */
@@ -124,5 +129,13 @@ public class SecurityContext {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
     }
 }

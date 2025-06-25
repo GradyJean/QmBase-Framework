@@ -1,7 +1,6 @@
 package com.qm.base.shared.security.context;
 
 import com.qm.base.context.AbstractContextHolder;
-import com.qm.base.shared.security.model.vo.SecurityContext;
 import org.slf4j.MDC;
 
 /**

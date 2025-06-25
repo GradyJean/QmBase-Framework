@@ -6,8 +6,8 @@ import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.model.vo.SecurityContext;
-import com.qm.base.shared.security.model.vo.SecurityContextVo;
+import com.qm.base.shared.security.context.SecurityContext;
+import com.qm.base.shared.security.context.SecurityContextPayload;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -31,8 +31,8 @@ public class SecurityContextTransmitter {
         var context = SecurityContextHolder.getContext();
         if (context == null) return null;
         try {
-            SecurityContextVo vo = SecurityContextVo.from(context);
-            String json = objectMapper.writeValueAsString(vo);
+            SecurityContextPayload payload = SecurityContextPayload.from(context);
+            String json = objectMapper.writeValueAsString(payload);
             return Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
         } catch (JsonProcessingException e) {
             QmLog.error(e.getMessage(), e);
@@ -53,11 +53,11 @@ public class SecurityContextTransmitter {
         try {
             byte[] decodedBytes = Base64.getDecoder().decode(encoded);
             String json = new String(decodedBytes, StandardCharsets.UTF_8);
-            SecurityContextVo contextVo = objectMapper.readValue(json, SecurityContextVo.class);
-            SecurityContext context = new SecurityContext(contextVo.getUserId(),
-                    contextVo.getTraceId(),
-                    contextVo.getDeviceId(),
-                    contextVo.getAttributes());
+            SecurityContextPayload payload = objectMapper.readValue(json, SecurityContextPayload.class);
+            SecurityContext context = new SecurityContext(payload.getUserId(),
+                    payload.getTraceId(),
+                    payload.getDeviceId(),
+                    payload.getAttributes());
             SecurityContextHolder.setContext(context);
         } catch (JsonProcessingException e) {
             QmLog.error(e.getMessage(), e);

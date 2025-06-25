@@ -1,15 +1,15 @@
-package com.qm.base.shared.security.model.vo;
+package com.qm.base.shared.security.context;
 
 import java.util.Map;
 
-public class SecurityContextVo {
+public class SecurityContextPayload {
     private Long userId;
     private String traceId;
     private String deviceId;
     private Map<String, Object> attributes;
 
-    public static SecurityContextVo from(SecurityContext context) {
-        SecurityContextVo vo = new SecurityContextVo();
+    public static SecurityContextPayload from(SecurityContext context) {
+        SecurityContextPayload vo = new SecurityContextPayload();
         vo.attributes = context.getPropagatedAttributes();
         vo.userId = context.getUserId();
         vo.traceId = context.getTraceId();

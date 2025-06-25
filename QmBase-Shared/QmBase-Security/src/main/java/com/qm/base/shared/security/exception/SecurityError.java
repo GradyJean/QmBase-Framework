@@ -12,6 +12,7 @@ public enum SecurityError implements ICode {
     SECURITY_TOKEN_EXPIRED("AUTH_TOKEN_EXPIRED", "令牌过期", HttpStatus.BAD_REQUEST),
     SECURITY_TOKEN_MISSING("AUTH_TOKEN_MISSING", "缺少认证令牌", HttpStatus.BAD_REQUEST),
     SECURITY_UNAUTHORIZED("AUTH_UNAUTHORIZED", "未授权访问", HttpStatus.UNAUTHORIZED),
+    SECURITY_NO_PERMISSION("SECURITY_NO_PERMISSION", "无权限", HttpStatus.FORBIDDEN),
     ;
     // 错误码
     private final String code;

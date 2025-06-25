@@ -1,12 +1,14 @@
-package com.qm.base.shared.security.persist;
+package com.qm.base.shared.security.casbin.adapter;
 
 import org.casbin.jcasbin.model.Model;
 import org.casbin.jcasbin.persist.Adapter;
 import org.casbin.jcasbin.persist.Helper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class SecurityAdapter implements Adapter {
+@Component
+public class CasbinPolicyAdapter implements Adapter {
     @Override
     public void loadPolicy(Model model) {
         String[] lines = {

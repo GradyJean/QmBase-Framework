@@ -13,7 +13,8 @@ import com.qm.base.shared.security.config.SecurityProperties;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityAssert;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.model.vo.SecurityContext;
+import com.qm.base.shared.security.context.SecurityContext;
+import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.security.util.SecurityContextTransmitter;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
@@ -23,7 +24,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 
@@ -41,10 +41,6 @@ public class SecurityContextFilter implements QmFilter {
      * token 管理器
      */
     private final TokenManager tokenManager;
-    /**
-     * 路径匹配器，用于判断请求路径是否匹配排除的路径模式。
-     */
-    private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     /**
      * 构造函数，注入安全配置项并初始化 token 管理器。
@@ -60,13 +56,8 @@ public class SecurityContextFilter implements QmFilter {
      */
     @Override
     public boolean match(HttpServletRequest request) {
-        String uri = request.getRequestURI();
-        for (String pattern : securityProperties.getExcludeUrls()) {
-            if (pathMatcher.match(pattern, uri)) {
-                return false;
-            }
-        }
-        return true;
+        // 使用 AntPathMatcher 判断请求路径是否匹配排除的 URL
+        return !AntPathMatcherUtil.match(request.getRequestURI(), securityProperties.getExcludeUrls());
     }
 
 
@@ -125,6 +116,6 @@ public class SecurityContextFilter implements QmFilter {
 
     @Override
     public int getOrder() {
-        return FilterOrder.CONTEXT.getNextOrder();
+        return FilterOrder.SECURITY_CONTEXT.getOrder();
     }
 }
