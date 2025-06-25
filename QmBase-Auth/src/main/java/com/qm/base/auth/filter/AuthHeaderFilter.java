@@ -76,6 +76,6 @@ public class AuthHeaderFilter implements QmFilter {
      */
     @Override
     public int getOrder() {
-        return FilterOrder.AUTH_HEADER.getOrder();
+        return FilterOrder.HEADER.getNextOrder();
     }
 }

@@ -31,6 +31,7 @@ public class QmException extends RuntimeException {
      */
     private final int status;
 
+
     public QmException(ICode iCode) {
         super(iCode.getMessage());
         this.code = iCode.getCode();

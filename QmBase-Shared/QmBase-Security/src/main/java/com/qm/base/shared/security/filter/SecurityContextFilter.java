@@ -125,6 +125,6 @@ public class SecurityContextFilter implements QmFilter {
 
     @Override
     public int getOrder() {
-        return FilterOrder.SECURITY_CONTEXT.getOrder();
+        return FilterOrder.CONTEXT.getNextOrder();
     }
 }

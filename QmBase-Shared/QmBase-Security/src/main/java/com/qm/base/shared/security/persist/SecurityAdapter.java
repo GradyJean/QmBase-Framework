@@ -2,14 +2,23 @@ package com.qm.base.shared.security.persist;
 
 import org.casbin.jcasbin.model.Model;
 import org.casbin.jcasbin.persist.Adapter;
+import org.casbin.jcasbin.persist.Helper;
 
 import java.util.List;
 
-public class MyAdapter implements Adapter {
+public class SecurityAdapter implements Adapter {
     @Override
     public void loadPolicy(Model model) {
-
+        String[] lines = {
+                "p, alice, data1, read",
+                "p, bob, data2, write",
+                "g, alice, data1_admin"
+        };
+        for (String line : lines) {
+            Helper.loadPolicyLine(line, model);
+        }
     }
+
 
     @Override
     public void savePolicy(Model model) {
