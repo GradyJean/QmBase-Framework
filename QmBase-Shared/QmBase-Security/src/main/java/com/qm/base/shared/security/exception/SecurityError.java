@@ -4,16 +4,18 @@ import com.qm.base.core.code.ICode;
 import com.qm.base.core.http.HttpStatus;
 
 public enum SecurityError implements ICode {
-    // 账号相关
+    // 通用错误
     SECURITY_ERROR("SECURITY_ERROR", "鉴权模块异常", HttpStatus.INTERNAL_SERVER_ERROR),
     // Token 相关
     SECURITY_TOKEN_EMPTY("AUTH_TOKEN_EMPTY", "令牌为空", HttpStatus.BAD_REQUEST),
     SECURITY_TOKEN_INVALID("AUTH_TOKEN_INVALID", "令牌无效", HttpStatus.BAD_REQUEST),
     SECURITY_TOKEN_EXPIRED("AUTH_TOKEN_EXPIRED", "令牌过期", HttpStatus.BAD_REQUEST),
     SECURITY_TOKEN_MISSING("AUTH_TOKEN_MISSING", "缺少认证令牌", HttpStatus.BAD_REQUEST),
+    // 权限相关
     SECURITY_UNAUTHORIZED("AUTH_UNAUTHORIZED", "未授权访问", HttpStatus.UNAUTHORIZED),
     SECURITY_NO_PERMISSION("SECURITY_NO_PERMISSION", "无权限", HttpStatus.FORBIDDEN),
-    ;
+    // 上下文传递相关
+    SECURITY_CONTEXT_PROPAGATION_INVALID("SECURITY_CONTEXT_PROPAGATION_INVALID", "上下文传递不合法", HttpStatus.BAD_REQUEST);
     // 错误码
     private final String code;
     // 错误信息

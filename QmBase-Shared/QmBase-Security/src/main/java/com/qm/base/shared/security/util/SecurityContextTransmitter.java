@@ -36,7 +36,7 @@ public class SecurityContextTransmitter {
             return Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
         } catch (JsonProcessingException e) {
             QmLog.error(e.getMessage(), e);
-            throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_ERROR);
+            throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_CONTEXT_PROPAGATION_INVALID);
         }
     }
 
@@ -61,7 +61,7 @@ public class SecurityContextTransmitter {
             SecurityContextHolder.setContext(context);
         } catch (JsonProcessingException e) {
             QmLog.error(e.getMessage(), e);
-            throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_ERROR);
+            throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_CONTEXT_PROPAGATION_INVALID);
         }
     }
 }
