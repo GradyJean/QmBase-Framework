@@ -26,7 +26,7 @@ import java.util.List;
 @Component
 public class AuthHeaderFilter implements QmFilter {
     private final PathMatcher matcher = new AntPathMatcher();
-    private static final List<String> MATCH_PATHS = List.of(
+    private static final List<String> INTERNAL_AUTH_EXCLUDE_PATHS = List.of(
             "/auth/login",
             "/auth/third/*/url"
     );
@@ -43,7 +43,7 @@ public class AuthHeaderFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         String path = request.getServletPath();
-        return MATCH_PATHS.stream().anyMatch(p -> matcher.match(p, path));
+        return INTERNAL_AUTH_EXCLUDE_PATHS.stream().anyMatch(p -> matcher.match(p, path));
     }
 
     /**

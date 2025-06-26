@@ -10,10 +10,10 @@ import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.id.api.QmId;
 import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.config.SecurityProperties;
+import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityAssert;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.security.util.SecurityContextTransmitter;
 import com.qm.base.shared.web.filter.QmFilter;
@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 安全上下文过滤器，用于解析 accessToken 或上游传递的安全上下文信息，
@@ -33,10 +34,15 @@ import java.io.IOException;
  */
 @Component
 public class SecurityContextFilter implements QmFilter {
+
     /**
-     * 配置文件
+     * 使用 AntPathMatcher 匹配请求路径。
      */
-    private final SecurityProperties securityProperties;
+    private static final List<String> INTERNAL_AUTH_EXCLUDE_PATHS = List.of(
+            "/auth/login",
+            "/auth/third/*/url"
+    );
+
     /**
      * token 管理器
      */
@@ -46,7 +52,6 @@ public class SecurityContextFilter implements QmFilter {
      * 构造函数，注入安全配置项并初始化 token 管理器。
      */
     public SecurityContextFilter(SecurityProperties securityProperties) {
-        this.securityProperties = securityProperties;
         tokenManager = new JwtTokenManager(securityProperties);
     }
 
@@ -57,7 +62,7 @@ public class SecurityContextFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         // 使用 AntPathMatcher 判断请求路径是否匹配排除的 URL
-        return !AntPathMatcherUtil.match(request.getRequestURI(), securityProperties.getExcludeUrls());
+        return !AntPathMatcherUtil.match(request.getRequestURI(), INTERNAL_AUTH_EXCLUDE_PATHS);
     }
 
 
@@ -90,7 +95,7 @@ public class SecurityContextFilter implements QmFilter {
                 // 设置设备 ID
                 String deviceId = payload.getDeviceId();
                 // 生成新traceId
-                String traceId = String.format("%s:%s", "trace-", QmId.nextId());
+                String traceId = "trace-" + QmId.nextId();
                 // 设置上下文
                 SecurityContextHolder.setContext(new SecurityContext(userId, traceId, deviceId));
             } catch (ExpiredJwtException e) {

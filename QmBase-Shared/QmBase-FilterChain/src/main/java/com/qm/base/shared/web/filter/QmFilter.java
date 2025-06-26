@@ -37,7 +37,5 @@ public interface QmFilter {
      *
      * @return 执行顺序值
      */
-    default int getOrder() {
-        return 0;
-    }
+    int getOrder();
 }

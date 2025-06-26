@@ -3,10 +3,9 @@ package com.qm.base.shared.security.filter;
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.casbin.adapter.CasbinPolicyAdapter;
 import com.qm.base.shared.security.config.SecurityProperties;
-import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.context.SecurityContext;
+import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.annotation.Resource;
@@ -46,10 +45,9 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      */
     @Override
     public boolean match(HttpServletRequest request) {
-        String path = request.getRequestURI();
         SecurityContext context = SecurityContextHolder.getContext();
         // 先排除路径，再判断是否已授权，确保短路优化与语义清晰
-        return !isExcludedPath(path) && !context.isAuthorized();
+        return !context.isAuthorized();
     }
 
     @Override
@@ -73,7 +71,7 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      */
     @Override
     public int getOrder() {
-        return FilterOrder.PERMISSION.getOrder() + getOrderOffset();
+        return FilterOrder.CUSTOM_PERMISSION.getOrder() + getOrderOffset();
     }
 
     /**
@@ -100,16 +98,5 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      * @return 参数数组，用于传入 Casbin 的 enforcer.enforce(...) 方法
      */
     protected abstract Object[] getRequestParameters(HttpServletRequest request, SecurityContext context);
-
-    /**
-     * 检查请求路径是否在排除列表中。
-     * 如果匹配，则不执行权限检查。
-     *
-     * @param path 请求路径
-     * @return 如果路径在排除列表中，返回 true；否则返回 false
-     */
-    private boolean isExcludedPath(String path) {
-        return AntPathMatcherUtil.match(path, securityProperties.getExcludeUrls());
-    }
 
 }
