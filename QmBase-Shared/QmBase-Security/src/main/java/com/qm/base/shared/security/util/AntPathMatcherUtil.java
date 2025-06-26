@@ -19,17 +19,17 @@ public class AntPathMatcherUtil {
     private final static PathMatcher MATCHER = new AntPathMatcher();
 
     /**
-     * 使用 Ant 风格的路径匹配器判断给定的路径是否匹配指定的模式。
+     * 使用 Ant 风格的路径匹配器判断给定的路径是否匹配指定的多个模式中的任意一个。
      *
-     * @param pattern 要匹配的 Ant 风格模式，例如 "/api/**"
-     * @param paths   要检查的路径列表
-     * @return 如果任意一个路径匹配模式，则返回 true；否则返回 false
+     * @param path     要检查的路径
+     * @param patterns 要匹配的 Ant 风格模式列表，例如 ["/api/**", "/admin/**"]
+     * @return 如果路径匹配任意一个模式，则返回 true；否则返回 false
      */
-    public static boolean match(String pattern, List<String> paths) {
-        if (pattern == null || paths == null || paths.isEmpty()) {
+    public static boolean match(String path, List<String> patterns) {
+        if (path == null || patterns == null || patterns.isEmpty()) {
             return false;
         }
-        for (String path : paths) {
+        for (String pattern : patterns) {
             if (MATCHER.match(pattern, path)) {
                 return true;
             }

@@ -5,6 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * 安全上下文类，用于存储当前请求的安全相关信息。
+ * 包括用户 ID、设备 ID、请求链路追踪 ID、授权状态以及其他扩展属性。
+ * <p>
+ * 该类可用于在应用程序中传递和共享安全相关信息，支持属性透传到下游服务。
+ * </p>
+ */
 public class SecurityContext {
 
     /**

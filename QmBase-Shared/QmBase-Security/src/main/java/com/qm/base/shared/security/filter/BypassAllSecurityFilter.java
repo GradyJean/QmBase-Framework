@@ -36,6 +36,7 @@ public class BypassAllSecurityFilter implements QmFilter {
         String path = request.getRequestURI();
         QmLog.debug("BypassAllSecurityFilter: 跳过安全拦截器，匹配路径: {}", path);
         // 匹配成功即跳过所有拦截器，因此不调用 chain.doFilter()
+        return;
     }
 
     @Override
