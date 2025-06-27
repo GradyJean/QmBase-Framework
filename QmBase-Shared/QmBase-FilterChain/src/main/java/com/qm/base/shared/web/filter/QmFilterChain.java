@@ -19,10 +19,27 @@ import java.util.List;
  * 保证在多线程环境下每次请求的过滤器执行顺序正确且互不干扰。
  */
 public class QmFilterChain {
+    /**
+     * JSON 序列化工具，用于将异常信息转换为 JSON 格式响应。
+     */
     private final ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * 过滤器列表，按照注册顺序存储。
+     */
     private final List<QmFilter> filters;
+    /**
+     * 原始的 Servlet FilterChain，用于在所有 QmFilter 执行完毕后继续执行。
+     */
     private final FilterChain originalChain;
+    /**
+     * 当前过滤器执行位置，初始为 0，表示从第一个过滤器开始执行。
+     */
     private int currentPosition = 0;
+    /**
+     * 是否跳过后续过滤器执行的标志，默认为 false。
+     * 如果设置为 true，则后续的过滤器将不会被执行。
+     */
+    private boolean byPass = false;
 
     public QmFilterChain(List<QmFilter> filters, FilterChain originalChain) {
         this.filters = filters;
@@ -39,25 +56,36 @@ public class QmFilterChain {
      * @throws ServletException servlet 异常
      */
     public void doFilter(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (currentPosition < filters.size()) {
-            QmFilter nextFilter = filters.get(currentPosition);
-            currentPosition++;
-            if (nextFilter.match(request)) {
-                try {
-                    nextFilter.doFilter(request, response, this);
-                } catch (QmException e) {
-                    response.setStatus(e.getStatus());
-                    response.setContentType("application/json;charset=UTF-8");
-                    Result<String> result = Result.FAIL(e.getCode(), e.getMessage());
-                    response.getWriter().write(objectMapper.writeValueAsString(result));
-                    return; // 终止当前 filter 链执行，避免继续调用
-                }
-            } else {
-                doFilter(request, response); // 跳过当前不匹配的，继续执行下一个
-            }
-        } else {
-            // 所有 QmFilter 执行完毕，调用原始 Servlet FilterChain
+        // 如果设置了 byPass，直接跳过所有 QmFilter，执行原始 FilterChain
+        if (byPass) {
             originalChain.doFilter(request, response);
+            return;
         }
+
+        // 如果当前过滤器位置超出范围，说明所有 QmFilter 执行完毕
+        if (currentPosition >= filters.size()) {
+            originalChain.doFilter(request, response);
+            return;
+        }
+
+        QmFilter nextFilter = filters.get(currentPosition);
+        currentPosition++;
+        if (nextFilter.match(request)) {
+            try {
+                nextFilter.doFilter(request, response, this);
+            } catch (QmException e) {
+                response.setStatus(e.getStatus());
+                response.setContentType("application/json;charset=UTF-8");
+                Result<String> result = Result.FAIL(e.getCode(), e.getMessage());
+                response.getWriter().write(objectMapper.writeValueAsString(result));
+            }
+        }
+        // 继续下一个
+        doFilter(request, response);
+
+    }
+
+    public void setByPass(boolean byPass) {
+        this.byPass = byPass;
     }
 }

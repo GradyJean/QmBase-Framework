@@ -11,17 +11,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * BypassAllSecurityFilter 用于跳过所有安全相关拦截器，
+ * SecurityBypassFilter 用于跳过所有安全相关拦截器，
  * 通常应用于静态资源、公共接口等无需上下文和权限校验的场景。
  * 一旦匹配成功，将短路整个过滤器链中后续的安全处理逻辑。
  */
 @Component
-public class BypassAllSecurityFilter implements QmFilter {
+public class SecurityBypassFilter implements QmFilter {
 
 
     private final SecurityProperties securityProperties;
 
-    public BypassAllSecurityFilter(SecurityProperties securityProperties) {
+    public SecurityBypassFilter(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
 
@@ -34,9 +34,9 @@ public class BypassAllSecurityFilter implements QmFilter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) {
         String path = request.getRequestURI();
-        QmLog.debug("BypassAllSecurityFilter: 跳过安全拦截器，匹配路径: {}", path);
-        // 匹配成功即跳过所有拦截器，因此不调用 chain.doFilter()
-        return;
+        QmLog.debug("SecurityBypassFilter: 跳过安全拦截器，匹配路径: {}", path);
+        // 设置 byPass 标志，跳过后续所有安全相关过滤器
+        chain.setByPass(true);
     }
 
     @Override

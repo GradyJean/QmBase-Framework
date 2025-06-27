@@ -1,25 +1,49 @@
 server:
   port: 8080
+spring:
+  application:
+    name: example
+  datasource:
+    url: jdbc:sqlite:QmBase-Example/data/database/example.db
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      pool-name: CattaHikariCP         # 连接池名称
+      minimum-idle: 5                  # 最小空闲连接数
+      maximum-pool-size: 20           # 最大连接数
+      idle-timeout: 600000            # 空闲连接存活时间（毫秒）
+      connection-timeout: 30000       # 获取连接的超时时间（毫秒）
+      max-lifetime: 1800000           # 连接最大存活时间（毫秒）
+      auto-commit: true               # 是否自动提交事务
+  data:
+    redis:
+      host: localhost
+      port: 6379
+mybatis:
+  type-aliases-package: com.example.it.**.infrastructure.repository.mapper.**
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 qm:
   cache:
-    type: caffeine
+    type: redis
     ttl: 300
   logger:
     log-params: false
     log-result: false
   auth:
-    secret: 3
+    secret: b2df428b9929d3ace7c598bbf4e496b2
+    issuer: example
     third:
       wechat:
-        app-id: 1
-        redirect-uri: https://www.qmvector.com/
-        app-secret: 1
+        app-id: wxexmple1234567890
+        redirect-uri: https://yourwebsite/auth/third/wechat/callback
+        app-secret: exampleSecret1234567890
   id:
     worker-id: 22
     datacenter-id: 22
   lock:
     distributed:
       type: redis
-spring:
-  application:
-    name: example
+  security:
+    issuer: ${qm.auth.issuer}
+    secret: ${qm.auth.secret}

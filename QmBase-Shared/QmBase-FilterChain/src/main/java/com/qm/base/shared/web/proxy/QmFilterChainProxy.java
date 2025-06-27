@@ -22,8 +22,17 @@ import java.util.List;
 @Component
 public class QmFilterChainProxy extends GenericFilterBean {
 
+    /**
+     * 过滤器列表，按照 order 属性进行排序。
+     * 该列表包含所有需要执行的 QmFilter 实例。
+     */
     private final List<QmFilter> filters;
 
+    /**
+     * 构造函数，接收一组 QmFilter，并按照其 order 属性进行排序。
+     *
+     * @param filters 需要执行的过滤器列表
+     */
     public QmFilterChainProxy(List<QmFilter> filters) {
         this.filters = filters.stream()
                 .sorted(Comparator.comparingInt(QmFilter::getOrder))

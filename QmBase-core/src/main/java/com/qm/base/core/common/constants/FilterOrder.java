@@ -17,10 +17,15 @@ public enum FilterOrder {
     AUTH_HEADER(0),
 
     /**
+     * AUTH_ENTRY_POINT：用于处理认证入口点的过滤器。
+     * 该过滤器通常在 AUTH_HEADER 之后执行，确保认证请求头已被处理。
+     */
+    AUTH_ENTRY_POINT(100),
+    /**
      * SECURITY_CONTEXT：用于将 Token 或自定义 Header 解析为安全上下文对象，
      * 设置 userId、traceId 等上下文信息，供后续业务使用。
      */
-    SECURITY_CONTEXT(100),
+    SECURITY_CONTEXT(101),
     /**
      * IGNORE_PERMISSION：用于处理跳过权限验证的过滤器。
      * 该过滤器在 SECURITY_CONTEXT 之后执行，确保上下文已准备好。
