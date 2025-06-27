@@ -1,13 +1,14 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
-import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.config.SecurityProperties;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurityBypassFilter implements QmFilter {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(SecurityBypassFilter.class);
 
     private final SecurityProperties securityProperties;
 
@@ -34,7 +36,7 @@ public class SecurityBypassFilter implements QmFilter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) {
         String path = request.getRequestURI();
-        QmLog.debug("SecurityBypassFilter: 跳过安全拦截器，匹配路径: {}", path);
+        LOGGER.debug("SecurityBypassFilter: 跳过安全拦截器，匹配路径: {}", path);
         // 设置 byPass 标志，跳过后续所有安全相关过滤器
         chain.setByPass(true);
     }

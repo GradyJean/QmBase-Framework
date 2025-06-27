@@ -16,11 +16,6 @@ import java.util.Map;
 public class SecurityContext {
 
     /**
-     * 请求链路追踪 ID，用于日志跟踪
-     */
-    private String traceId;
-
-    /**
      * 当前用户 ID
      */
     private Long userId;
@@ -84,15 +79,13 @@ public class SecurityContext {
     /**
      * @param propagatedAttributes 设置传递过来的
      */
-    public SecurityContext(Long userId, String traceId, String deviceId, Map<String, Object> propagatedAttributes) {
-        this.traceId = traceId;
+    public SecurityContext(Long userId, String deviceId, Map<String, Object> propagatedAttributes) {
         this.userId = userId;
         this.deviceId = deviceId;
         attributes.putAll(propagatedAttributes);
     }
 
-    public SecurityContext(Long userId, String traceId, String deviceId) {
-        this.traceId = traceId;
+    public SecurityContext(Long userId, String deviceId) {
         this.userId = userId;
         this.deviceId = deviceId;
     }
@@ -116,14 +109,6 @@ public class SecurityContext {
             throw new ClassCastException("Attribute [" + key + "] is not of type " + type.getName());
         }
         return (T) value;
-    }
-
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
     }
 
     public Long getUserId() {

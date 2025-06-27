@@ -14,9 +14,10 @@ import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.auth.token.TokenService;
-import com.qm.base.shared.logger.core.QmLog;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class CredentialManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CredentialManager.class);
     private final AuthUserService authUserService;
     private final VerifyService verifyService;
     private final TokenService tokenService;
@@ -96,7 +98,7 @@ public class CredentialManager {
         try {
             return tokenManager.generateToken(userId, tokenType, now, expiration, deviceId);
         } catch (JwtException e) {
-            QmLog.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -109,7 +111,7 @@ public class CredentialManager {
         } catch (SecurityException e) {
             throw new AuthException(AuthError.AUTH_TOKEN_INVALID);
         } catch (JwtException e) {
-            QmLog.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -128,7 +130,7 @@ public class CredentialManager {
         try {
             return authUserService.findByIdentifier(identifier);
         } catch (Exception e) {
-            QmLog.error("Failed to call authUserService.findByIdentifier, identifier: [{}]", identifier, e);
+            LOGGER.error("Failed to call authUserService.findByIdentifier, identifier: [{}]", identifier, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -148,7 +150,7 @@ public class CredentialManager {
         try {
             return authUserService.createUser(authUser);
         } catch (Exception e) {
-            QmLog.error("Failed to call authUserService.createUser", e);
+            LOGGER.error("Failed to call authUserService.createUser", e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -168,7 +170,7 @@ public class CredentialManager {
         try {
             return authUserService.updateCredential(userId, newCredential);
         } catch (Exception e) {
-            QmLog.error("Failed to call authUserService.updateCredential, userId: [{}]", userId, e);
+            LOGGER.error("Failed to call authUserService.updateCredential, userId: [{}]", userId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -193,7 +195,7 @@ public class CredentialManager {
             }
             return isValid;
         } catch (Exception e) {
-            QmLog.error("Failed to call verifyService.verifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
+            LOGGER.error("Failed to call verifyService.verifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -216,7 +218,7 @@ public class CredentialManager {
         } catch (AuthException e) {
             throw e;
         } catch (Exception e) {
-            QmLog.error("Failed to call verifyService.generateVerifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
+            LOGGER.error("Failed to call verifyService.generateVerifyCode, identifier: [{}], identifierType: [{}]", identifier, identifierType, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -233,7 +235,7 @@ public class CredentialManager {
         try {
             return tokenService.findAuthTokenByUserId(userId, deviceId);
         } catch (Exception e) {
-            QmLog.error("Failed to call tokenService.findAuthTokenByUserId, userId: [{}], deviceId: [{}]", userId, deviceId, e);
+            LOGGER.error("Failed to call tokenService.findAuthTokenByUserId, userId: [{}], deviceId: [{}]", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -252,7 +254,7 @@ public class CredentialManager {
         try {
             tokenService.saveAuthToken(userId, deviceId, authToken);
         } catch (Exception e) {
-            QmLog.error("Failed to call tokenService.saveAuthToken, userId: [{}], deviceId: [{}]", userId, deviceId, e);
+            LOGGER.error("Failed to call tokenService.saveAuthToken, userId: [{}], deviceId: [{}]", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }
@@ -270,7 +272,7 @@ public class CredentialManager {
         try {
             tokenService.revokeToken(userId, deviceId);
         } catch (Exception e) {
-            QmLog.error("Failed to call tokenService.revokeToken, userId: [{}], deviceId: [{}]", userId, deviceId, e);
+            LOGGER.error("Failed to call tokenService.revokeToken, userId: [{}], deviceId: [{}]", userId, deviceId, e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }

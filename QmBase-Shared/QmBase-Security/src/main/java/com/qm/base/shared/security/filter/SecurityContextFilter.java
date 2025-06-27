@@ -7,8 +7,6 @@ import com.qm.base.core.auth.token.TokenManager;
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.core.common.constants.HeaderConstant;
 import com.qm.base.core.utils.StringUtils;
-import com.qm.base.shared.id.api.QmId;
-import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.config.SecurityProperties;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
@@ -22,6 +20,8 @@ import io.jsonwebtoken.JwtException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ import java.io.IOException;
  */
 @Component
 public class SecurityContextFilter implements QmFilter {
-
+    private final static Logger LOGGER = LoggerFactory.getLogger(SecurityContextFilter.class);
     /**
      * token 管理器
      */
@@ -83,16 +83,14 @@ public class SecurityContextFilter implements QmFilter {
                 Long userId = payload.getUserId();
                 // 设置设备 ID
                 String deviceId = payload.getDeviceId();
-                // 生成新traceId
-                String traceId = "trace-" + QmId.nextId();
                 // 设置上下文
-                SecurityContextHolder.setContext(new SecurityContext(userId, traceId, deviceId));
+                SecurityContextHolder.setContext(new SecurityContext(userId, deviceId));
             } catch (ExpiredJwtException e) {
                 throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_TOKEN_EXPIRED);
             } catch (SecurityException e) {
                 throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_TOKEN_INVALID);
             } catch (JwtException e) {
-                QmLog.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
                 throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_ERROR);
             }
         } else if (StringUtils.isNotBlank(contextStr)) {

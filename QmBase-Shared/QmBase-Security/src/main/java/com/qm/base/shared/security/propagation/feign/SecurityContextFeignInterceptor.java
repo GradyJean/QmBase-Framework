@@ -2,11 +2,12 @@ package com.qm.base.shared.security.propagation.feign;
 
 import com.qm.base.core.common.constants.HeaderConstant;
 import com.qm.base.core.utils.StringUtils;
-import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.util.SecurityContextTransmitter;
 import com.qm.base.shared.security.util.TrustedServiceChecker;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnClass({RequestInterceptor.class})
 @ConditionalOnBean({TrustedServiceChecker.class})
 public class SecurityContextFeignInterceptor implements RequestInterceptor {
+    private final static Logger LOGGER = LoggerFactory.getLogger(SecurityContextFeignInterceptor.class);
     private final TrustedServiceChecker trustedServiceChecker;
 
     /**
@@ -46,7 +48,7 @@ public class SecurityContextFeignInterceptor implements RequestInterceptor {
                 // 是我方微服务，设置 X-Security-Context
                 template.header(HeaderConstant.SECURITY_CONTEXT, encoded);
             } else {
-                QmLog.debug("Skip injecting security context, not trusted service: {}", serviceId);
+                LOGGER.debug("Skip injecting security context, not trusted service: {}", serviceId);
             }
         }
     }

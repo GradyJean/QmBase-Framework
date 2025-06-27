@@ -3,11 +3,12 @@ package com.qm.base.shared.security.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qm.base.core.utils.StringUtils;
-import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.context.SecurityContextPayload;
 import com.qm.base.shared.security.exception.SecurityError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -18,7 +19,7 @@ import java.util.Base64;
  * 或在接收到传入请求头时进行解码并设置回线程上下文中。
  */
 public class SecurityContextTransmitter {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityContextTransmitter.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -35,7 +36,7 @@ public class SecurityContextTransmitter {
             String json = objectMapper.writeValueAsString(payload);
             return Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
         } catch (JsonProcessingException e) {
-            QmLog.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_CONTEXT_PROPAGATION_INVALID);
         }
     }
@@ -55,12 +56,11 @@ public class SecurityContextTransmitter {
             String json = new String(decodedBytes, StandardCharsets.UTF_8);
             SecurityContextPayload payload = objectMapper.readValue(json, SecurityContextPayload.class);
             SecurityContext context = new SecurityContext(payload.getUserId(),
-                    payload.getTraceId(),
                     payload.getDeviceId(),
                     payload.getAttributes());
             SecurityContextHolder.setContext(context);
         } catch (JsonProcessingException e) {
-            QmLog.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_CONTEXT_PROPAGATION_INVALID);
         }
     }

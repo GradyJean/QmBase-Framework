@@ -17,7 +17,8 @@ import com.qm.base.core.auth.model.Payload;
 import com.qm.base.core.auth.model.Token;
 import com.qm.base.core.utils.RegexUtils;
 import com.qm.base.crypto.PasswordUtils;
-import com.qm.base.shared.logger.core.QmLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,7 +26,7 @@ import java.util.Objects;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
     private final CredentialManager credentialManager;
 
     public AuthServiceImpl(CredentialManager credentialManager) {
@@ -36,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthToken login(LoginRequest request) {
         // 设备 ID
         String deviceId = AuthAssert.INSTANCE.notBlank(AuthContextHolder.getContext().getDeviceId(), AuthError.AUTH_DEVICE_ID_EMPTY);
-        AuthUser authUser = null;
+        AuthUser authUser;
         AuthAssert.INSTANCE.notNullObject(request, AuthError.AUTH_REQUEST_ERROR);
         // 获取用户标识
         String identifier = request.getIdentifier();
@@ -101,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             return credentialManager.createUser(AuthUser.of(identifier, credential, identifierType)) != null;
         } catch (Exception e) {
-            QmLog.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new AuthException(AuthError.AUTH_ERROR);
         }
     }

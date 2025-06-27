@@ -5,12 +5,13 @@ import com.qm.base.auth.model.vo.AuthContext;
 import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.common.constants.FilterOrder;
-import com.qm.base.shared.logger.core.QmLog;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -25,6 +26,8 @@ import java.util.List;
  */
 @Component
 public class AuthHeaderFilter implements QmFilter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthHeaderFilter.class);
+
     private final PathMatcher matcher = new AntPathMatcher();
     private static final List<String> INTERNAL_AUTH_EXCLUDE_PATHS = List.of(
             "/auth/login",
@@ -61,7 +64,7 @@ public class AuthHeaderFilter implements QmFilter {
         AuthContext context = new AuthContext();
         context.setDeviceId(deviceId);
         AuthContextHolder.setContext(context);
-        QmLog.debug("deviceId:{}", deviceId);
+        LOGGER.debug("deviceId:{}", deviceId);
         try {
             chain.doFilter(request, response);
         } finally {

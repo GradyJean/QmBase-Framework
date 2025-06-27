@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class SecurityContextPayload {
     private Long userId;
-    private String traceId;
     private String deviceId;
     private Map<String, Object> attributes;
 
@@ -12,7 +11,7 @@ public class SecurityContextPayload {
         SecurityContextPayload vo = new SecurityContextPayload();
         vo.attributes = context.getPropagatedAttributes();
         vo.userId = context.getUserId();
-        vo.traceId = context.getTraceId();
+
         vo.deviceId = context.getDeviceId();
         return vo;
     }
@@ -23,14 +22,6 @@ public class SecurityContextPayload {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
     }
 
     public String getDeviceId() {

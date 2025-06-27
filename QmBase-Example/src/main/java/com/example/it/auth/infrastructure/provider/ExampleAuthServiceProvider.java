@@ -18,7 +18,8 @@ import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.cache.api.QmCache;
 import com.qm.base.shared.cache.api.QmCacheManager;
 import com.qm.base.shared.id.api.QmId;
-import com.qm.base.shared.logger.core.QmLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ import java.util.Random;
  */
 @Component
 public class ExampleAuthServiceProvider implements AuthUserService, VerifyService, TokenService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleAuthServiceProvider.class);
     private final UserProfileSaver userProfileSaver;
     private final UserCredentialMapper userCredentialMapper;
     private final UserProfileFetcher userProfileFetcher;
@@ -169,7 +170,7 @@ public class ExampleAuthServiceProvider implements AuthUserService, VerifyServic
         // 增加 60 秒计时防刷验证码
         QmCache verifyCodeIntervalCache = getQmCache(CACHE_NAME_SPACE_VERIFY_CODE_INTERVAL);
         verifyCodeIntervalCache.put(identifier, code, 60);
-        QmLog.info("identifier:{},identifierType:{},Cached verify code: {}", identifier, identifierType.name(), code);
+        LOGGER.info("identifier:{},identifierType:{},Cached verify code: {}", identifier, identifierType.name(), code);
         return true;
     }
 
