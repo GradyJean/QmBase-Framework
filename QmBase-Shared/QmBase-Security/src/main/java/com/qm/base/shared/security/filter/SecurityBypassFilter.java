@@ -5,11 +5,14 @@ import com.qm.base.shared.security.config.SecurityProperties;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * SecurityBypassFilter 用于跳过所有安全相关拦截器，
@@ -34,11 +37,12 @@ public class SecurityBypassFilter implements QmFilter {
     }
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws ServletException, IOException {
         String path = request.getRequestURI();
         LOGGER.debug("SecurityBypassFilter: 跳过安全拦截器，匹配路径: {}", path);
         // 设置 byPass 标志，跳过后续所有安全相关过滤器
         chain.setByPass(true);
+        chain.doFilter(request, response);
     }
 
     @Override

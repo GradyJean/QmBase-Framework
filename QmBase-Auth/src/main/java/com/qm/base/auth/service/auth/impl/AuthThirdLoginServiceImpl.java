@@ -11,7 +11,6 @@ import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.auth.model.AuthToken;
 import com.qm.base.core.auth.third.handler.LoginHandler;
 import com.qm.base.core.auth.third.provider.LoginProvider;
-import com.qm.base.core.auth.third.provider.LoginProviderRegistry;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
 
-    private final LoginProviderRegistry loginProviderRegistry;
     private final CredentialManager credentialManager;
 
-    public AuthThirdLoginServiceImpl(LoginProviderRegistry loginProviderRegistry, CredentialManager credentialManager) {
-        this.loginProviderRegistry = loginProviderRegistry;
+    private final Map<String, LoginProvider> loginProviderMap;
+
+    public AuthThirdLoginServiceImpl(CredentialManager credentialManager, List<LoginProvider> loginProviders) {
         this.credentialManager = credentialManager;
+        loginProviderMap = loginProviders.stream()
+                .collect(Collectors.toMap(LoginProvider::getPlatform, provider -> provider));
     }
 
     /**
@@ -41,6 +42,7 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
      */
     @Override
     public String generateLoginUrl(String platform) {
+        System.out.println("generateLoginUrl platform: " + platform);
         String deviceId = AuthAssert.INSTANCE.notBlank(AuthContextHolder.getContext().getDeviceId(), AuthError.AUTH_DEVICE_ID_EMPTY);
         return getLoginProvider(platform).getLoginUrl(deviceId);
     }
@@ -49,7 +51,7 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
     public AuthToken login(String platform, HttpServletRequest request) {
         // 获取参数
         Map<String, String> params = extractParams(request);
-        AuthAssert.INSTANCE.isTrue(params != null && !params.isEmpty(), AuthError.AUTH_THIRD_LOGIN_CALLBACK_ERROR);
+        AuthAssert.INSTANCE.isTrue(!params.isEmpty(), AuthError.AUTH_THIRD_LOGIN_CALLBACK_ERROR);
         // 获取第三方登录处理程序
         LoginProvider loginProvider = getLoginProvider(platform);
         LoginHandler loginHandler = AuthAssert.INSTANCE.notNull(loginProvider.getLoginHandler(), AuthError.AUTH_THIRD_ERROR);
@@ -73,7 +75,7 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
 
     @Override
     public List<Platform> platforms() {
-        return loginProviderRegistry.getAll().stream()
+        return loginProviderMap.values().stream()
                 .map(provider ->
                         new Platform(
                                 provider.getName(),
@@ -89,7 +91,7 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
      */
     private LoginProvider getLoginProvider(String platform) {
         return AuthAssert.INSTANCE.notNull(
-                loginProviderRegistry.getPlatform(platform),
+                loginProviderMap.get(platform),
                 AuthError.AUTH_THIRD_PLATFORM_NOT_EXIST);
     }
 
@@ -100,6 +102,9 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
      * @return map 参数
      */
     private Map<String, String> extractParams(HttpServletRequest request) {
+        if (request.getParameterMap().isEmpty()) {
+            return Map.of();
+        }
         return request.getParameterMap().entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,

@@ -29,7 +29,7 @@ public class AuthHeaderFilter implements QmFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthHeaderFilter.class);
 
     private final PathMatcher matcher = new AntPathMatcher();
-    private static final List<String> INTERNAL_AUTH_EXCLUDE_PATHS = List.of(
+    private static final List<String> INTERNAL_AUTH_INCLUDE_PATHS = List.of(
             "/auth/login",
             "/auth/third/*/url"
     );
@@ -46,7 +46,7 @@ public class AuthHeaderFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         String path = request.getServletPath();
-        return INTERNAL_AUTH_EXCLUDE_PATHS.stream().anyMatch(p -> matcher.match(p, path));
+        return INTERNAL_AUTH_INCLUDE_PATHS.stream().anyMatch(p -> matcher.match(p, path));
     }
 
     /**

@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: qm-log-test
-qm:
-  logger:
-    level: info

@@ -4,10 +4,12 @@ import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,9 +32,10 @@ public class AuthEntryPointFilter implements QmFilter {
     }
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws ServletException, IOException {
         // 认证入口点过滤器跳过
         chain.setByPass(true);
+        chain.doFilter(request, response);
     }
 
     @Override
