@@ -35,6 +35,9 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      */
     public AbstractPermissionFilter(CasbinPolicyAdapter casbinPolicyAdapter) {
         this.casbinPolicyAdapter = casbinPolicyAdapter;
+        // 设置 Casbin 策略适配器，允许使用权限域支持
+        this.casbinPolicyAdapter.setDomain(getDomain());
+        // 初始化 Enforcer，加载 Casbin 模型和策略
         reloadPolicy();
     }
 
@@ -100,6 +103,14 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      * @return 参数数组，用于传入 Casbin 的 enforcer.enforce(...) 方法
      */
     protected abstract String[] getRequestParameters(HttpServletRequest request, SecurityContext context);
+
+    /**
+     * 获取权限域名，用于 Casbin 的 domain 支持。
+     * 子类需要实现此方法以返回具体的权限域名。
+     *
+     * @return 权限域名
+     */
+    protected abstract String getDomain();
 
     /**
      * 重新加载 Casbin 策略。

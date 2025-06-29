@@ -8,12 +8,13 @@ import java.util.List;
 
 @Component
 public class ExamplePolicyLoader implements PolicyLoader {
+
     /**
      * p, admin, *, *
      * g, alice, admin
      */
     @Override
-    public List<List<String>> loadPolicies() {
+    public List<List<String>> loadPolicies(String domain) {
         List<List<String>> policies = new ArrayList<>();
         List<String> policyNames1 = new ArrayList<>();
         policyNames1.add("p");

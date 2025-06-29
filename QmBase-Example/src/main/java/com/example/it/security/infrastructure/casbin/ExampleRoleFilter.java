@@ -27,4 +27,9 @@ public class ExampleRoleFilter extends AbstractPermissionFilter {
     protected String[] getRequestParameters(HttpServletRequest request, SecurityContext context) {
         return new String[]{String.valueOf(context.getUserId()), request.getRequestURI(), request.getMethod()};
     }
+
+    @Override
+    protected String getDomain() {
+        return "default";
+    }
 }
