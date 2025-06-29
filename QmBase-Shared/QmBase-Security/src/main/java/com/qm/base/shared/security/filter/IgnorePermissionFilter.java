@@ -4,6 +4,7 @@ import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.config.SecurityProperties;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
+import com.qm.base.shared.security.web.IgnorePermissionRegistry;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.annotation.Resource;
@@ -28,7 +29,7 @@ public class IgnorePermissionFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return AntPathMatcherUtil.match(path, securityProperties.getExcludePermissionUrls());
+        return AntPathMatcherUtil.match(path, securityProperties.getExcludePermissionUrls()) || IgnorePermissionRegistry.isIgnored(path);
     }
 
     @Override

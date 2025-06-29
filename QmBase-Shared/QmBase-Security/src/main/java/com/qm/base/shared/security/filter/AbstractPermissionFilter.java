@@ -22,18 +22,19 @@ import java.io.IOException;
  * 子类需指定具体 Casbin 模型路径，并实现权限校验业务逻辑。
  */
 public abstract class AbstractPermissionFilter implements QmFilter {
-    private final Enforcer enforcer;
+    private Enforcer enforcer;
     @Resource
     private SecurityProperties securityProperties;
-    @Resource
-    private CasbinPolicyAdapter casbinPolicyAdapter;
+
+    private final CasbinPolicyAdapter casbinPolicyAdapter;
 
     /**
      * 构造函数，初始化 Casbin Enforcer 实例。
      * 子类需要实现 getModelPath 方法以提供具体的模型路径。
      */
-    public AbstractPermissionFilter() {
-        this.enforcer = new Enforcer(getModelPath(), casbinPolicyAdapter);
+    public AbstractPermissionFilter(CasbinPolicyAdapter casbinPolicyAdapter) {
+        this.casbinPolicyAdapter = casbinPolicyAdapter;
+        reloadPolicy();
     }
 
     /**
@@ -57,10 +58,10 @@ public abstract class AbstractPermissionFilter implements QmFilter {
         boolean permitted = enforcer.enforce(params);
         if (permitted) {
             context.setAuthorized(true); // 权限已通过，标记跳过后续权限过滤器
-            chain.doFilter(request, response);
         } else {
             throw new com.qm.base.shared.security.exception.SecurityException(SecurityError.SECURITY_NO_PERMISSION);
         }
+        chain.doFilter(request, response);
     }
 
     /**
@@ -97,6 +98,14 @@ public abstract class AbstractPermissionFilter implements QmFilter {
      * @param context 当前线程上下文中的安全信息
      * @return 参数数组，用于传入 Casbin 的 enforcer.enforce(...) 方法
      */
-    protected abstract Object[] getRequestParameters(HttpServletRequest request, SecurityContext context);
+    protected abstract String[] getRequestParameters(HttpServletRequest request, SecurityContext context);
 
+    /**
+     * 重新加载 Casbin 策略。
+     * 在策略发生变化时调用此方法以更新 Enforcer 实例。
+     */
+    protected void reloadPolicy() {
+        this.enforcer = new Enforcer(getModelPath(), casbinPolicyAdapter);
+        this.enforcer.loadPolicy();
+    }
 }

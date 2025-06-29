@@ -17,5 +17,4 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "com.qm.base.shared.security")
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityAutoConfiguration {
-
 }

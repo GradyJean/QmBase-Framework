@@ -56,7 +56,6 @@ public class QmFilterChain {
      * @throws ServletException servlet 异常
      */
     public void doFilter(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        System.out.println(currentPosition);
         // 如果设置了 byPass，直接跳过所有 QmFilter，执行原始 FilterChain
         if (byPass) {
             originalChain.doFilter(request, response);
