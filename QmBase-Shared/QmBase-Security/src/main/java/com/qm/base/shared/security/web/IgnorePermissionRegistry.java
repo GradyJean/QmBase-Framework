@@ -1,3 +1,4 @@
+
 package com.qm.base.shared.security.web;
 
 import com.qm.base.shared.security.annotation.IgnorePermission;
@@ -32,6 +33,12 @@ public class IgnorePermissionRegistry implements ApplicationContextAware {
         this.handlerMapping = handlerMapping;
     }
 
+    /**
+     * 设置 ApplicationContext，并从中获取所有标记了 @IgnorePermission 的 HandlerMethod，
+     * 将其对应的 URI 添加到 IGNORE_URIS 集合中。
+     *
+     * @param applicationContext Spring 应用上下文
+     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         Map<RequestMappingInfo, HandlerMethod> map = handlerMapping.getHandlerMethods();
@@ -45,6 +52,12 @@ public class IgnorePermissionRegistry implements ApplicationContextAware {
         }
     }
 
+    /**
+     * 检查给定的请求 URI 是否被标记为忽略权限校验
+     *
+     * @param requestUri 请求的 URI
+     * @return 如果该 URI 被标记为忽略权限校验，则返回 true，否则返回 false
+     */
     public static boolean isIgnored(String requestUri) {
         return IGNORE_URIS.contains(requestUri);
     }

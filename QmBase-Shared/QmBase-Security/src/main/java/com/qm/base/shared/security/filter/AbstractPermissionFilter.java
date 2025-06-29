@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.casbin.jcasbin.main.Enforcer;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
@@ -107,5 +108,20 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     protected void reloadPolicy() {
         this.enforcer = new Enforcer(getModelPath(), casbinPolicyAdapter);
         this.enforcer.loadPolicy();
+    }
+
+    /**
+     * 将类路径资源转换为绝对路径。
+     * 用于获取 Casbin 模型文件的绝对路径。
+     *
+     * @param path 类路径资源的相对路径
+     * @return 资源的绝对路径
+     */
+    public String formPathResource(String path) {
+        try {
+            return new ClassPathResource(path).getFile().getAbsolutePath();
+        } catch (IOException e) {
+            throw new RuntimeException("无法加载 Casbin 配置文件", e);
+        }
     }
 }
