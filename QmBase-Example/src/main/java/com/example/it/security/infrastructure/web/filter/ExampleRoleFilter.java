@@ -1,5 +1,6 @@
-package com.example.it.security.infrastructure.casbin;
+package com.example.it.security.infrastructure.web.filter;
 
+import com.example.it.security.infrastructure.casbin.ExamplePolicyLoader;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;

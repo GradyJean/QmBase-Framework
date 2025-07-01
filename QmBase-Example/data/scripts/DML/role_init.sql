@@ -20,17 +20,16 @@ VALUES ('593718197424578560', 'TENANT_OWNER', 'tenant_001');
 INSERT INTO role_mapping (user_id, role_code, domain)
 VALUES ('593718197424578560', 'EDITOR', 'tenant_002');
 
--- 管理员角色在所有领域对所有资源拥有全部操作权限
-INSERT INTO policy_rule (subject, object, action, domain)
-VALUES ('ADMIN', '*', '*', '*');
+INSERT INTO resource_policy (subject, resource, resource_type, action, domain)
+VALUES ('admin', '*', '*', '*', '*');
 
--- tenant_owner 可以在其所属 domain 下读写所有资源
-INSERT INTO policy_rule (subject, object, action, domain)
-VALUES ('TENANT_OWNER', '*', 'read', 'tenant_001');
-
-INSERT INTO policy_rule (subject, object, action, domain)
-VALUES ('TENANT_OWNER', '*', 'write', 'tenant_001');
-
--- 编辑者只能在 tenant_002 下读资源
-INSERT INTO policy_rule (subject, object, action, domain)
-VALUES ('EDITOR', '*', 'read', 'tenant_002');
+INSERT INTO resource_domain_mapping (resource_pattern,
+                                     http_method,
+                                     action,
+                                     domain,
+                                     description)
+VALUES ('/user/test',
+        'GET',
+        'view',
+        'user',
+        'user域下的用户测试接口');

@@ -24,6 +24,7 @@
         FROM role_mapping
     </select>
 
+
     <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.RoleMappingPO"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO role_mapping
@@ -58,4 +59,10 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="listByDomain" parameterType="String" resultMap="BaseResultMap">
+        SELECT id, user_id, role_code, domain, created_at
+        FROM role_mapping
+        WHERE domain = #{domain}
+           or domain IS NULL
+    </select>
 </mapper>

@@ -32,6 +32,11 @@ public enum FilterOrder {
      */
     IGNORE_PERMISSION(110),
     /**
+     * DOMAIN_MAPPING：用于处理域名映射的过滤器。
+     * 在 IGNORE_PERMISSION 之后执行，确保域名映射已准备好。
+     */
+    DOMAIN_MAPPING(111),
+    /**
      * PERMISSION：用于处理权限验证的过滤器。
      * 在 SECURITY_CONTEXT 之后执行，确保上下文已准备好。
      */

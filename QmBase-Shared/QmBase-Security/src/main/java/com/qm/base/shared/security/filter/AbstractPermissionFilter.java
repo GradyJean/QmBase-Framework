@@ -6,6 +6,7 @@ import com.qm.base.shared.security.casbin.storage.PolicyLoader;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
+import com.qm.base.shared.security.model.DomainEntry;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
@@ -23,7 +24,6 @@ import java.io.IOException;
  */
 public abstract class AbstractPermissionFilter implements QmFilter {
     private Enforcer enforcer;
-
     private final String domain;
     private final PolicyLoader policyLoader;
 
@@ -48,8 +48,10 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         SecurityContext context = SecurityContextHolder.getContext();
+        // 获取当前请求的权限域
+        DomainEntry entry = context.getDomainEntry();
         // 先排除路径，再判断是否已授权，确保短路优化与语义清晰
-        return !context.isAuthorized();
+        return !context.isAuthorized() && (domain.equals(entry.getDomain()) || entry.getDomain() == null);
     }
 
     @Override
@@ -109,7 +111,6 @@ public abstract class AbstractPermissionFilter implements QmFilter {
         this.enforcer = new Enforcer(getModelPath(), new CasbinPolicyAdapter(policyLoader, domain));
         // 加载策略文件
         this.enforcer.loadPolicy();
-        System.out.println("Casbin 策略已重新加载，使用模型路径: " + getModelPath());
     }
 
     /**

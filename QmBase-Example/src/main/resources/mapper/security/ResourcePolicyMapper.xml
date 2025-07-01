@@ -68,5 +68,10 @@
         FROM resource_policy
         WHERE id = #{id}
     </delete>
-
+    <select id="listByDomain" resultMap="BaseResultMap" parameterType="String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_policy
+        WHERE domain = #{domain}
+    </select>
 </mapper>
