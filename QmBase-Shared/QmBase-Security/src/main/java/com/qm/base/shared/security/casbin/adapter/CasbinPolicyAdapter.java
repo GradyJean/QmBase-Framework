@@ -9,7 +9,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-@Component
+/**
+ * CasbinPolicyAdapter 是一个 Casbin 适配器，用于将策略加载和保存操作与自定义的 PolicyLoader 接口对接。
+ * <p>
+ * 它实现了 Casbin 的 Adapter 接口，并使用 PolicyLoader 加载策略数据。
+ * 可以指定权限域标识，默认为 "default"。
+ */
 public class CasbinPolicyAdapter implements Adapter {
 
     /**
@@ -20,14 +25,26 @@ public class CasbinPolicyAdapter implements Adapter {
      * - 使用 PolicyLoader 加载策略数据。
      */
     private final PolicyLoader policyLoader;
-    /**
-     * 可选的权限域标识，默认为空字符串。
-     * 可用于区分不同的权限域，如租户ID、项目ID等。
-     */
-    private String domain = "default";
 
-    public CasbinPolicyAdapter(PolicyLoader policyLoader) {
+    /**
+     * 权限域标识，默认为 "default"。
+     * 可用于区分不同的权限域，如租户、项目等。
+     */
+    private final String domain;
+
+    public CasbinPolicyAdapter(PolicyLoader policyLoader, String domain) {
         this.policyLoader = policyLoader;
+        this.domain = domain;
+    }
+
+    /**
+     * 默认构造函数，使用 "default" 作为权限域标识。
+     * 适用于不需要特定权限域的场景。
+     *
+     * @param policyLoader 用于加载策略的 PolicyLoader 实例
+     */
+    public CasbinPolicyAdapter(PolicyLoader policyLoader) {
+        this(policyLoader, "default");
     }
 
     @Override
@@ -74,9 +91,5 @@ public class CasbinPolicyAdapter implements Adapter {
     @Override
     public void removeFilteredPolicy(String s, String s1, int i, String... strings) {
 
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
     }
 }

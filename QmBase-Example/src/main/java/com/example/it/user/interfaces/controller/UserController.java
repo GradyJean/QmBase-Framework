@@ -1,6 +1,5 @@
 package com.example.it.user.interfaces.controller;
 
-import com.qm.base.shared.security.annotation.IgnorePermission;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +11,6 @@ public class UserController {
 
     // 示例方法
     @RequestMapping("test")
-    @IgnorePermission
     public String test() {
         return "UserController test method";
     }

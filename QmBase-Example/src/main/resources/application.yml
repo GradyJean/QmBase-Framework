@@ -25,7 +25,7 @@ mybatis:
     map-underscore-to-camel-case: true
 qm:
   cache:
-    type: redis
+    type: caffeine
     ttl: 300
   logger:
     log-params: false

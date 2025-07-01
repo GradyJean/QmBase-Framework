@@ -2,13 +2,12 @@ package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.casbin.adapter.CasbinPolicyAdapter;
-import com.qm.base.shared.security.config.SecurityProperties;
+import com.qm.base.shared.security.casbin.storage.PolicyLoader;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
-import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,20 +23,18 @@ import java.io.IOException;
  */
 public abstract class AbstractPermissionFilter implements QmFilter {
     private Enforcer enforcer;
-    @Resource
-    private SecurityProperties securityProperties;
 
-    private final CasbinPolicyAdapter casbinPolicyAdapter;
+    private final String domain;
+    private final PolicyLoader policyLoader;
 
     /**
      * 构造函数，初始化 Casbin Enforcer 实例。
      * 子类需要实现 getModelPath 方法以提供具体的模型路径。
      */
-    public AbstractPermissionFilter(CasbinPolicyAdapter casbinPolicyAdapter) {
-        this.casbinPolicyAdapter = casbinPolicyAdapter;
-        // 设置 Casbin 策略适配器，允许使用权限域支持
-        this.casbinPolicyAdapter.setDomain(getDomain());
+    public AbstractPermissionFilter(PolicyLoader policyLoader, String domain) {
         // 初始化 Enforcer，加载 Casbin 模型和策略
+        this.domain = domain;
+        this.policyLoader = policyLoader;
         reloadPolicy();
     }
 
@@ -105,20 +102,14 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     protected abstract String[] getRequestParameters(HttpServletRequest request, SecurityContext context);
 
     /**
-     * 获取权限域名，用于 Casbin 的 domain 支持。
-     * 子类需要实现此方法以返回具体的权限域名。
-     *
-     * @return 权限域名
-     */
-    protected abstract String getDomain();
-
-    /**
      * 重新加载 Casbin 策略。
      * 在策略发生变化时调用此方法以更新 Enforcer 实例。
      */
     protected void reloadPolicy() {
-        this.enforcer = new Enforcer(getModelPath(), casbinPolicyAdapter);
+        this.enforcer = new Enforcer(getModelPath(), new CasbinPolicyAdapter(policyLoader, domain));
+        // 加载策略文件
         this.enforcer.loadPolicy();
+        System.out.println("Casbin 策略已重新加载，使用模型路径: " + getModelPath());
     }
 
     /**

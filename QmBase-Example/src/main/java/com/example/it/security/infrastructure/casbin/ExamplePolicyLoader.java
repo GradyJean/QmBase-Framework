@@ -10,8 +10,8 @@ import java.util.List;
 public class ExamplePolicyLoader implements PolicyLoader {
 
     /**
-     * p, admin, *, *
-     * g, alice, admin
+     * p, admin, *, *,*
+     * g, 593718197424578560, admin,ROLE
      */
     @Override
     public List<List<String>> loadPolicies(String domain) {
@@ -21,10 +21,12 @@ public class ExamplePolicyLoader implements PolicyLoader {
         policyNames1.add("admin");
         policyNames1.add("*");
         policyNames1.add("*");
+        policyNames1.add("*");
         List<String> policyNames2 = new ArrayList<>();
         policyNames2.add("g");
         policyNames2.add("593718197424578560");
         policyNames2.add("admin");
+        policyNames2.add("ROLE");
         policies.add(policyNames1);
         policies.add(policyNames2);
         return policies;

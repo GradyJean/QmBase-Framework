@@ -1,16 +1,19 @@
 package com.example.it.security.infrastructure.casbin;
 
-import com.qm.base.shared.security.casbin.adapter.CasbinPolicyAdapter;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ExampleRoleFilter extends AbstractPermissionFilter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleRoleFilter.class);
+    private static final String DOMAIN_ROLE = "ROLE";
 
-    public ExampleRoleFilter(CasbinPolicyAdapter casbinPolicyAdapter) {
-        super(casbinPolicyAdapter);
+    public ExampleRoleFilter(ExamplePolicyLoader policyLoader) {
+        super(policyLoader, DOMAIN_ROLE);
     }
 
     @Override
@@ -26,10 +29,5 @@ public class ExampleRoleFilter extends AbstractPermissionFilter {
     @Override
     protected String[] getRequestParameters(HttpServletRequest request, SecurityContext context) {
         return new String[]{String.valueOf(context.getUserId()), request.getRequestURI(), request.getMethod()};
-    }
-
-    @Override
-    protected String getDomain() {
-        return "default";
     }
 }
