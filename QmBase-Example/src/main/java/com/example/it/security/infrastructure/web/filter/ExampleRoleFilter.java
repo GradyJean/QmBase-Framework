@@ -4,13 +4,11 @@ import com.example.it.security.infrastructure.casbin.ExamplePolicyLoader;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ExampleRoleFilter extends AbstractPermissionFilter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleRoleFilter.class);
+
     private static final String DOMAIN_ROLE = "ROLE";
 
     public ExampleRoleFilter(ExamplePolicyLoader policyLoader) {
