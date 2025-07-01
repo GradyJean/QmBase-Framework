@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.it.security.infrastructure.repository.mapper.ResourcePolicyMapper">
+    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.ResourcePolicyPO">
+        <id column="id" property="id"/>
+        <result column="subject" property="subject"/>
+        <result column="resource" property="resource"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="action" property="action"/>
+        <result column="domain" property="domain"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, subject, resource, resource_type, action, domain, created_at
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_policy
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_policy
+    </select>
+
+    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.ResourcePolicyPO">
+        INSERT INTO resource_policy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subject != null">subject,</if>
+            <if test="resource != null">resource,</if>
+            <if test="resourceType != null">resource_type,</if>
+            <if test="action != null">action,</if>
+            <if test="domain != null">domain,</if>
+            <if test="createdAt != null">created_at,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subject != null">#{subject},</if>
+            <if test="resource != null">#{resource},</if>
+            <if test="resourceType != null">#{resourceType},</if>
+            <if test="action != null">#{action},</if>
+            <if test="domain != null">#{domain},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.it.security.infrastructure.repository.po.ResourcePolicyPO">
+        UPDATE resource_policy
+        <set>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="resource != null">resource = #{resource},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="action != null">action = #{action},</if>
+            <if test="domain != null">domain = #{domain},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM resource_policy
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

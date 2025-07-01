@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.it.security.infrastructure.repository.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.RolePO">
+        <result column="role_code" property="roleCode"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_type" property="roleType"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="built_in" property="builtIn"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 根据编码查询实体 -->
+    <select id="findByCode" resultMap="BaseResultMap" parameterType="String">
+        SELECT role_code,
+               role_name,
+               role_type,
+               description,
+               status,
+               built_in,
+               created_at,
+               updated_at
+        FROM role
+        WHERE role_code = #{roleCode}
+    </select>
+    <!-- 根据主键查询实体 -->
+    <select id="findById" resultMap="BaseResultMap" parameterType="String">
+        SELECT role_code,
+               role_name,
+               role_type,
+               description,
+               status,
+               built_in,
+               created_at,
+               updated_at
+        FROM role
+        WHERE id = #{id}
+    </select>
+    <!-- 查询所有实体记录 -->
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT role_code,
+               role_name,
+               role_type,
+               description,
+               status,
+               built_in,
+               created_at,
+               updated_at
+        FROM role
+    </select>
+
+    <!-- 插入一条记录 -->
+    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.RolePO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleCode != null">role_code,</if>
+            <if test="roleName != null">role_name,</if>
+            <if test="roleType != null">role_type,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="builtIn != null">built_in,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleCode != null">#{roleCode},</if>
+            <if test="roleName != null">#{roleName},</if>
+            <if test="roleType != null">#{roleType},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="builtIn != null">#{builtIn},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新记录 -->
+    <update id="updateById" parameterType="com.example.it.security.infrastructure.repository.po.RolePO">
+        UPDATE role
+        <set>
+            <if test="roleName != null">role_name = #{roleName},</if>
+            <if test="roleType != null">role_type = #{roleType},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="builtIn != null">built_in = #{builtIn},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据主键删除记录 -->
+    <delete id="deleteById" parameterType="String">
+        DELETE
+        FROM role
+        WHERE id = #{id}
+    </delete>
+</mapper>
