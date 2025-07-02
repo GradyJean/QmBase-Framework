@@ -3,9 +3,9 @@ package com.qm.base.shared.security.filter;
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
-import com.qm.base.shared.security.mapping.DomainMappingLoader;
-import com.qm.base.shared.security.model.DomainEntry;
-import com.qm.base.shared.security.model.DomainMappingEntry;
+import com.qm.base.shared.security.mapping.ScopeMappingLoader;
+import com.qm.base.shared.security.model.ScopeEntry;
+import com.qm.base.shared.security.model.ScopeMappingEntry;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
@@ -23,15 +23,15 @@ import java.util.List;
  * 该过滤器依赖于 DomainMappingLoader 加载域名映射配置。
  */
 @Component
-public class DomainMappingFilter implements QmFilter {
-    private final DomainMappingLoader domainMappingLoader;
+public class ScopeMappingFilter implements QmFilter {
+    private final ScopeMappingLoader scopeMappingLoader;
 
-    private List<DomainMappingEntry> mappings;
+    private List<ScopeMappingEntry> mappings;
     private final AntPathMatcher matcher = new AntPathMatcher();
 
-    public DomainMappingFilter(DomainMappingLoader domainMappingLoader) {
-        this.domainMappingLoader = domainMappingLoader;
-        loadDomainMappings();
+    public ScopeMappingFilter(ScopeMappingLoader scopeMappingLoader) {
+        this.scopeMappingLoader = scopeMappingLoader;
+        loadScopeMappings();
     }
 
     @Override
@@ -48,17 +48,17 @@ public class DomainMappingFilter implements QmFilter {
         // 请求方法
         String requestMethod = request.getMethod();
         // 权限域实体类
-        DomainEntry entry = new DomainEntry(requestUri, requestMethod);
-        for (DomainMappingEntry mappingEntry : mappings) {
+        ScopeEntry entry = new ScopeEntry(requestUri, requestMethod);
+        for (ScopeMappingEntry mappingEntry : mappings) {
             if (matcher.match(mappingEntry.getResourcePattern(), requestUri)
                     && entry.getHttpMethod().equalsIgnoreCase(requestMethod)) {
                 // 匹配成功，可以从 mappingEntry.getDomain() 拿到 domain 做进一步逻辑
-                entry.setDomain(mappingEntry.getDomain());
+                entry.setScope(mappingEntry.getScope());
                 entry.setAction(mappingEntry.getAction());
                 break;
             }
         }
-        SecurityContextHolder.getContext().setDomainEntry(entry);
+        SecurityContextHolder.getContext().setScopeEntry(entry);
         chain.doFilter(request, response);
     }
 
@@ -67,7 +67,7 @@ public class DomainMappingFilter implements QmFilter {
         return FilterOrder.DOMAIN_MAPPING.getOrder();
     }
 
-    private void loadDomainMappings() {
-        mappings = domainMappingLoader.loadDomainMappings();
+    private void loadScopeMappings() {
+        mappings = scopeMappingLoader.loadScopeMappings();
     }
 }

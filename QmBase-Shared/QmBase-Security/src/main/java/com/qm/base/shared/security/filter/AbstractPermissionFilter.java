@@ -6,7 +6,7 @@ import com.qm.base.shared.security.casbin.watcher.LocalPolicyWatcher;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.model.DomainEntry;
+import com.qm.base.shared.security.model.ScopeEntry;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 public abstract class AbstractPermissionFilter implements QmFilter, SmartInitializingSingleton {
     private Enforcer enforcer;
-    private final String domain;
+    private final String scope;
     private final String modelPath;
     @Autowired
     private EnforcerManager enforcerManager;
@@ -36,16 +36,16 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
      * 构造函数，初始化 Casbin Enforcer 实例。
      * 子类需要实现 getModelPath 方法以提供具体的模型路径。
      */
-    public AbstractPermissionFilter(String domain, String modelPath) {
+    public AbstractPermissionFilter(String scope, String modelPath) {
         // 初始化 Enforcer，加载 Casbin 模型和策略
-        this.domain = domain;
+        this.scope = scope;
         this.modelPath = formPathResource(modelPath);
     }
 
     @Override
     public void afterSingletonsInstantiated() {
         // 这里可以安全查库，所有依赖已就绪
-        enforcer = enforcerManager.getEnforcer(domain, modelPath, getWatcher());
+        enforcer = enforcerManager.getEnforcer(scope, modelPath, getWatcher());
     }
 
     /**
@@ -59,9 +59,9 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
     public boolean match(HttpServletRequest request) {
         SecurityContext context = SecurityContextHolder.getContext();
         // 获取当前请求的权限域
-        DomainEntry entry = context.getDomainEntry();
+        ScopeEntry entry = context.getScopeEntry();
         // 先排除路径，再判断是否已授权，确保短路优化与语义清晰
-        return !context.isAuthorized() && (domain.equals(entry.getDomain()) || entry.getDomain() == null);
+        return !context.isAuthorized() && (scope.equals(entry.getScope()) || "*".equals(entry.getScope()));
     }
 
     @Override

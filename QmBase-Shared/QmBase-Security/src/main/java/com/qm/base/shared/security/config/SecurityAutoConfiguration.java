@@ -1,7 +1,7 @@
 package com.qm.base.shared.security.config;
 
-import com.qm.base.shared.security.mapping.DomainMappingLoader;
-import com.qm.base.shared.security.mapping.EmptyDomainMappingLoader;
+import com.qm.base.shared.security.mapping.EmptyScopeMappingLoader;
+import com.qm.base.shared.security.mapping.ScopeMappingLoader;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,16 +22,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityAutoConfiguration {
     /**
-     * 定义一个 DomainMappingLoader 的 Bean。
-     * 如果容器中没有其他 DomainMappingLoader 实现，则使用 EmptyDomainMappingLoader。
+     * 定义一个 ScopeMappingLoader 的 Bean。
+     * 如果容器中没有其他 ScopeMappingLoader 实现，则使用 EmptyScopeMappingLoader。
      * 这样可以避免在没有配置时出现错误，同时提供一个空的实现。
      *
-     * @return 一个 DomainMappingLoader 实例
+     * @return 一个 ScopeMappingLoader 实例
      */
     @Bean
-    @ConditionalOnMissingBean(DomainMappingLoader.class)
-    public DomainMappingLoader domainMappingLoader() {
+    @ConditionalOnMissingBean(ScopeMappingLoader.class)
+    public ScopeMappingLoader scopeMappingLoader() {
         // 返回一个空的域映射加载器，避免在没有配置时出现错误
-        return new EmptyDomainMappingLoader();
+        return new EmptyScopeMappingLoader();
     }
 }

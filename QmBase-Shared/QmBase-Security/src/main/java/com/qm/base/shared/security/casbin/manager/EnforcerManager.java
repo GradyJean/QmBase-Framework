@@ -17,10 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EnforcerManager {
 
     private final Map<String, Enforcer> enforcerCache = new ConcurrentHashMap<>();
-    private final DomainWatcherManager watcherManager;
+    private final ScopeWatcherManager watcherManager;
     private final PolicyLoader policyLoader;
 
-    public EnforcerManager(DomainWatcherManager watcherManager,
+    public EnforcerManager(ScopeWatcherManager watcherManager,
                            PolicyLoader policyLoader) {
         this.watcherManager = watcherManager;
         this.policyLoader = policyLoader;
@@ -29,38 +29,21 @@ public class EnforcerManager {
     /**
      * 获取指定 domain 的 Enforcer（带缓存）。
      *
-     * @param domain    权限域
+     * @param scope    权限域
      * @param modelPath 模型路径
      * @param watcher   Watcher 实例
      */
-    public Enforcer getEnforcer(String domain, String modelPath, Watcher watcher) {
-        Assert.hasText(domain, "domain must not be empty");
+    public Enforcer getEnforcer(String scope, String modelPath, Watcher watcher) {
+        Assert.hasText(scope, "domain must not be empty");
         Assert.hasText(modelPath, "modelPath must not be empty");
-        return enforcerCache.computeIfAbsent(domain, dom -> {
-            Enforcer enforcer = new Enforcer(modelPath, new CasbinPolicyAdapter(policyLoader, dom));
+        return enforcerCache.computeIfAbsent(scope, sco -> {
+            Enforcer enforcer = new Enforcer(modelPath, new CasbinPolicyAdapter(policyLoader, sco));
             enforcer.setWatcher(watcher);
             if (watcher != null) {
                 watcher.setUpdateCallback(enforcer::loadPolicy);
-                watcherManager.register(dom, watcher);
+                watcherManager.register(sco, watcher);
             }
             return enforcer;
         });
-    }
-
-    /**
-     * 获取指定 domain 的 Enforcer（带缓存）。
-     *
-     * @param domain    权限域
-     * @param modelPath 模型路径
-     */
-    public Enforcer getEnforcer(String domain, String modelPath) {
-        return getEnforcer(domain, modelPath, null);
-    }
-
-    /**
-     * 触发某个 domain 的策略更新（并通知 Watcher）。
-     */
-    public void notifyPolicyChanged(String domain) {
-        watcherManager.notifyUpdate(domain);
     }
 }

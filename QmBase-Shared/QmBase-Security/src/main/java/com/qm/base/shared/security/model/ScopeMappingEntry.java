@@ -4,10 +4,10 @@ package com.qm.base.shared.security.model;
  * DomainMappingEntry 类表示一个域映射条目。
  * 它包含资源模式、HTTP 方法、域名和操作等信息。
  */
-public class DomainMappingEntry {
+public class ScopeMappingEntry {
     private final String resourcePattern;
     private final String httpMethod;
-    private final String domain;
+    private final String scope;
     private final String action;
 
     /**
@@ -15,13 +15,13 @@ public class DomainMappingEntry {
      *
      * @param resourcePattern 资源模式，例如 "/api/v1/resource"
      * @param httpMethod      HTTP 方法，例如 "GET", "POST", "PUT", "DELETE"
-     * @param domain          域名，例如 "example.com"
+     * @param scope           域名，例如 "example.com"
      * @param action          操作名称，例如 "read", "write", "delete"
      */
-    public DomainMappingEntry(String resourcePattern, String httpMethod, String domain, String action) {
+    public ScopeMappingEntry(String resourcePattern, String httpMethod, String scope, String action) {
         this.resourcePattern = resourcePattern;
         this.httpMethod = httpMethod;
-        this.domain = domain;
+        this.scope = scope;
         this.action = action;
     }
 
@@ -33,8 +33,8 @@ public class DomainMappingEntry {
         return httpMethod;
     }
 
-    public String getDomain() {
-        return domain;
+    public String getScope() {
+        return scope;
     }
 
     public String getAction() {

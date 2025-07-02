@@ -1,6 +1,6 @@
 package com.qm.base.shared.security.context;
 
-import com.qm.base.shared.security.model.DomainEntry;
+import com.qm.base.shared.security.model.ScopeEntry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class SecurityContext {
     /**
      * 权限域信息
      */
-    private DomainEntry domainEntry;
+    private ScopeEntry scopeEntry;
     /**
      * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
      */
@@ -142,11 +142,11 @@ public class SecurityContext {
         this.authorized = authorized;
     }
 
-    public DomainEntry getDomainEntry() {
-        return domainEntry;
+    public ScopeEntry getScopeEntry() {
+        return scopeEntry;
     }
 
-    public void setDomainEntry(DomainEntry domainEntry) {
-        this.domainEntry = domainEntry;
+    public void setScopeEntry(ScopeEntry scopeEntry) {
+        this.scopeEntry = scopeEntry;
     }
 }
