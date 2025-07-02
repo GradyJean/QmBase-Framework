@@ -1,8 +1,8 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
-import com.qm.base.shared.security.casbin.adapter.CasbinPolicyAdapter;
-import com.qm.base.shared.security.casbin.storage.PolicyLoader;
+import com.qm.base.shared.security.casbin.manager.EnforcerManager;
+import com.qm.base.shared.security.casbin.watcher.LocalPolicyWatcher;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
@@ -13,6 +13,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.casbin.jcasbin.main.Enforcer;
+import org.casbin.jcasbin.persist.Watcher;
+import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -22,20 +25,27 @@ import java.io.IOException;
  * 只能作为基类使用，不能直接注册为 Bean。
  * 子类需指定具体 Casbin 模型路径，并实现权限校验业务逻辑。
  */
-public abstract class AbstractPermissionFilter implements QmFilter {
+public abstract class AbstractPermissionFilter implements QmFilter, SmartInitializingSingleton {
     private Enforcer enforcer;
     private final String domain;
-    private final PolicyLoader policyLoader;
+    private final String modelPath;
+    @Autowired
+    private EnforcerManager enforcerManager;
 
     /**
      * 构造函数，初始化 Casbin Enforcer 实例。
      * 子类需要实现 getModelPath 方法以提供具体的模型路径。
      */
-    public AbstractPermissionFilter(PolicyLoader policyLoader, String domain) {
+    public AbstractPermissionFilter(String domain, String modelPath) {
         // 初始化 Enforcer，加载 Casbin 模型和策略
         this.domain = domain;
-        this.policyLoader = policyLoader;
-        reloadPolicy();
+        this.modelPath = formPathResource(modelPath);
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        // 这里可以安全查库，所有依赖已就绪
+        enforcer = enforcerManager.getEnforcer(domain, modelPath, getWatcher());
     }
 
     /**
@@ -79,13 +89,6 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     }
 
     /**
-     * 获取模型路径，子类需要实现此方法以返回具体的 Casbin 模型文件路径。
-     *
-     * @return 模型文件路径
-     */
-    protected abstract String getModelPath();
-
-    /**
      * 获取权限检查的偏移量，用于调整过滤器的执行顺序。
      * 子类可以通过实现此方法来指定不同的执行顺序。
      *
@@ -104,27 +107,28 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     protected abstract String[] getRequestParameters(HttpServletRequest request, SecurityContext context);
 
     /**
-     * 重新加载 Casbin 策略。
-     * 在策略发生变化时调用此方法以更新 Enforcer 实例。
-     */
-    protected void reloadPolicy() {
-        this.enforcer = new Enforcer(getModelPath(), new CasbinPolicyAdapter(policyLoader, domain));
-        // 加载策略文件
-        this.enforcer.loadPolicy();
-    }
-
-    /**
      * 将类路径资源转换为绝对路径。
      * 用于获取 Casbin 模型文件的绝对路径。
      *
      * @param path 类路径资源的相对路径
      * @return 资源的绝对路径
      */
-    public String formPathResource(String path) {
+    private String formPathResource(String path) {
         try {
             return new ClassPathResource(path).getFile().getAbsolutePath();
         } catch (IOException e) {
             throw new RuntimeException("无法加载 Casbin 配置文件", e);
         }
+    }
+
+    /**
+     * 获取当前使用的 Watcher 实现，默认返回 LocalPolicyWatcher。
+     * 业务可通过子类重写该方法来自定义使用 Redis、Zookeeper 等分布式 Watcher 实现。
+     *
+     * @return Watcher 实例
+     */
+    protected Watcher getWatcher() {
+        // 返回一个新的 LocalPolicyWatcher 实例，用于监听权限变更事件
+        return new LocalPolicyWatcher();
     }
 }

@@ -4,7 +4,6 @@ import com.qm.base.shared.security.casbin.storage.PolicyLoader;
 import org.casbin.jcasbin.model.Assertion;
 import org.casbin.jcasbin.model.Model;
 import org.casbin.jcasbin.persist.Adapter;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -35,16 +34,6 @@ public class CasbinPolicyAdapter implements Adapter {
     public CasbinPolicyAdapter(PolicyLoader policyLoader, String domain) {
         this.policyLoader = policyLoader;
         this.domain = domain;
-    }
-
-    /**
-     * 默认构造函数，使用 "default" 作为权限域标识。
-     * 适用于不需要特定权限域的场景。
-     *
-     * @param policyLoader 用于加载策略的 PolicyLoader 实例
-     */
-    public CasbinPolicyAdapter(PolicyLoader policyLoader) {
-        this(policyLoader, "default");
     }
 
     @Override

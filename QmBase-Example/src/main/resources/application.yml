@@ -47,6 +47,6 @@ qm:
   security:
     issuer: ${qm.auth.issuer}
     secret: ${qm.auth.secret}
-logging:
-  level:
-    org.casbin.jcasbin: error
+#logging:
+#  level:
+#    org.casbin.jcasbin: error

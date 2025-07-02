@@ -51,10 +51,10 @@ public class DomainMappingFilter implements QmFilter {
         DomainEntry entry = new DomainEntry(requestUri, requestMethod);
         for (DomainMappingEntry mappingEntry : mappings) {
             if (matcher.match(mappingEntry.getResourcePattern(), requestUri)
-                    && (entry.getHttpMethod() == null || entry.getHttpMethod().equalsIgnoreCase(requestMethod))) {
-                // 匹配成功，可以从 entry.getDomain() 拿到 domain 做进一步逻辑
+                    && entry.getHttpMethod().equalsIgnoreCase(requestMethod)) {
+                // 匹配成功，可以从 mappingEntry.getDomain() 拿到 domain 做进一步逻辑
                 entry.setDomain(mappingEntry.getDomain());
-                entry.setAction(entry.getAction());
+                entry.setAction(mappingEntry.getAction());
                 break;
             }
         }

@@ -1,6 +1,5 @@
 package com.example.it.security.infrastructure.web.filter;
 
-import com.example.it.security.infrastructure.casbin.ExamplePolicyLoader;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,15 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExampleRoleFilter extends AbstractPermissionFilter {
 
-    private static final String DOMAIN_ROLE = "ROLE";
+    private static final String DOMAIN = "*";
+    private static final String MODEL_PATH = "Role.conf";
 
-    public ExampleRoleFilter(ExamplePolicyLoader policyLoader) {
-        super(policyLoader, DOMAIN_ROLE);
-    }
-
-    @Override
-    protected String getModelPath() {
-        return formPathResource("Role.conf");
+    public ExampleRoleFilter() {
+        super(DOMAIN, MODEL_PATH);
     }
 
     @Override
