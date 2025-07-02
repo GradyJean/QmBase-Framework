@@ -4,8 +4,6 @@ import com.example.it.security.infrastructure.repository.po.RolePO;
 import com.qm.base.core.common.persistence.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * RoleMapper 接口用于操作角色相关的数据库表。
  * 提供了查询、插入、更新和删除角色信息的方法。
