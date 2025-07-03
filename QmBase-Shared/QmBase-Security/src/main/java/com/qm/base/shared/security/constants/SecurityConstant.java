@@ -1,5 +1,11 @@
 package com.qm.base.shared.security.constants;
 
+/**
+ * SecurityConstant 类定义了安全相关的常量。
+ * 这些常量用于表示默认的安全域和操作标识。
+ *
+ * @since 1.0.0
+ */
 public class SecurityConstant {
     /**
      * 默认的安全域标识，表示所有域。

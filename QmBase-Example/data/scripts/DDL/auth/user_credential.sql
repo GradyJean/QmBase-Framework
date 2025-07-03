@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS user_credential;
-
+-- 用户凭证表，用于存储用户的登录凭证信息
 CREATE TABLE user_credential
 (
     id              INTEGER  NOT NULL PRIMARY KEY,               -- 主键 ID

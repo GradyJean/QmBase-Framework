@@ -2,18 +2,17 @@ package com.example.it.security.infrastructure.web.filter;
 
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
-import com.qm.base.shared.security.model.ScopeEntry;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExampleRoleFilter extends AbstractPermissionFilter {
+public class ExampleSystemRoleFilter extends AbstractPermissionFilter {
 
-    private static final String DOMAIN = "*";
-    private static final String MODEL_PATH = "Role.conf";
+    private static final String SCOPE = "System";
+    private static final String MODEL_PATH = "SystemRole.conf";
 
-    public ExampleRoleFilter() {
-        super(DOMAIN, MODEL_PATH);
+    public ExampleSystemRoleFilter() {
+        super(SCOPE, MODEL_PATH);
     }
 
     @Override
@@ -23,7 +22,6 @@ public class ExampleRoleFilter extends AbstractPermissionFilter {
 
     @Override
     protected String[] getRequestParameters(HttpServletRequest request, SecurityContext context) {
-        ScopeEntry entry = context.getScopeEntry();
-        return new String[]{String.valueOf(context.getUserId()), request.getRequestURI(), request.getMethod(), entry.getScope()};
+        return new String[]{String.valueOf(context.getUserId()), request.getRequestURI(), request.getMethod()};
     }
 }

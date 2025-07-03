@@ -43,6 +43,12 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
         this.modelPath = formPathResource(modelPath);
     }
 
+    /**
+     * 构造函数，使用默认权限域和指定的模型路径。
+     * 默认权限域为 SecurityConstant.SECURITY_SCOPE_DEFAULT。
+     *
+     * @param modelPath Casbin 模型文件的路径
+     */
     public AbstractPermissionFilter(String modelPath) {
         this(SecurityConstant.SECURITY_SCOPE_DEFAULT, modelPath);
     }
