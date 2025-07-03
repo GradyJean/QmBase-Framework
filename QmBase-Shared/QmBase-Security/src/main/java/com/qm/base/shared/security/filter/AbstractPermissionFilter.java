@@ -3,6 +3,7 @@ package com.qm.base.shared.security.filter;
 import com.qm.base.core.common.constants.FilterOrder;
 import com.qm.base.shared.security.casbin.manager.EnforcerManager;
 import com.qm.base.shared.security.casbin.watcher.LocalPolicyWatcher;
+import com.qm.base.shared.security.constants.SecurityConstant;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
@@ -42,6 +43,10 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
         this.modelPath = formPathResource(modelPath);
     }
 
+    public AbstractPermissionFilter(String modelPath) {
+        this(SecurityConstant.SECURITY_SCOPE_DEFAULT, modelPath);
+    }
+
     @Override
     public void afterSingletonsInstantiated() {
         // 这里可以安全查库，所有依赖已就绪
@@ -61,7 +66,9 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
         // 获取当前请求的权限域
         ScopeEntry entry = context.getScopeEntry();
         // 先排除路径，再判断是否已授权，确保短路优化与语义清晰
-        return !context.isAuthorized() && (scope.equals(entry.getScope()) || "*".equals(entry.getScope()));
+        return !context.isAuthorized()
+                && (scope.equals(entry.getScope())
+                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(entry.getScope()));
     }
 
     @Override
