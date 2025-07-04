@@ -5,6 +5,7 @@ import com.qm.base.shared.security.annotation.IgnorePermission;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -40,7 +41,7 @@ public class IgnorePermissionRegistry implements ApplicationContextAware {
      * @param applicationContext Spring 应用上下文
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         Map<RequestMappingInfo, HandlerMethod> map = handlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : map.entrySet()) {
             if (entry.getValue().hasMethodAnnotation(IgnorePermission.class)) {

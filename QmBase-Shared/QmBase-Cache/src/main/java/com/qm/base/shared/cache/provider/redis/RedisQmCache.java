@@ -82,7 +82,7 @@ public class RedisQmCache implements QmCache {
 
     @Override
     public boolean contains(String key) {
-        return Boolean.TRUE.equals(redisTemplate.hasKey(buildKey(key)));
+        return redisTemplate.hasKey(buildKey(key));
     }
 
     @Override

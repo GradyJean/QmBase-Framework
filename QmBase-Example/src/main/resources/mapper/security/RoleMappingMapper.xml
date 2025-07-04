@@ -10,17 +10,24 @@
         <result column="user_id" property="userId"/>
         <result column="role_code" property="roleCode"/>
         <result column="domain" property="domain"/>
+        <result column="scope_code" property="scopeCode"/>
         <result column="created_at" property="createdAt"/>
     </resultMap>
 
+    <sql id="Base_Column_List">
+        id, user_id, role_code, domain, scope_code, created_at
+    </sql>
+
     <select id="findById" parameterType="long" resultMap="BaseResultMap">
-        SELECT id, user_id, role_code, domain, created_at
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM role_mapping
         WHERE id = #{id}
     </select>
 
     <select id="findAll" resultMap="BaseResultMap">
-        SELECT id, user_id, role_code, domain, created_at
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM role_mapping
     </select>
 
@@ -32,12 +39,14 @@
             <if test="userId != null">user_id,</if>
             <if test="roleCode != null">role_code,</if>
             <if test="domain != null">domain,</if>
+            <if test="scopeCode != null">scope_code,</if>
             <if test="createdAt != null">created_at,</if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="roleCode != null">#{roleCode},</if>
             <if test="domain != null">#{domain},</if>
+            <if test="scopeCode != null">#{scopeCode},</if>
             <if test="createdAt != null">#{createdAt},</if>
         </trim>
     </insert>
@@ -48,6 +57,7 @@
             <if test="userId != null">user_id = #{userId},</if>
             <if test="roleCode != null">role_code = #{roleCode},</if>
             <if test="domain != null">domain = #{domain},</if>
+            <if test="scopeCode != null">scope_code = #{scopeCode},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
         </set>
         WHERE id = #{id}
@@ -59,10 +69,10 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="listByDomain" parameterType="String" resultMap="BaseResultMap">
-        SELECT id, user_id, role_code, domain, created_at
+    <select id="listByScopeCode" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM role_mapping
-        WHERE domain = #{domain}
-           or domain = '*'
+        WHERE scope_code = #{scopeCode}
     </select>
 </mapper>

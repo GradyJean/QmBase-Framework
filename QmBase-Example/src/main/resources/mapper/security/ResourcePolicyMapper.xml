@@ -9,11 +9,12 @@
         <result column="resource_type" property="resourceType"/>
         <result column="action" property="action"/>
         <result column="domain" property="domain"/>
+        <result column="scope_code" property="scopeCode"/>
         <result column="created_at" property="createdAt"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, subject, resource, resource_type, action, domain, created_at
+        id, subject, resource, resource_type, action, domain,scope_code, created_at
     </sql>
 
     <select id="findById" resultMap="BaseResultMap">
@@ -37,6 +38,7 @@
             <if test="resourceType != null">resource_type,</if>
             <if test="action != null">action,</if>
             <if test="domain != null">domain,</if>
+            <if test="scopeCode != null">scope_code,</if>
             <if test="createdAt != null">created_at,</if>
         </trim>
         VALUES
@@ -46,6 +48,7 @@
             <if test="resourceType != null">#{resourceType},</if>
             <if test="action != null">#{action},</if>
             <if test="domain != null">#{domain},</if>
+            <if test="scopeCode != null">#{scopeCode},</if>
             <if test="createdAt != null">#{createdAt},</if>
         </trim>
     </insert>
@@ -58,6 +61,7 @@
             <if test="resourceType != null">resource_type = #{resourceType},</if>
             <if test="action != null">action = #{action},</if>
             <if test="domain != null">domain = #{domain},</if>
+            <if test="scopeCode != null">scope_code = #{scopeCode},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
         </set>
         WHERE id = #{id}
@@ -68,10 +72,10 @@
         FROM resource_policy
         WHERE id = #{id}
     </delete>
-    <select id="listByDomain" resultMap="BaseResultMap" parameterType="String">
+    <select id="listByScopeCode" resultMap="BaseResultMap" parameterType="String">
         SELECT
         <include refid="Base_Column_List"/>
         FROM resource_policy
-        WHERE domain = #{domain}
+        WHERE scope_code = #{scopeCode}
     </select>
 </mapper>

@@ -2,7 +2,7 @@
 -- 删除旧数据
 delete
 from scope
-where id = 1;
+where id in (1, 2, 3);
 -- 权限域管理表,用于定义系统中的权限域
 insert into scope
 (id,
@@ -12,7 +12,17 @@ insert into scope
 values (1,
         'SYSTEM',
         '系统权限域',
-        '系统级别的权限域，包含所有系统资源和操作');
+        '系统级别的权限域，包含所有系统资源和操作'),
+       (2,
+        'APPLICATION',
+        '应用权限域',
+        '应用级别的权限域，包含特定应用的资源和操作'),
+       (3,
+        'TENANT',
+        '租户权限域',
+        '租户级别的权限域，包含特定租户的资源和操作');
+
+);
 
 -- 删除旧数据
 delete
@@ -47,11 +57,13 @@ insert into role_mapping (id,
                           user_id,
                           role_code,
                           domain,
+                          scope_code,
                           created_at)
 values (1,
         '10000000000',
         'SYSTEM_ADMIN',
         '*',
+        'SYSTEM',
         CURRENT_TIMESTAMP);
 -- 删除旧数据
 delete
@@ -64,6 +76,7 @@ insert into resource_policy (id,
                              resource_type,
                              action,
                              domain,
+                             scope_code,
                              created_at)
 values (1,
         'SYSTEM_ADMIN',
@@ -71,4 +84,5 @@ values (1,
         'SYSTEM',
         '*',
         '*',
+        'SYSTEM',
         CURRENT_TIMESTAMP);

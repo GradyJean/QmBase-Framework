@@ -3,41 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.it.security.infrastructure.repository.mapper.ResourceDomainMappingMapper">
+<mapper namespace="com.example.it.security.infrastructure.repository.mapper.ResourceScopeMappingMapper">
 
-    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.ResourceDomainMappingPO">
-        <id     column="id"               property="id" />
-        <result column="resource_pattern" property="resourcePattern" />
-        <result column="http_method"      property="httpMethod" />
-        <result column="action"           property="action" />
-        <result column="domain"           property="domain" />
-        <result column="description"      property="description" />
-        <result column="create_time"      property="createTime" />
+    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.ResourceScopeMappingPO">
+        <id column="id" property="id"/>
+        <result column="resource_pattern" property="resourcePattern"/>
+        <result column="http_method" property="httpMethod"/>
+        <result column="action" property="action"/>
+        <result column="scope_code" property="scopeCode"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, resource_pattern, http_method, action, domain, description, create_time
+        id, resource_pattern, http_method, action, scope_code, description, create_time
     </sql>
 
     <select id="findById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM resource_domain_mapping
+        FROM resource_scope_mapping
         WHERE id = #{id}
     </select>
 
     <select id="findAll" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
-        FROM resource_domain_mapping
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_scope_mapping
     </select>
 
-    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.ResourceDomainMappingPO">
-        INSERT INTO resource_domain_mapping
+    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.ResourceScopeMappingPO">
+        INSERT INTO resource_scope_mapping
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="resourcePattern != null">resource_pattern,</if>
             <if test="httpMethod != null">http_method,</if>
             <if test="action != null">action,</if>
-            <if test="domain != null">domain,</if>
+            <if test="scopeCode != null">scope_code,</if>
             <if test="description != null">description,</if>
             <if test="createTime != null">create_time,</if>
         </trim>
@@ -45,19 +46,20 @@
             <if test="resourcePattern != null">#{resourcePattern},</if>
             <if test="httpMethod != null">#{httpMethod},</if>
             <if test="action != null">#{action},</if>
-            <if test="domain != null">#{domain},</if>
+            <if test="scopeCode != null">#{scopeCode},</if>
             <if test="description != null">#{description},</if>
             <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.example.it.security.infrastructure.repository.po.ResourceDomainMappingPO">
-        UPDATE resource_domain_mapping
+    <update id="updateById"
+            parameterType="com.example.it.security.infrastructure.repository.po.ResourceScopeMappingPO">
+        UPDATE resource_scope_mapping
         <set>
             <if test="resourcePattern != null">resource_pattern = #{resourcePattern},</if>
             <if test="httpMethod != null">http_method = #{httpMethod},</if>
             <if test="action != null">action = #{action},</if>
-            <if test="domain != null">domain = #{domain},</if>
+            <if test="scopeCode != null">scope_code = #{scopeCode},</if>
             <if test="description != null">description = #{description},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
         </set>
@@ -65,7 +67,9 @@
     </update>
 
     <delete id="deleteById">
-        DELETE FROM resource_domain_mapping WHERE id = #{id}
+        DELETE
+        FROM resource_scope_mapping
+        WHERE id = #{id}
     </delete>
 
 </mapper>

@@ -29,16 +29,16 @@ public class CasbinPolicyAdapter implements Adapter {
      * 权限域标识，默认为 "default"。
      * 可用于区分不同的权限域，如租户、项目等。
      */
-    private final String domain;
+    private final String scope;
 
-    public CasbinPolicyAdapter(PolicyLoader policyLoader, String domain) {
+    public CasbinPolicyAdapter(PolicyLoader policyLoader, String scope) {
         this.policyLoader = policyLoader;
-        this.domain = domain;
+        this.scope = scope;
     }
 
     @Override
     public void loadPolicy(Model model) {
-        List<List<String>> policies = policyLoader.loadPolicies(domain);
+        List<List<String>> policies = policyLoader.loadPolicies(scope);
         if (policies == null || policies.isEmpty()) {
             return;
         }

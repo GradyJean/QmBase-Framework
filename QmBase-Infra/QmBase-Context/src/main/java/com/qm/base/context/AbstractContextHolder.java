@@ -16,7 +16,7 @@ public abstract class AbstractContextHolder<T> implements IContextHolder<T> {
      * 使用 TransmittableThreadLocal 实现的线程上下文存储器。
      * 支持线程池中自动继承父线程上下文，适用于异步场景。
      */
-    private final TransmittableThreadLocal<T> threadLocal = new TransmittableThreadLocal<T>() {
+    private final TransmittableThreadLocal<T> threadLocal = new TransmittableThreadLocal<>() {
         @Override
         protected T initialValue() {
             return null; // 可在子类中使用时覆盖默认行为

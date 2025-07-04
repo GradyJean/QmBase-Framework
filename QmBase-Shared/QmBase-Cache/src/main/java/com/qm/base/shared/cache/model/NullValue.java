@@ -2,6 +2,7 @@ package com.qm.base.shared.cache.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,7 +11,7 @@ import java.io.Serializable;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public final class NullValue implements Serializable {
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public static final NullValue INSTANCE = new NullValue();
@@ -21,7 +22,7 @@ public final class NullValue implements Serializable {
     }
 
     public String getMarker() {
-        return marker;
+        return "null";
     }
 
     @Override

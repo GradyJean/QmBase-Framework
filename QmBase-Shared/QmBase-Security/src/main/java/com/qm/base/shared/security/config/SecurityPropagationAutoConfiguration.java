@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -37,7 +38,7 @@ public class SecurityPropagationAutoConfiguration {
              * 该拦截器会在请求头中注入当前线程的安全上下文信息（如用户ID、角色等）。
              */
             @Override
-            public Object postProcessAfterInitialization(Object bean, String beanName) {
+            public Object postProcessAfterInitialization(@NonNull Object bean, @NonNull String beanName) {
                 if (bean instanceof RestTemplate restTemplate) {
                     restTemplate.getInterceptors().add(new SecurityContextRestTemplateInterceptor(trustedServiceChecker));
                 }

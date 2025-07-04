@@ -8,6 +8,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.lang.NonNull;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ public record SecurityContextRestTemplateInterceptor(
      * 仅对已注册为内部服务的 host 注入，防止敏感信息泄露到外部
      */
     @Override
-    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+    public @NonNull ClientHttpResponse intercept(@NonNull HttpRequest request, @NonNull byte[] body, @NonNull ClientHttpRequestExecution execution) throws IOException {
         // 编码当前线程的 SecurityContext 为 Base64 字符串
         String encoded = SecurityContextTransmitter.encodeContext();
         if (StringUtils.isNotBlank(encoded)) {

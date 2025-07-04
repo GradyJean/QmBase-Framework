@@ -30,7 +30,10 @@ public class RoleMappingPO {
      * 权限域，用于区分系统中的不同资源域
      */
     private String domain;
-
+    /**
+     * 权限作用域编码，用于唯一标识权限域
+     */
+    private String scopeCode;
     /**
      * 创建时间
      */

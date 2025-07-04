@@ -63,7 +63,7 @@ public class RedisDistributedLockService implements DistributedLockService {
                 value
         );
         // 返回 0 代表未命中锁 key 或 value 不一致，并非异常，使用者需理解其含义
-        return result != null && result == 1;
+        return result == 1;
     }
 
     @Override

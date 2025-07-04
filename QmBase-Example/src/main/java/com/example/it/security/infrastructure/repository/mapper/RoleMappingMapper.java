@@ -11,8 +11,8 @@ public interface RoleMappingMapper extends BaseMapper<RoleMappingPO, Long> {
     /**
      * 根据权限域查询角色映射持久化对象列表
      *
-     * @param domain 权限域
+     * @param scopeCode 权限域
      * @return list 角色映射持久化对象列表
      */
-    List<RoleMappingPO> listByDomain(String domain);
+    List<RoleMappingPO> listByScopeCode(String scopeCode);
 }

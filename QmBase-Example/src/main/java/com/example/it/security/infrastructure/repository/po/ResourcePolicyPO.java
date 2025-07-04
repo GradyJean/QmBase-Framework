@@ -40,7 +40,10 @@ public class ResourcePolicyPO {
      * 所属权限域，如 document、user、admin 等
      */
     private String domain;
-
+    /**
+     * 权限作用域编码，用于唯一标识权限域
+     */
+    private String scopeCode;
     /**
      * 创建时间，格式为 yyyy-MM-dd HH:mm:ss
      */

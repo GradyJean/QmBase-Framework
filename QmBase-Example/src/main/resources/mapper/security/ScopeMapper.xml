@@ -3,59 +3,55 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.it.security.infrastructure.repository.mapper.DomainMapper">
+<mapper namespace="com.example.it.security.infrastructure.repository.mapper.ScopeMapper">
 
-    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.DomainPO">
+    <resultMap id="BaseResultMap" type="com.example.it.security.infrastructure.repository.po.ScopePO">
         <id property="id" column="id"/>
-        <result property="domainCode" column="domain_code"/>
-        <result property="domainName" column="domain_name"/>
+        <result property="scopeCode" column="scope_code"/>
+        <result property="scopeName" column="scope_name"/>
         <result property="description" column="description"/>
-        <result property="status" column="status"/>
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, domain_code, domain_name, description, status, created_at
+        id, scope_code, scope_name, description, created_at
     </sql>
 
     <select id="findById" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM domain
+        FROM scope
         WHERE id = #{id}
     </select>
 
     <select id="findAll" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM domain
+        FROM scope
     </select>
 
-    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.DomainPO">
-        INSERT INTO domain
+    <insert id="insert" parameterType="com.example.it.security.infrastructure.repository.po.ScopePO">
+        INSERT INTO scope
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="domainCode != null">domain_code,</if>
-            <if test="domainName != null">domain_name,</if>
+            <if test="scopeCode != null">scope_code,</if>
+            <if test="scopeName != null">scope_name,</if>
             <if test="description != null">description,</if>
-            <if test="status != null">status,</if>
             <if test="createdAt != null">created_at,</if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="domainCode != null">#{domainCode},</if>
-            <if test="domainName != null">#{domainName},</if>
+            <if test="scopeCode != null">#{scopeCode},</if>
+            <if test="scopeName != null">#{scopeName},</if>
             <if test="description != null">#{description},</if>
-            <if test="status != null">#{status},</if>
             <if test="createdAt != null">#{createdAt},</if>
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.example.it.security.infrastructure.repository.po.DomainPO">
+    <update id="updateById" parameterType="com.example.it.security.infrastructure.repository.po.ScopePO">
         UPDATE domain
         <set>
-            <if test="domainCode != null">domain_code = #{domainCode},</if>
-            <if test="domainName != null">domain_name = #{domainName},</if>
+            <if test="scopeCode != null">scope_code = #{scopeCode},</if>
+            <if test="scopeName != null">scope_name = #{scopeName},</if>
             <if test="description != null">description = #{description},</if>
-            <if test="status != null">status = #{status},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
         </set>
         WHERE id = #{id}
@@ -63,7 +59,7 @@
 
     <delete id="deleteById">
         DELETE
-        FROM domain
+        FROM scope
         WHERE id = #{id}
     </delete>
 
