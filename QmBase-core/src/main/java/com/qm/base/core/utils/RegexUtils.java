@@ -9,7 +9,8 @@ public class RegexUtils {
 
     private static final Pattern PHONE_PATTERN = Pattern.compile("^1[3-9]\\d{9}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
-    private static final Pattern IDCARD_PATTERN = Pattern.compile("^\\d{15}|\\d{17}[0-9Xx]$");
+    // 15位或18位身份证号，18位末位可为数字或X
+    private static final Pattern IDCARD_PATTERN = Pattern.compile("^(\\d{15}|\\d{17}[0-9Xx])$");
     private static final Pattern CHINESE_NAME_PATTERN = Pattern.compile("^[\\u4e00-\\u9fa5]{2,10}$");
     private static final Pattern URL_PATTERN = Pattern.compile("^(http|https)://[\\w.-]+(:\\d+)?(/[\\w\\-./?%&=]*)?$");
     private static final Pattern IP_PATTERN = Pattern.compile("^(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)(\\.(?!$)|$){4}$");
