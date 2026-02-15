@@ -9,12 +9,5 @@ public interface IdGenerator {
      *
      * @return 全局唯一 ID
      */
-    Long nextId();
-
-    /**
-     * 生成 String 类型主键 ID
-     *
-     * @return 全局唯一 ID 字符串
-     */
-    String nextIdStr();
+    String nextId();
 }

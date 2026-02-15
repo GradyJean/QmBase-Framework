@@ -20,7 +20,7 @@ public class SecurityContext {
     /**
      * 当前用户 ID
      */
-    private Long userId;
+    private String userId;
     /**
      * 设备 ID
      */
@@ -86,13 +86,13 @@ public class SecurityContext {
     /**
      * @param propagatedAttributes 设置传递过来的
      */
-    public SecurityContext(Long userId, String deviceId, Map<String, Object> propagatedAttributes) {
+    public SecurityContext(String userId, String deviceId, Map<String, Object> propagatedAttributes) {
         this.userId = userId;
         this.deviceId = deviceId;
         attributes.putAll(propagatedAttributes);
     }
 
-    public SecurityContext(Long userId, String deviceId) {
+    public SecurityContext(String userId, String deviceId) {
         this.userId = userId;
         this.deviceId = deviceId;
     }
@@ -118,11 +118,11 @@ public class SecurityContext {
         return (T) value;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

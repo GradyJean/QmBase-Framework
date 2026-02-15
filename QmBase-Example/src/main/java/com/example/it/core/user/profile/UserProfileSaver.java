@@ -15,5 +15,5 @@ public interface UserProfileSaver {
      * @param userInfo 用户资料实体，至少包含 userId。
      * @return userId
      */
-    Long create(BasicUserInfo userInfo);
+    String create(BasicUserInfo userInfo);
 }

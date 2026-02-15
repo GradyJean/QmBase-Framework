@@ -39,7 +39,7 @@ public class SnowflakeIdGenerator implements IdGenerator {
     }
 
     @Override
-    public synchronized Long nextId() {
+    public synchronized String nextId() {
         long timestamp = timeGen();
 
         if (timestamp < lastTimestamp) {
@@ -57,15 +57,12 @@ public class SnowflakeIdGenerator implements IdGenerator {
 
         lastTimestamp = timestamp;
 
-        return ((timestamp - epoch) << timestampLeftShift)
+        long id = ((timestamp - epoch) << timestampLeftShift)
                 | (datacenterId << datacenterIdShift)
                 | (workerId << workerIdShift)
                 | sequence;
-    }
 
-    @Override
-    public String nextIdStr() {
-        return String.valueOf(nextId());
+        return Long.toString(id);
     }
 
     private long waitNextMillis(long lastTimestamp) {

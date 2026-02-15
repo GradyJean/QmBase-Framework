@@ -1,6 +1,7 @@
 package com.qm.base.core.user;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 通用用户信息接口。
@@ -13,7 +14,7 @@ public interface User extends Serializable {
      *
      * @return 用户唯一标识
      */
-    Long getUserId();
+    String getUserId();
 
     /**
      * 判断用户是否为匿名身份。
@@ -21,7 +22,7 @@ public interface User extends Serializable {
      * @return true 表示未登录用户
      */
     default boolean isAnonymous() {
-        return getUserId() == null || getUserId() <= 0;
+        return getUserId() == null || Objects.equals(getUserId(), "");
     }
 
     /**

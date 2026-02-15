@@ -18,7 +18,7 @@ public interface TokenService {
      * @param deviceId 设备标识符（如浏览器、APP设备等）
      * @return AuthToken 如果存在则返回对应令牌，否则返回 null
      */
-    AuthToken findAuthTokenByUserId(Long userId, String deviceId);
+    AuthToken findAuthTokenByUserId(String userId, String deviceId);
 
     /**
      * 保存访问令牌。
@@ -27,7 +27,7 @@ public interface TokenService {
      * @param deviceId  设备标识符
      * @param authToken 访问令牌对象
      */
-    void saveAuthToken(Long userId, String deviceId, AuthToken authToken);
+    void saveAuthToken(String userId, String deviceId, AuthToken authToken);
 
     /**
      * 撤销指定用户在某个设备上的访问令牌。
@@ -35,5 +35,5 @@ public interface TokenService {
      * @param userId   用户唯一标识
      * @param deviceId 设备标识符
      */
-    void revokeToken(Long userId, String deviceId);
+    void revokeToken(String userId, String deviceId);
 }

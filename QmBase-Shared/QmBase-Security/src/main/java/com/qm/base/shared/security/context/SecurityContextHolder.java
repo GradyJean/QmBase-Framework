@@ -39,7 +39,7 @@ public class SecurityContextHolder extends AbstractContextHolder<SecurityContext
      *
      * @return 当前登录用户的 userId，若上下文未设置则返回 null
      */
-    public static Long getUserId() {
+    public static String getUserId() {
         SecurityContext context = getContext();
         return context == null ? null : context.getUserId();
     }

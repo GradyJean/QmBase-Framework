@@ -16,7 +16,8 @@ public class QmId {
 
     /**
      * 初始化 ID 生成器（只初始化一次，线程安全）
-     * @param workerId 工作节点 ID
+     *
+     * @param workerId     工作节点 ID
      * @param datacenterId 数据中心 ID
      */
     public static void init(long workerId, long datacenterId) {
@@ -32,6 +33,7 @@ public class QmId {
 
     /**
      * 判断 ID 生成器是否已初始化
+     *
      * @return true 表示已初始化
      */
     public static boolean isInitialized() {
@@ -40,7 +42,8 @@ public class QmId {
 
     /**
      * 重置 ID 生成器（可重复初始化）
-     * @param workerId 工作节点 ID
+     *
+     * @param workerId     工作节点 ID
      * @param datacenterId 数据中心 ID
      */
     public static void reset(long workerId, long datacenterId) {
@@ -51,23 +54,13 @@ public class QmId {
 
     /**
      * 生成下一个 Long 类型 ID
+     *
      * @return long 类型的全局唯一 ID
      */
-    public static long nextId() {
+    public static String nextId() {
         if (snowflake == null) {
             throw new IllegalStateException("QmId is not initialized.");
         }
         return snowflake.nextId();
-    }
-
-    /**
-     * 生成下一个 String 类型 ID（toString 形式）
-     * @return 字符串形式的全局唯一 ID
-     */
-    public static String nextIdStr() {
-        if (snowflake == null) {
-            throw new IllegalStateException("QmId is not initialized.");
-        }
-        return snowflake.nextIdStr();
     }
 }

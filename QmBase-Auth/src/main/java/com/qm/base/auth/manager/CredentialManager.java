@@ -59,7 +59,7 @@ public class CredentialManager {
      * @param deviceId 设备 ID
      * @return AuthToken
      */
-    public AuthToken generateAuthToken(Long userId, String deviceId) {
+    public AuthToken generateAuthToken(String userId, String deviceId) {
         Date now = new Date();
         Date accessExpireAt = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getExpirationSeconds()));
         Date refreshExpireAt = new Date(now.getTime() + TimeUnit.SECONDS.toMillis(authProperties.getRefreshIntervalSeconds()));
@@ -79,7 +79,7 @@ public class CredentialManager {
      * @return AuthToken
      */
     public AuthToken tokenRefresh(Payload refreshPayload) {
-        Long userId = refreshPayload.getUserId();
+        String userId = refreshPayload.getUserId();
         String deviceId = refreshPayload.getDeviceId();
         // token 过期时间不变
         Date refreshExpireAt = refreshPayload.getExpiresAt();
@@ -94,7 +94,7 @@ public class CredentialManager {
         return authToken;
     }
 
-    private String generateToken(Long userId, TokenType tokenType, Date now, Date expiration, String deviceId) {
+    private String generateToken(String userId, TokenType tokenType, Date now, Date expiration, String deviceId) {
         try {
             return tokenManager.generateToken(userId, tokenType, now, expiration, deviceId);
         } catch (JwtException e) {
@@ -166,7 +166,7 @@ public class CredentialManager {
      * @return 是否更新成功
      * @throws AuthException 更新失败或系统异常
      */
-    public Boolean updateCredential(Long userId, String newCredential) {
+    public Boolean updateCredential(String userId, String newCredential) {
         try {
             return authUserService.updateCredential(userId, newCredential);
         } catch (Exception e) {
@@ -231,7 +231,7 @@ public class CredentialManager {
      * @return 认证 Token 对象
      * @throws AuthException 查询失败或缓存服务异常
      */
-    public AuthToken findAuthTokenByUserId(Long userId, String deviceId) {
+    public AuthToken findAuthTokenByUserId(String userId, String deviceId) {
         try {
             return tokenService.findAuthTokenByUserId(userId, deviceId);
         } catch (Exception e) {
@@ -250,7 +250,7 @@ public class CredentialManager {
      * @param authToken Token 对象
      * @throws AuthException 缓存服务失败
      */
-    public void saveAuthToken(Long userId, String deviceId, AuthToken authToken) {
+    public void saveAuthToken(String userId, String deviceId, AuthToken authToken) {
         try {
             tokenService.saveAuthToken(userId, deviceId, authToken);
         } catch (Exception e) {
@@ -268,7 +268,7 @@ public class CredentialManager {
      * @param deviceId 设备 ID
      * @throws AuthException 清除失败或缓存异常
      */
-    public void revokeToken(Long userId, String deviceId) {
+    public void revokeToken(String userId, String deviceId) {
         try {
             tokenService.revokeToken(userId, deviceId);
         } catch (Exception e) {

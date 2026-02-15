@@ -29,5 +29,5 @@ public interface AuthUserService {
      * @param newCredential 新密码或新凭证
      * @return 是否重置成功
      */
-    Boolean updateCredential(Long userId, String newCredential);
+    Boolean updateCredential(String userId, String newCredential);
 }

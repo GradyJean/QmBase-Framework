@@ -19,5 +19,5 @@ public interface UserProfileMapper {
      * @param id 用户主键 ID
      * @return 用户档案持久化对象，若未找到返回 null
      */
-    UserProfilePO selectById(Long id);
+    UserProfilePO selectById(String id);
 }

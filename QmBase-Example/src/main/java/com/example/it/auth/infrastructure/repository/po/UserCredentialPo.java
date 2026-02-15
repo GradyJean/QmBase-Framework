@@ -10,7 +10,7 @@ public class UserCredentialPo extends QmEntity {
     /**
      * 用户 ID，对应 user_profile.id
      */
-    private Long userId;
+    private String userId;
     /**
      * 登录标识（如手机号、邮箱、微信 openid）
      */

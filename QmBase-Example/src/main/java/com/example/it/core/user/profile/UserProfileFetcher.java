@@ -15,5 +15,5 @@ public interface UserProfileFetcher {
      * @param id 用户主键ID
      * @return 用户基础信息（若不存在则可能返回 null，视具体实现而定）
      */
-    BasicUserInfo selectById(Long id);
+    BasicUserInfo selectById(String id);
 }

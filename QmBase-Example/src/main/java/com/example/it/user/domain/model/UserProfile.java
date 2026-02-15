@@ -13,7 +13,7 @@ public class UserProfile {
     /**
      * id
      */
-    private Long id;
+    private String id;
     /**
      * 昵称
      */

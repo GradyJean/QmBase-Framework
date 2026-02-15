@@ -3,7 +3,7 @@ package com.qm.base.shared.security.context;
 import java.util.Map;
 
 public class SecurityContextPayload {
-    private Long userId;
+    private String userId;
     private String deviceId;
     private Map<String, Object> attributes;
 
@@ -16,11 +16,11 @@ public class SecurityContextPayload {
         return vo;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

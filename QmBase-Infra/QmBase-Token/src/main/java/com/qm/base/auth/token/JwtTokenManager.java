@@ -41,7 +41,7 @@ public class JwtTokenManager implements TokenManager {
                 .parseSignedClaims(token)
                 .getPayload();
         Payload payload = new Payload();
-        payload.setUserId(claims.get(AuthConstants.AUTH_USER_ID, Long.class));
+        payload.setUserId(claims.get(AuthConstants.AUTH_USER_ID, String.class));
         payload.setType(TokenType.valueOf(claims.get(AuthConstants.AUTH_TOKEN_TYPE, String.class)));
         payload.setExpiresAt(claims.get(AuthConstants.AUTH_TOKEN_EXPIRATION, Date.class));
         payload.setDeviceId(claims.get(AuthConstants.AUTH_TOKEN_DEVICE_ID, String.class));
@@ -61,7 +61,7 @@ public class JwtTokenManager implements TokenManager {
      * @param expiration 过期时间
      * @return 签名后的JWT令牌字符串
      */
-    public String generateToken(Long userId, TokenType tokenType, Date issuedAt, Date expiration, String deviceId) {
+    public String generateToken(String userId, TokenType tokenType, Date issuedAt, Date expiration, String deviceId) {
         ClaimsBuilder claimsBuilder = Jwts.claims()
                 // 用户ID，标识该 Token 属于哪个用户
                 .add(AuthConstants.AUTH_USER_ID, userId)

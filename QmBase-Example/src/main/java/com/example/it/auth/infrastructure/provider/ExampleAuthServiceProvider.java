@@ -79,7 +79,7 @@ public class ExampleAuthServiceProvider implements AuthUserService, VerifyServic
     public AuthUser createUser(AuthUser authUser) {
         BasicUserInfo basicUserInfo = new BasicUserInfo();
         basicUserInfo.setNickname("MoMo");
-        Long userId = userProfileSaver.create(basicUserInfo);
+        String userId = userProfileSaver.create(basicUserInfo);
         LocalDateTime now = LocalDateTime.now();
         authUser.setUserId(userId);
         UserCredentialPo userCredentialPo = new UserCredentialPo();
@@ -92,21 +92,21 @@ public class ExampleAuthServiceProvider implements AuthUserService, VerifyServic
         userCredentialPo.setDeleted(false);
         userCredentialPo.setCreatedAt(now);
         userCredentialPo.setUpdatedAt(now);
-        userCredentialPo.setCreatedBy(userId.toString());
-        userCredentialPo.setUpdatedBy(userId.toString());
+        userCredentialPo.setCreatedBy(userId);
+        userCredentialPo.setUpdatedBy(userId);
         AssertUtil.INSTANCE.isTrue(userCredentialMapper.insert(userCredentialPo) == 1, BusinessError.USER_INSERT_ERROR);
         authUser.setEnabled(true);
         return authUser;
     }
 
     @Override
-    public Boolean updateCredential(Long userId, String newCredential) {
+    public Boolean updateCredential(String userId, String newCredential) {
         return userCredentialMapper.updateCredential(userId, newCredential) > 0;
     }
 
     // token---------------
     @Override
-    public AuthToken findAuthTokenByUserId(Long userId, String deviceId) {
+    public AuthToken findAuthTokenByUserId(String userId, String deviceId) {
         QmCache cache = getQmCache(CACHE_NAME_SPACE_TOKEN);
         return cache.get(generateTokenKey(userId, deviceId));
     }
@@ -119,7 +119,7 @@ public class ExampleAuthServiceProvider implements AuthUserService, VerifyServic
      * @param authToken 认证令牌对象
      */
     @Override
-    public void saveAuthToken(Long userId, String deviceId, AuthToken authToken) {
+    public void saveAuthToken(String userId, String deviceId, AuthToken authToken) {
         QmCache cache = getQmCache(CACHE_NAME_SPACE_TOKEN);
         Long expire = authToken.getRefreshToken().getExpireAt();
         // 计算 RefreshToken 距当前时间的剩余有效期（单位：秒），确保最小为 1 秒
@@ -128,13 +128,13 @@ public class ExampleAuthServiceProvider implements AuthUserService, VerifyServic
     }
 
     @Override
-    public void revokeToken(Long userId, String deviceId) {
+    public void revokeToken(String userId, String deviceId) {
         QmCache cache = getQmCache(CACHE_NAME_SPACE_TOKEN);
         cache.evict(generateTokenKey(userId, deviceId));
     }
 
-    private String generateTokenKey(Long userId, String deviceId) {
-        return String.format("%d:%s", userId, deviceId);
+    private String generateTokenKey(String userId, String deviceId) {
+        return String.format("%s:%s", userId, deviceId);
     }
 
     /**

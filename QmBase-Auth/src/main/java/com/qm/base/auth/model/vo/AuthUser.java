@@ -13,7 +13,7 @@ public class AuthUser extends AuthCredential implements User {
     /**
      * 用户ID
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 是否匿名访问（true 表示未登录用户）
@@ -26,7 +26,7 @@ public class AuthUser extends AuthCredential implements User {
     private boolean enabled;
 
     @Override
-    public Long getUserId() {
+    public String getUserId() {
         return this.userId;
     }
 
@@ -35,7 +35,7 @@ public class AuthUser extends AuthCredential implements User {
         return this.anonymous;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -24,15 +24,15 @@ public class UserProfilePortAdapter implements UserProfileFetcher, UserProfileSa
     }
 
     @Override
-    public Long create(BasicUserInfo userInfo) {
+    public String create(BasicUserInfo userInfo) {
         UserProfilePO po = UserProfileAssembler.assemblePOFromBasic(userInfo);
-        Long id = QmId.nextId();
+        String id = QmId.nextId();
         LocalDateTime localDateTime = LocalDateTime.now();
         po.setId(id);
         po.setCreatedAt(localDateTime);
         po.setUpdatedAt(localDateTime);
-        po.setCreatedBy(id.toString());
-        po.setUpdatedBy(id.toString());
+        po.setCreatedBy(id);
+        po.setUpdatedBy(id);
         po.setEnabled(true);
         po.setDeleted(false);
         AssertUtil.INSTANCE.isTrue(userProfileMapper.insert(po) == 1, BusinessError.USER_INSERT_ERROR);
@@ -40,7 +40,7 @@ public class UserProfilePortAdapter implements UserProfileFetcher, UserProfileSa
     }
 
     @Override
-    public BasicUserInfo selectById(Long id) {
+    public BasicUserInfo selectById(String id) {
         return UserProfileAssembler.assembleBasicFromPO(userProfileMapper.selectById(id));
     }
 }

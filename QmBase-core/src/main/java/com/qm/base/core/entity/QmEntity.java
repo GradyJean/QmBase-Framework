@@ -28,7 +28,7 @@ public abstract class QmEntity implements Serializable {
     /**
      * 主键 ID（可由雪花算法或数据库自增生成）
      */
-    protected Long id;
+    protected String id;
 
     /**
      * 数据创建时间（自动填充）
@@ -50,11 +50,11 @@ public abstract class QmEntity implements Serializable {
      */
     protected String updatedBy;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

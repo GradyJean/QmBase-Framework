@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.it.user.infrastructure.repository.mapper.ResourceScopeMappingMapper">
+    <resultMap id="BaseResultMap" type="com.example.it.user.infrastructure.repository.po.ResourceScopeMapping">
+        <id property="id" column="id"/>
+        <result property="resourcePattern" column="resource_pattern"/>
+        <result property="scopeCode" column="scope_code"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <sql id="Base_Column_List">id,resource_pattern,scope_code,description,create_time</sql>
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_scope_mapping
+        WHERE id = #{id}
+    </select>
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM resource_scope_mapping
+    </select>
+    <insert id="insert" parameterType="com.example.it.user.infrastructure.repository.po.ResourceScopeMapping">
+        INSERT INTO resource_scope_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="resourcePattern != null">resource_pattern,</if>
+            <if test="scopeCode != null">scope_code,</if>
+            <if test="description != null">description,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="resourcePattern != null">#{resourcePattern},</if>
+            <if test="scopeCode != null">#{scopeCode},</if>
+            <if test="description != null">#{description},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+    <update id="updateById">
+        UPDATE resource_scope_mapping
+        <set>
+            <if test="id != null">id = #{id},</if>
+            <if test="resourcePattern != null">resource_pattern = #{resourcePattern},</if>
+            <if test="scopeCode != null">scope_code = #{scopeCode},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <update id="deleteById">
+        DELETE FROM resource_scope_mapping
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -23,7 +23,7 @@ public interface TokenManager {
      * @param expiration 过期时间
      * @return 签名后的JWT令牌字符串
      */
-    String generateToken(Long userId, TokenType tokenType, Date issuedAt, Date expiration, String deviceId);
+    String generateToken(String userId, TokenType tokenType, Date issuedAt, Date expiration, String deviceId);
 
     /**
      * 解析  Token

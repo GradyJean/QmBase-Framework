@@ -12,7 +12,7 @@ public class BasicUserInfo {
     /**
      * 用户唯一标识。
      */
-    private Long userId;
+    private String userId;
     /**
      * 用户昵称。
      */

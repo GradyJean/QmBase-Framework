@@ -80,7 +80,7 @@ public class SecurityContextFilter implements QmFilter {
                 // 判断令牌类型
                 SecurityAssert.INSTANCE.isTrue(TokenType.ACCESS.equals(payload.getType()), SecurityError.SECURITY_TOKEN_INVALID);
                 // 设置 userId
-                Long userId = payload.getUserId();
+                String userId = payload.getUserId();
                 // 设置设备 ID
                 String deviceId = payload.getDeviceId();
                 // 设置上下文

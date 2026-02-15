@@ -20,7 +20,7 @@ public class Payload implements Serializable {
     /**
      * 用户 ID
      */
-    private Long userId;
+    private String userId;
     /**
      * 过期时间
      */
@@ -37,11 +37,11 @@ public class Payload implements Serializable {
     public Payload() {
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

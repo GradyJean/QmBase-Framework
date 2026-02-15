@@ -10,5 +10,5 @@ public interface UserCredentialMapper {
 
     int insert(UserCredentialPo userCredentialPo);
 
-    int updateCredential(Long userId, String newCredential);
+    int updateCredential(String userId, String newCredential);
 }
