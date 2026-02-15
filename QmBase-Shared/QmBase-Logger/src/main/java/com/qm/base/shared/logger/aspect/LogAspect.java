@@ -1,7 +1,6 @@
 package com.qm.base.shared.logger.aspect;
 
 import com.qm.base.shared.logger.annotation.Log;
-import com.qm.base.shared.logger.core.LogFormatter;
 import com.qm.base.shared.logger.enums.LogLevel;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -66,18 +65,15 @@ public class LogAspect {
 
             logAt(
                     localLevel,
-                    "{} | traceId={} | 参数: {} | 返回: {} | 耗时: {} ms | 异常: {}",
                     methodDisplay,
                     traceId,
-                    localLogParams ? LogFormatter.formatArgs(joinPoint.getArgs()) : "-",
-                    localLogResult ? LogFormatter.formatResult(result) : "-",
-                    watch.getTotalTimeMillis(),
-                    throwable != null ? LogFormatter.formatThrowable(throwable) : "-"
+                    watch.getTotalTimeMillis()
             );
         }
     }
 
-    private void logAt(LogLevel level, String format, Object... args) {
+    private void logAt(LogLevel level, Object... args) {
+        String format = "{} | traceId={} | 参数: {} | 返回: {} | 耗时: {} ms | 异常: {}";
         switch (level) {
             case TRACE -> log.trace(format, args);
             case DEBUG -> log.debug(format, args);
