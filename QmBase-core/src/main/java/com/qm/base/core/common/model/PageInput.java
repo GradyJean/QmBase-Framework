@@ -42,11 +42,4 @@ public class PageInput {
     public void setSize(int size) {
         this.size = size < 1 ? 10 : size;
     }
-
-    /**
-     * 计算数据库查询偏移量（offset）
-     */
-    public int getOffset() {
-        return (page - 1) * size;
-    }
 }
