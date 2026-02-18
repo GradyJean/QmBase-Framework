@@ -9,6 +9,7 @@ import com.qm.base.core.auth.enums.IdentifierType;
 import com.qm.base.core.auth.exception.AuthAssert;
 import com.qm.base.core.auth.exception.AuthError;
 import com.qm.base.core.auth.model.AuthToken;
+import com.qm.base.core.auth.model.PlatformInfo;
 import com.qm.base.core.auth.third.handler.LoginHandler;
 import com.qm.base.core.auth.third.provider.LoginProvider;
 import jakarta.servlet.http.HttpServletRequest;
@@ -81,6 +82,11 @@ public class AuthThirdLoginServiceImpl implements AuthThirdLoginService {
                                 provider.getName(),
                                 provider.getPlatform()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PlatformInfo info(String platform) {
+        return getLoginProvider(platform).getPlatformInfo();
     }
 
     /**

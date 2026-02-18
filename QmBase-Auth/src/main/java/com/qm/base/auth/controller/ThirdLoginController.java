@@ -3,12 +3,10 @@ package com.qm.base.auth.controller;
 import com.qm.base.auth.model.vo.Platform;
 import com.qm.base.auth.service.auth.AuthThirdLoginService;
 import com.qm.base.core.auth.model.AuthToken;
+import com.qm.base.core.auth.model.PlatformInfo;
 import com.qm.base.core.common.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +41,11 @@ public class ThirdLoginController {
         return Result.SUCCESS(authThirdLoginService.generateLoginUrl(platform));
     }
 
+    @GetMapping("{platform}/info")
+    public Result<PlatformInfo> info(@PathVariable String platform) {
+        return Result.SUCCESS(authThirdLoginService.info(platform));
+    }
+
     /**
      * 第三方平台扫码登录处理接口。
      * <p>
@@ -56,7 +59,7 @@ public class ThirdLoginController {
      * @param request  HTTP 请求对象（含 query 参数、body、header 等）
      * @return 登录成功后返回系统生成的 AuthToken
      */
-    @RequestMapping("{platform}/login")
+    @RequestMapping(path = "{platform}/login", method = {RequestMethod.POST, RequestMethod.GET})
     public Result<AuthToken> login(@PathVariable String platform, HttpServletRequest request) {
         return Result.SUCCESS(authThirdLoginService.login(platform, request));
     }

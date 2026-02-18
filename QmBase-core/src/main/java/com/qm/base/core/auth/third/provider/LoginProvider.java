@@ -2,6 +2,7 @@ package com.qm.base.core.auth.third.provider;
 
 import com.qm.base.core.auth.third.config.LoginProperties;
 import com.qm.base.core.auth.third.handler.LoginHandler;
+import com.qm.base.core.auth.model.PlatformInfo;
 
 /**
  * 第三方登录平台提供者接口。
@@ -56,4 +57,11 @@ public interface LoginProvider {
      * @return 平台配置属性对象
      */
     LoginProperties getLoginProperties();
+
+    /**
+     * 获取当前平台的详细信息。
+     *
+     * @return 当前平台的信息对象，包含平台编码等属性
+     */
+    PlatformInfo getPlatformInfo();
 }
