@@ -19,7 +19,10 @@ import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * 抽象权限过滤器，基于 Casbin 实现通用权限检查能力。
@@ -128,7 +131,12 @@ public abstract class AbstractPermissionFilter implements QmFilter, SmartInitial
      */
     private String formPathResource(String path) {
         try {
-            return new ClassPathResource(path).getFile().getAbsolutePath();
+            ClassPathResource resource = new ClassPathResource(path);
+            // JAR 环境下复制到临时文件
+            File tempFile = File.createTempFile("casbin_", ".conf");
+            tempFile.deleteOnExit();
+            Files.copy(resource.getInputStream(), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return tempFile.getAbsolutePath();
         } catch (IOException e) {
             throw new RuntimeException("无法加载 Casbin 配置文件", e);
         }
