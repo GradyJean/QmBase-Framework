@@ -1,13 +1,14 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
-import com.qm.base.shared.security.util.AntPathMatcherUtil;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,10 +26,12 @@ public class AuthEntryPointFilter implements QmFilter {
      * 可以根据实际需求进行扩展或修改。
      */
     public static final List<String> DEFAULT_AUTH_URLS = List.of("/auth/**");
+    private final PathMatcher matcher = new AntPathMatcher();
 
     @Override
     public boolean match(HttpServletRequest request) {
-        return AntPathMatcherUtil.match(request.getRequestURI(), DEFAULT_AUTH_URLS);
+        String path = request.getServletPath();
+        return DEFAULT_AUTH_URLS.stream().anyMatch(p -> matcher.match(p, path));
     }
 
     @Override
