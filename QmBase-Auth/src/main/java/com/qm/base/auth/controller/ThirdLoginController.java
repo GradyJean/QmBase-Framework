@@ -18,6 +18,7 @@ import java.util.List;
  * <p>
  * 接口路径统一以 /auth/third 开头。
  */
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth/third")
 public class ThirdLoginController {
