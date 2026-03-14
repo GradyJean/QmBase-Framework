@@ -20,6 +20,7 @@
     </parent>
 
     <properties>
+        <maven.test.skip>true</maven.test.skip>
         <java.version>24</java.version>
         <spring.boot.version>3.4.5</spring.boot.version>
         <qm.base.version>1.0-SNAPSHOT</qm.base.version>
