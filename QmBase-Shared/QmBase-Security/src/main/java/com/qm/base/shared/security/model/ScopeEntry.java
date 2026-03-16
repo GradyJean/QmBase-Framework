@@ -14,7 +14,9 @@ public class ScopeEntry {
     private String requestPath;
 
     /**
-     * HTTP 方法，例如 "GET", "POST", "PUT", "DELETE"
+     * 当前请求的实际 HTTP 方法，例如 "GET", "POST", "PUT", "DELETE"。
+     * 该值来自 HttpServletRequest#getMethod()。
+     * 注意：映射规则中的方法可配置为 "*" 或 "ALL"，表示匹配任意请求方法。
      */
     private String httpMethod;
 

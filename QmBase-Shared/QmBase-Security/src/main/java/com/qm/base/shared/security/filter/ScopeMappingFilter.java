@@ -50,8 +50,12 @@ public class ScopeMappingFilter implements QmFilter {
         // 权限域实体类
         ScopeEntry entry = new ScopeEntry(requestUri, requestMethod);
         for (ScopeMappingEntry mappingEntry : mappings) {
+            String mappingMethod = mappingEntry.getHttpMethod();
+            boolean methodMatched = "*".equals(mappingMethod)
+                    || "ALL".equalsIgnoreCase(mappingMethod)
+                    || mappingMethod.equalsIgnoreCase(requestMethod);
             if (matcher.match(mappingEntry.getResourcePattern(), requestUri)
-                    && entry.getHttpMethod().equalsIgnoreCase(requestMethod)) {
+                    && methodMatched) {
                 // 匹配成功，可以从 mappingEntry.getDomain() 拿到 domain 做进一步逻辑
                 entry.setScope(mappingEntry.getScope());
                 entry.setAction(mappingEntry.getAction());
