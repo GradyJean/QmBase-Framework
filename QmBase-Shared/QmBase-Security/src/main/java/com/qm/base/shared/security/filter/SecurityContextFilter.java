@@ -73,7 +73,7 @@ public class SecurityContextFilter implements QmFilter {
         }
         String contextStr = request.getHeader(HeaderConstant.SECURITY_CONTEXT);
         // accessToken 存在为新入口
-        if (!StringUtils.isBlank(accessToken)) {
+        if (StringUtils.isNotBlank(accessToken)) {
             try {
                 // 获取令牌解析
                 Payload payload = SecurityAssert.INSTANCE.notNull(tokenManager.parse(accessToken), SecurityError.SECURITY_TOKEN_INVALID);

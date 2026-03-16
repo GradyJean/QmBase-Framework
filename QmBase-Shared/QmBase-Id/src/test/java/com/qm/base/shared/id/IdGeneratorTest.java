@@ -17,14 +17,14 @@ public class IdGeneratorTest {
 
     @Test
     void shouldGenerateNumericId() {
-        Long id = QmId.nextId();
+        String id = QmId.nextId();
         assertNotNull(id);
         System.out.println("生成的 Long ID: " + id);
     }
 
     @Test
     void shouldGenerateStringId() {
-        String idStr = QmId.nextIdStr();
+        String idStr = QmId.nextId();
         assertNotNull(idStr);
         assertTrue(idStr.matches("\\d+")); // 校验是纯数字
         System.out.println("生成的 String ID: " + idStr);
