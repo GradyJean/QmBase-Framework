@@ -1,6 +1,6 @@
 package com.example.it.security.infrastructure.web.filter;
 
-import com.example.it.common.constants.ScopeEnum;
+import com.example.it.security.infrastructure.casbin.manager.ExampleApplicationPermissionManager;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.AbstractPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExampleApplicationPermissionFilter extends AbstractPermissionFilter {
-    private static final String MODEL_PATH = "ApplicationPermission.conf";
 
-    public ExampleApplicationPermissionFilter() {
-        super(ScopeEnum.APPLICATION.name(), MODEL_PATH);
+    public ExampleApplicationPermissionFilter(ExampleApplicationPermissionManager permissionManager) {
+        super(permissionManager);
     }
 
     @Override

@@ -1,7 +1,7 @@
 /**
  * 本地策略更新 Watcher，用于在单体部署或本地环境中监听策略更新。
- * 可被 EnforcerManager 管理并统一触发 notifyUpdate。
- * 如需切换为分布式 Watcher（如 RedisWatcher），可在配置中替换实现。
+ * 可由 PermissionManager 持有并触发 update。
+ * 如需切换为分布式 Watcher（如 RedisWatcher），可在业务中通过 setWatcher 替换。
  */
 package com.qm.base.shared.security.casbin.watcher;
 
@@ -26,7 +26,7 @@ public class LocalPolicyWatcher implements Watcher {
 
     @Override
     public void setUpdateCallback(Consumer<String> func) {
-
+        this.updateCallback = () -> func.accept("");
     }
 
 
