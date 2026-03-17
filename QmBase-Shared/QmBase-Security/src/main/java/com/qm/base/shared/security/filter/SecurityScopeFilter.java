@@ -44,7 +44,7 @@ public class SecurityScopeFilter implements QmFilter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
         // 请求路径
-        String requestUri = request.getRequestURI();
+        String requestUri = request.getServletPath();
         // 请求方法
         String requestMethod = request.getMethod();
         String contextScope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
