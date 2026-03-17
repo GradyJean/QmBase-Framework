@@ -1,5 +1,6 @@
 package com.qm.base.shared.security.filter;
 
+import com.qm.base.core.security.constants.SecurityConstant;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
@@ -22,7 +23,9 @@ public abstract class BasePermissionFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         SecurityContext context = SecurityContextHolder.getContext();
-        return !context.isAuthorized() && matchScope(context.getSecurityScope());
+        return (!context.isAuthorized()
+                && matchScope(context.getSecurityScope()))
+                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(context.getSecurityScope());
     }
 
     @Override
@@ -32,7 +35,6 @@ public abstract class BasePermissionFilter implements QmFilter {
         if (!permitted) {
             throw new SecurityException(SecurityError.SECURITY_NO_PERMISSION);
         }
-        context.setAuthorized(true);
         chain.doFilter(request, response);
     }
 

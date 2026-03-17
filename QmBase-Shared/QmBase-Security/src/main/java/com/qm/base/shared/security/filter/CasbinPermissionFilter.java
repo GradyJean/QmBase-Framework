@@ -1,6 +1,5 @@
 package com.qm.base.shared.security.filter;
 
-import com.qm.base.core.security.constants.SecurityConstant;
 import com.qm.base.shared.security.casbin.manager.AbstractPermissionManager;
 import com.qm.base.shared.security.context.SecurityContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,14 +20,15 @@ public abstract class CasbinPermissionFilter extends BasePermissionFilter {
     @Override
     protected boolean matchScope(String securityScope) {
         String scope = permissionManager.getScope();
-        return scope.equals(securityScope)
-                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(securityScope);
+        return scope.equals(securityScope);
     }
 
     @Override
     protected boolean isPermitted(HttpServletRequest request, SecurityContext context) {
         Object[] params = getRequestParameters(request, context);
-        return permissionManager.enforce(params);
+        boolean hasPermission = permissionManager.enforce(params);
+        context.setAuthorized(hasPermission);
+        return hasPermission;
     }
 
     /**
