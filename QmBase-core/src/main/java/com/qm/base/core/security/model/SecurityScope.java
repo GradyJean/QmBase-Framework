@@ -32,6 +32,12 @@ public class SecurityScope {
         this.scope = scope;
     }
 
+    public SecurityScope() {
+        this.scope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
+        this.httpMethod = SecurityConstant.SECURITY_METHOD_DEFAULT;
+        this.resourcePattern = "/**";
+    }
+
     public String getResourcePattern() {
         return resourcePattern;
     }

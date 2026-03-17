@@ -7,6 +7,6 @@ import java.util.List;
 public class DefaultSecurityScopeLoader implements SecurityScopeLoader {
     @Override
     public List<SecurityScope> loadScopes() {
-        return List.of(new SecurityScope("*", "*", "*"));
+        return List.of(new SecurityScope());
     }
 }
