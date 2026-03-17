@@ -1,11 +1,11 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
+import com.qm.base.core.security.constants.SecurityConstant;
+import com.qm.base.core.security.model.SecurityScope;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
-import com.qm.base.shared.security.mapping.ScopeMappingLoader;
-import com.qm.base.shared.security.model.ScopeEntry;
-import com.qm.base.shared.security.model.ScopeMappingEntry;
+import com.qm.base.shared.security.mapping.SecurityScopeLoader;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
@@ -23,15 +23,15 @@ import java.util.List;
  * 该过滤器依赖于 DomainMappingLoader 加载域名映射配置。
  */
 @Component
-public class ScopeMappingFilter implements QmFilter {
-    private final ScopeMappingLoader scopeMappingLoader;
+public class SecurityScopeFilter implements QmFilter {
+    private final SecurityScopeLoader scopeLoader;
 
-    private List<ScopeMappingEntry> mappings;
+    private List<SecurityScope> securityScopes;
     private final AntPathMatcher matcher = new AntPathMatcher();
 
-    public ScopeMappingFilter(ScopeMappingLoader scopeMappingLoader) {
-        this.scopeMappingLoader = scopeMappingLoader;
-        loadScopeMappings();
+    public SecurityScopeFilter(SecurityScopeLoader scopeLoader) {
+        this.scopeLoader = scopeLoader;
+        loadScopes();
     }
 
     @Override
@@ -47,22 +47,23 @@ public class ScopeMappingFilter implements QmFilter {
         String requestUri = request.getRequestURI();
         // 请求方法
         String requestMethod = request.getMethod();
+        String contextScope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
         // 权限域实体类
-        ScopeEntry entry = new ScopeEntry(requestUri, requestMethod);
-        for (ScopeMappingEntry mappingEntry : mappings) {
-            String mappingMethod = mappingEntry.getHttpMethod();
-            boolean methodMatched = "*".equals(mappingMethod)
-                    || "ALL".equalsIgnoreCase(mappingMethod)
-                    || mappingMethod.equalsIgnoreCase(requestMethod);
-            if (matcher.match(mappingEntry.getResourcePattern(), requestUri)
-                    && methodMatched) {
-                // 匹配成功，可以从 mappingEntry.getDomain() 拿到 domain 做进一步逻辑
-                entry.setScope(mappingEntry.getScope());
-                entry.setAction(mappingEntry.getAction());
+        for (SecurityScope securityScope : securityScopes) {
+            // 获取权限域的请求方法
+            String scopeHttpMethod = securityScope.getHttpMethod();
+            // 获取权限域的资源路径
+            String scopeResourcePattern = securityScope.getResourcePattern();
+            // 匹配请求方法 * 表示匹配任意方法
+            boolean methodMatched = SecurityConstant.SECURITY_METHOD_DEFAULT.equals(scopeHttpMethod)
+                    || scopeHttpMethod.equalsIgnoreCase(requestMethod);
+            // 匹配资源路径
+            if (matcher.match(scopeResourcePattern, requestUri) && methodMatched) {
+                contextScope = securityScope.getScope();
                 break;
             }
         }
-        SecurityContextHolder.getContext().setScopeEntry(entry);
+        SecurityContextHolder.getContext().setSecurityScope(contextScope);
         chain.doFilter(request, response);
     }
 
@@ -71,7 +72,7 @@ public class ScopeMappingFilter implements QmFilter {
         return FilterOrder.DOMAIN_MAPPING.getOrder();
     }
 
-    private void loadScopeMappings() {
-        mappings = scopeMappingLoader.loadScopeMappings();
+    private void loadScopes() {
+        securityScopes = scopeLoader.loadScopes();
     }
 }

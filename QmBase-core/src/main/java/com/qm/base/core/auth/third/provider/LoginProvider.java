@@ -1,8 +1,8 @@
 package com.qm.base.core.auth.third.provider;
 
+import com.qm.base.core.auth.model.PlatformInfo;
 import com.qm.base.core.auth.third.config.LoginProperties;
 import com.qm.base.core.auth.third.handler.LoginHandler;
-import com.qm.base.core.auth.model.PlatformInfo;
 
 /**
  * 第三方登录平台提供者接口。

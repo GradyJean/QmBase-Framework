@@ -1,7 +1,10 @@
 package com.qm.base.shared.security.context;
 
+import lombok.Data;
+
 import java.util.Map;
 
+@Data
 public class SecurityContextPayload {
     private String userId;
     private String deviceId;
@@ -14,29 +17,5 @@ public class SecurityContextPayload {
 
         vo.deviceId = context.getDeviceId();
         return vo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
     }
 }

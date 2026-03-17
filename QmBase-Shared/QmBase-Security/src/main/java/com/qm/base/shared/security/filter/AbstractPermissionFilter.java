@@ -1,12 +1,11 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.common.constants.FilterOrder;
+import com.qm.base.core.security.constants.SecurityConstant;
 import com.qm.base.shared.security.casbin.manager.AbstractPermissionManager;
-import com.qm.base.shared.security.constants.SecurityConstant;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
-import com.qm.base.shared.security.model.ScopeEntry;
 import com.qm.base.shared.web.filter.QmFilter;
 import com.qm.base.shared.web.filter.QmFilterChain;
 import jakarta.servlet.ServletException;
@@ -43,12 +42,12 @@ public abstract class AbstractPermissionFilter implements QmFilter {
     public boolean match(HttpServletRequest request) {
         SecurityContext context = SecurityContextHolder.getContext();
         // 获取当前请求的权限域
-        ScopeEntry entry = context.getScopeEntry();
+        String securityScope = context.getSecurityScope();
         String scope = permissionManager.getScope();
         // 先排除路径，再判断是否已授权，确保短路优化与语义清晰
         return !context.isAuthorized()
-                && (scope.equals(entry.getScope())
-                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(entry.getScope()));
+                && (scope.equals(securityScope)
+                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(securityScope));
     }
 
     @Override

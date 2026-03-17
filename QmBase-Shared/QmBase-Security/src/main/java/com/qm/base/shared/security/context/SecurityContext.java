@@ -1,6 +1,6 @@
 package com.qm.base.shared.security.context;
 
-import com.qm.base.shared.security.model.ScopeEntry;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import java.util.Map;
  * 该类可用于在应用程序中传递和共享安全相关信息，支持属性透传到下游服务。
  * </p>
  */
+@Data
 public class SecurityContext {
 
     /**
@@ -34,7 +35,7 @@ public class SecurityContext {
     /**
      * 权限域信息
      */
-    private ScopeEntry scopeEntry;
+    private String securityScope;
     /**
      * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
      */
@@ -116,37 +117,5 @@ public class SecurityContext {
             throw new ClassCastException("Attribute [" + key + "] is not of type " + type.getName());
         }
         return (T) value;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public boolean isAuthorized() {
-        return authorized;
-    }
-
-    public void setAuthorized(boolean authorized) {
-        this.authorized = authorized;
-    }
-
-    public ScopeEntry getScopeEntry() {
-        return scopeEntry;
-    }
-
-    public void setScopeEntry(ScopeEntry scopeEntry) {
-        this.scopeEntry = scopeEntry;
     }
 }

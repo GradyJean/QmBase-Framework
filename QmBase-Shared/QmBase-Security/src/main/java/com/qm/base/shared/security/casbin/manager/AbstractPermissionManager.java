@@ -1,9 +1,9 @@
 package com.qm.base.shared.security.casbin.manager;
 
 import com.qm.base.shared.security.casbin.watcher.LocalPolicyWatcher;
+import org.casbin.jcasbin.main.Enforcer;
 import org.casbin.jcasbin.model.Assertion;
 import org.casbin.jcasbin.model.Model;
-import org.casbin.jcasbin.main.Enforcer;
 import org.casbin.jcasbin.persist.Adapter;
 import org.casbin.jcasbin.persist.Watcher;
 import org.springframework.beans.factory.SmartInitializingSingleton;

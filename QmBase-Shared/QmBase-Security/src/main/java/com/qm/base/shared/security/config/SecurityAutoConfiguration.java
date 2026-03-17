@@ -1,7 +1,7 @@
 package com.qm.base.shared.security.config;
 
-import com.qm.base.shared.security.mapping.EmptyScopeMappingLoader;
-import com.qm.base.shared.security.mapping.ScopeMappingLoader;
+import com.qm.base.shared.security.mapping.DefaultSecurityScopeLoader;
+import com.qm.base.shared.security.mapping.SecurityScopeLoader;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -29,9 +29,9 @@ public class SecurityAutoConfiguration {
      * @return 一个 ScopeMappingLoader 实例
      */
     @Bean
-    @ConditionalOnMissingBean(ScopeMappingLoader.class)
-    public ScopeMappingLoader scopeMappingLoader() {
-        // 返回一个空的域映射加载器，避免在没有配置时出现错误
-        return new EmptyScopeMappingLoader();
+    @ConditionalOnMissingBean(SecurityScopeLoader.class)
+    public SecurityScopeLoader scopeLoader() {
+        // 返回一个默认的域加载器，避免在没有配置时出现错误
+        return new DefaultSecurityScopeLoader();
     }
 }

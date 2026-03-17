@@ -1,4 +1,4 @@
-package com.qm.base.shared.security.constants;
+package com.qm.base.core.security.constants;
 
 /**
  * SecurityConstant 类定义了安全相关的常量。
@@ -16,5 +16,5 @@ public class SecurityConstant {
      * 默认的安全操作标识，表示所有操作。
      * 在没有指定具体操作时使用此默认值。
      */
-    public static final String SECURITY_ACTION_DEFAULT = "*";
+    public static final String SECURITY_METHOD_DEFAULT = "*";
 }
