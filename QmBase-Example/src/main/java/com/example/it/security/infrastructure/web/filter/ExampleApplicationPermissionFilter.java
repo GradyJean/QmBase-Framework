@@ -2,12 +2,12 @@ package com.example.it.security.infrastructure.web.filter;
 
 import com.example.it.security.infrastructure.casbin.manager.ExampleApplicationPermissionManager;
 import com.qm.base.shared.security.context.SecurityContext;
-import com.qm.base.shared.security.filter.AbstractPermissionFilter;
+import com.qm.base.shared.security.filter.CasbinPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExampleApplicationPermissionFilter extends AbstractPermissionFilter {
+public class ExampleApplicationPermissionFilter extends CasbinPermissionFilter {
 
     public ExampleApplicationPermissionFilter(ExampleApplicationPermissionManager permissionManager) {
         super(permissionManager);
