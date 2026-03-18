@@ -5,13 +5,13 @@ import com.example.it.security.infrastructure.repository.mapper.ResourcePolicyMa
 import com.example.it.security.infrastructure.repository.mapper.RoleMappingMapper;
 import com.example.it.security.infrastructure.repository.po.ResourcePolicyPO;
 import com.example.it.security.infrastructure.repository.po.RoleMappingPO;
-import com.qm.base.shared.security.casbin.manager.AbstractPermissionManager;
+import com.qm.base.shared.security.casbin.manager.BasePermissionManager;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-abstract class ExamplePermissionManagerSupport extends AbstractPermissionManager {
+abstract class ExamplePermissionManagerSupport extends BasePermissionManager {
 
     private final RoleMappingMapper roleMappingMapper;
     private final ResourcePolicyMapper resourcePolicyMapper;
@@ -25,7 +25,8 @@ abstract class ExamplePermissionManagerSupport extends AbstractPermissionManager
     }
 
     @Override
-    protected List<List<String>> loadPolicies(String scope) {
+    protected List<List<String>> loadPolicies() {
+        String scope = getScope();
         List<List<String>> policies = new ArrayList<>();
         List<RoleMappingPO> roleMappings = roleMappingMapper.listByScopeCode(scope);
         List<ResourcePolicyPO> resourcePolicies = resourcePolicyMapper.listByScopeCode(scope);
@@ -35,25 +36,23 @@ abstract class ExamplePermissionManagerSupport extends AbstractPermissionManager
     }
 
     @Override
-    protected boolean persistPolicy(String scope, String ptype, List<String> rule) {
-        if ("g".equals(ptype)) {
-            return insertRoleMapping(scope, rule) > 0;
-        }
-        if ("p".equals(ptype)) {
-            return insertResourcePolicy(scope, rule) > 0;
-        }
-        throw new IllegalArgumentException("Unsupported ptype: " + ptype);
+    protected boolean savePolicyRule(List<String> rule) {
+        return insertResourcePolicy(getScope(), rule) > 0;
     }
 
     @Override
-    protected boolean deletePolicy(String scope, String ptype, List<String> rule) {
-        if ("g".equals(ptype)) {
-            return removeRoleMapping(scope, rule);
-        }
-        if ("p".equals(ptype)) {
-            return removeResourcePolicy(scope, rule);
-        }
-        throw new IllegalArgumentException("Unsupported ptype: " + ptype);
+    protected boolean deletePolicyRule(List<String> rule) {
+        return removeResourcePolicy(getScope(), rule);
+    }
+
+    @Override
+    protected boolean saveGroupingPolicyRule(List<String> rule) {
+        return insertRoleMapping(getScope(), rule) > 0;
+    }
+
+    @Override
+    protected boolean deleteGroupingPolicyRule(List<String> rule) {
+        return removeRoleMapping(getScope(), rule);
     }
 
     private int insertRoleMapping(String scope, List<String> rule) {

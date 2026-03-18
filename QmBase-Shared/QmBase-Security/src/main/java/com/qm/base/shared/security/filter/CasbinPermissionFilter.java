@@ -1,7 +1,7 @@
 package com.qm.base.shared.security.filter;
 
 import com.qm.base.core.security.model.PermissionState;
-import com.qm.base.shared.security.casbin.manager.AbstractPermissionManager;
+import com.qm.base.shared.security.casbin.manager.BasePermissionManager;
 import com.qm.base.shared.security.context.SecurityContext;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.Assert;
@@ -11,9 +11,9 @@ import org.springframework.util.Assert;
  * 子类需指定权限域、选择对应的 PermissionManager，并实现请求参数映射逻辑。
  */
 public abstract class CasbinPermissionFilter extends BasePermissionFilter {
-    private final AbstractPermissionManager permissionManager;
+    private final BasePermissionManager permissionManager;
 
-    public CasbinPermissionFilter(AbstractPermissionManager permissionManager) {
+    public CasbinPermissionFilter(BasePermissionManager permissionManager) {
         Assert.notNull(permissionManager, "permissionManager must not be null");
         this.permissionManager = permissionManager;
     }

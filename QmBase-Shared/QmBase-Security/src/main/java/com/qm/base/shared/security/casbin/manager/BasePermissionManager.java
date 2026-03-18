@@ -9,6 +9,7 @@ import org.casbin.jcasbin.persist.Watcher;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,14 +19,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractPermissionManager implements SmartInitializingSingleton {
+public abstract class BasePermissionManager implements SmartInitializingSingleton {
 
     private final String scope;
     private final String modelPath;
     private volatile Enforcer enforcer;
     private Watcher watcher;
 
-    public AbstractPermissionManager(String scope, String modelPath) {
+    public BasePermissionManager(String scope, String modelPath) {
         Assert.hasText(scope, "scope must not be empty");
         Assert.hasText(modelPath, "modelPath must not be empty");
         this.scope = scope;
@@ -98,13 +99,17 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
         getEnforcer();
     }
 
-    protected abstract List<List<String>> loadPolicies(String scope);
+    protected abstract List<List<String>> loadPolicies();
 
-    protected abstract boolean persistPolicy(String scope, String ptype, List<String> rule);
+    protected abstract boolean savePolicyRule(List<String> rule);
 
-    protected abstract boolean deletePolicy(String scope, String ptype, List<String> rule);
+    protected abstract boolean deletePolicyRule(List<String> rule);
 
-    protected boolean deleteFilteredPolicy(String scope, String ptype, int fieldIndex, String... fieldValues) {
+    protected abstract boolean saveGroupingPolicyRule(List<String> rule);
+
+    protected abstract boolean deleteGroupingPolicyRule(List<String> rule);
+
+    protected boolean deleteFilteredPolicy(String ptype, int fieldIndex, String... fieldValues) {
         return false;
     }
 
@@ -130,7 +135,7 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
     private final class ManagerPolicyAdapter implements Adapter {
         @Override
         public void loadPolicy(Model model) {
-            List<List<String>> policies = AbstractPermissionManager.this.loadPolicies(scope);
+            List<List<String>> policies = BasePermissionManager.this.loadPolicies();
             if (policies == null || policies.isEmpty()) {
                 return;
             }
@@ -139,6 +144,9 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
                     continue;
                 }
                 String ptype = policy.getFirst();
+                if (!StringUtils.hasText(ptype)) {
+                    continue;
+                }
                 String sec = ptype.substring(0, 1);
                 Map<String, Assertion> astMap = model.model.get(sec);
                 if (astMap == null) {
@@ -161,7 +169,11 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
 
         @Override
         public void addPolicy(String sec, String ptype, List<String> rule) {
-            boolean success = AbstractPermissionManager.this.persistPolicy(scope, ptype, rule);
+            boolean success = switch (ptype) {
+                case "p" -> BasePermissionManager.this.savePolicyRule(rule);
+                case "g" -> BasePermissionManager.this.saveGroupingPolicyRule(rule);
+                default -> throw new IllegalArgumentException("Unsupported ptype: " + ptype);
+            };
             if (!success) {
                 throw new IllegalStateException("Persist policy failed: " + ptype + " " + Arrays.toString(rule.toArray()));
             }
@@ -169,7 +181,11 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
 
         @Override
         public void removePolicy(String sec, String ptype, List<String> rule) {
-            boolean success = AbstractPermissionManager.this.deletePolicy(scope, ptype, rule);
+            boolean success = switch (ptype) {
+                case "p" -> BasePermissionManager.this.deletePolicyRule(rule);
+                case "g" -> BasePermissionManager.this.deleteGroupingPolicyRule(rule);
+                default -> throw new IllegalArgumentException("Unsupported ptype: " + ptype);
+            };
             if (!success) {
                 throw new IllegalStateException("Delete policy failed: " + ptype + " " + Arrays.toString(rule.toArray()));
             }
@@ -177,7 +193,7 @@ public abstract class AbstractPermissionManager implements SmartInitializingSing
 
         @Override
         public void removeFilteredPolicy(String sec, String ptype, int fieldIndex, String... fieldValues) {
-            boolean success = AbstractPermissionManager.this.deleteFilteredPolicy(scope, ptype, fieldIndex, fieldValues);
+            boolean success = BasePermissionManager.this.deleteFilteredPolicy(ptype, fieldIndex, fieldValues);
             if (!success) {
                 throw new IllegalStateException("Delete filtered policy failed: " + ptype);
             }
