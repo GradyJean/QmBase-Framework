@@ -19,7 +19,7 @@ import java.util.List;
  * 主要用于在认证流程中提供一个入口点，便于后续的认证处理。
  */
 @Component
-public class AuthEntryPointFilter implements QmFilter {
+public class AuthEndpointFilter implements QmFilter {
 
     /**
      * 默认的认证 URL 列表，通常用于匹配需要进行认证的请求路径。

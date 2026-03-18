@@ -1,6 +1,6 @@
 package com.qm.base.shared.security.filter;
 
-import com.qm.base.core.security.constants.SecurityConstant;
+import com.qm.base.core.security.model.PermissionState;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.context.SecurityContextHolder;
 import com.qm.base.shared.security.exception.SecurityError;
@@ -23,17 +23,22 @@ public abstract class BasePermissionFilter implements QmFilter {
     @Override
     public boolean match(HttpServletRequest request) {
         SecurityContext context = SecurityContextHolder.getContext();
-        return (!context.isAuthorized()
-                && matchScope(context.getSecurityScope()))
-                || SecurityConstant.SECURITY_SCOPE_DEFAULT.equals(context.getSecurityScope());
+        return PermissionState.PENDING.equals(context.getPermissionState());
     }
 
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
         SecurityContext context = SecurityContextHolder.getContext();
-        boolean permitted = isPermitted(request, context);
-        if (!permitted) {
+        if (!supports(request, context)) {
+            chain.doFilter(request, response);
+            return;
+        }
+        PermissionState state = handle(request, context);
+        if (PermissionState.DENIED.equals(state)) {
             throw new SecurityException(SecurityError.SECURITY_NO_PERMISSION);
+        }
+        if (!PermissionState.PENDING.equals(state)) {
+            context.setPermissionState(state);
         }
         chain.doFilter(request, response);
     }
@@ -44,21 +49,22 @@ public abstract class BasePermissionFilter implements QmFilter {
     }
 
     /**
-     * 判断当前过滤器是否适用于当前权限域。
-     *
-     * @param securityScope 当前请求所属的权限域
-     * @return true 表示执行当前过滤器
-     */
-    protected abstract boolean matchScope(String securityScope);
-
-    /**
-     * 执行具体权限判断逻辑。
+     * 判断当前过滤器是否适用于当前请求。
      *
      * @param request 当前请求对象
      * @param context 当前线程上下文中的安全信息
-     * @return true 表示有权限，false 表示无权限
+     * @return true 表示执行当前过滤器
      */
-    protected abstract boolean isPermitted(HttpServletRequest request, SecurityContext context);
+    protected abstract boolean supports(HttpServletRequest request, SecurityContext context);
+
+    /**
+     * 执行当前过滤器的权限处理逻辑。
+     *
+     * @param request 当前请求对象
+     * @param context 当前线程上下文中的安全信息
+     * @return 当前过滤器的处理状态
+     */
+    protected abstract PermissionState handle(HttpServletRequest request, SecurityContext context);
 
     /**
      * 获取权限检查的偏移量，用于调整过滤器执行顺序。

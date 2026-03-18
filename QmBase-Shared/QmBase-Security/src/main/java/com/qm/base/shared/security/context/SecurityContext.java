@@ -1,5 +1,6 @@
 package com.qm.base.shared.security.context;
 
+import com.qm.base.core.security.model.PermissionState;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 /**
  * 安全上下文类，用于存储当前请求的安全相关信息。
- * 包括用户 ID、设备 ID、请求链路追踪 ID、授权状态以及其他扩展属性。
+ * 包括用户 ID、设备 ID、权限处理状态以及其他扩展属性。
  * <p>
  * 该类可用于在应用程序中传递和共享安全相关信息，支持属性透传到下游服务。
  * </p>
@@ -27,10 +28,9 @@ public class SecurityContext {
      */
     private String deviceId;
     /**
-     * 是否已授权，默认为 false
-     * 在实际业务中可根据需要设置为 true 或 false
+     * 当前权限处理状态。
      */
-    private boolean authorized = false;
+    private PermissionState permissionState = PermissionState.PENDING;
 
     /**
      * 权限域信息

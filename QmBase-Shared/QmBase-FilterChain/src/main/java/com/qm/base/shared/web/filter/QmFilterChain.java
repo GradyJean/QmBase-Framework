@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +40,7 @@ public class QmFilterChain {
      * 是否跳过后续过滤器执行的标志，默认为 false。
      * 如果设置为 true，则后续的过滤器将不会被执行。
      */
+    @Setter
     private boolean byPass = false;
 
     public QmFilterChain(List<QmFilter> filters, FilterChain originalChain) {
@@ -85,7 +87,4 @@ public class QmFilterChain {
         }
     }
 
-    public void setByPass(boolean byPass) {
-        this.byPass = byPass;
-    }
 }

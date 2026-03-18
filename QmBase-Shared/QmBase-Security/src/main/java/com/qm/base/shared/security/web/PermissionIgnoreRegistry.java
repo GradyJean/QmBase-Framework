@@ -1,7 +1,7 @@
 
 package com.qm.base.shared.security.web;
 
-import com.qm.base.shared.security.annotation.IgnorePermission;
+import com.qm.base.shared.security.annotation.PermissionIgnore;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -20,7 +20,7 @@ import java.util.Set;
  * 在权限过滤中跳过这些方法。
  */
 @Component
-public class IgnorePermissionRegistry implements ApplicationContextAware {
+public class PermissionIgnoreRegistry implements ApplicationContextAware {
 
     private static final Set<String> IGNORE_URIS = new HashSet<>();
 
@@ -30,7 +30,7 @@ public class IgnorePermissionRegistry implements ApplicationContextAware {
 
     private final RequestMappingHandlerMapping handlerMapping;
 
-    public IgnorePermissionRegistry(@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping handlerMapping) {
+    public PermissionIgnoreRegistry(@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping handlerMapping) {
         this.handlerMapping = handlerMapping;
     }
 
@@ -44,7 +44,7 @@ public class IgnorePermissionRegistry implements ApplicationContextAware {
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         Map<RequestMappingInfo, HandlerMethod> map = handlerMapping.getHandlerMethods();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : map.entrySet()) {
-            if (entry.getValue().hasMethodAnnotation(IgnorePermission.class)) {
+            if (entry.getValue().hasMethodAnnotation(PermissionIgnore.class)) {
                 // 保存不需权限校验的 URI
                 if (entry.getKey().getPathPatternsCondition() != null) {
                     IGNORE_URIS.addAll(entry.getKey().getPathPatternsCondition().getDirectPaths());

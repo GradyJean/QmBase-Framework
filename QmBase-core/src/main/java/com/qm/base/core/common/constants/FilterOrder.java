@@ -41,6 +41,11 @@ public enum FilterOrder {
      * 在 SECURITY_CONTEXT 之后执行，确保上下文已准备好。
      */
     CUSTOM_PERMISSION(300),
+    /**
+     * PERMISSION_ENFORCEMENT：权限处理兜底过滤器。
+     * 当请求未被任何权限过滤器最终放行时，在进入业务前统一拒绝。
+     */
+    PERMISSION_ENFORCEMENT(400),
     ;
 
     /**

@@ -12,24 +12,17 @@ public class DefaultSecurityScopeLoader implements SecurityScopeLoader {
     }
 
     static class DefaultSecurityScope implements SecurityScope {
-        private final String resourcePattern;
-        private final String httpMethod;
+        private final String pathPattern;
         private final String scope;
 
         public DefaultSecurityScope() {
-            this.resourcePattern = "/**";
-            this.httpMethod = SecurityConstant.SECURITY_METHOD_DEFAULT;
+            this.pathPattern = "/**";
             this.scope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
         }
 
         @Override
-        public String getResourcePattern() {
-            return this.resourcePattern;
-        }
-
-        @Override
-        public String getHttpMethod() {
-            return this.httpMethod;
+        public String getPathPattern() {
+            return this.pathPattern;
         }
 
         @Override
