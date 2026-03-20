@@ -31,9 +31,7 @@ public abstract class CasbinPermissionFilter extends BasePermissionFilter {
         return onEnforce(hasPermission);
     }
 
-    protected PermissionState onEnforce(boolean granted) {
-        return granted ? PermissionState.ALLOWED : PermissionState.DENIED;
-    }
+    protected abstract PermissionState onEnforce(boolean granted);
 
     /**
      * 获取权限模型中定义的请求参数。
