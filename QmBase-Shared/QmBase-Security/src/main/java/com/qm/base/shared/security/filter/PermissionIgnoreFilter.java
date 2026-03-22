@@ -24,13 +24,20 @@ import java.io.IOException;
 @Component
 public class PermissionIgnoreFilter implements QmFilter {
 
+    private final PermissionRegistry permissionRegistry;
+
     @Resource
     private SecurityProperties securityProperties;
 
+    public PermissionIgnoreFilter(PermissionRegistry permissionRegistry) {
+        this.permissionRegistry = permissionRegistry;
+    }
+
     @Override
     public boolean match(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        return AntPathMatcherUtil.match(path, securityProperties.getExcludePermissionUrls()) || PermissionRegistry.isIgnored(path);
+        String path = request.getServletPath();
+        String method = request.getMethod();
+        return AntPathMatcherUtil.match(path, securityProperties.getExcludePermissionUrls()) || permissionRegistry.isIgnored(path, method);
     }
 
     @Override
