@@ -36,4 +36,18 @@ public class AntPathMatcherUtil {
         }
         return false;
     }
+
+    /**
+     * 使用 Ant 风格的路径匹配器判断给定路径是否匹配指定模式。
+     *
+     * @param path    要检查的路径
+     * @param pattern 要匹配的模式，例如 "/story/{id}/update"
+     * @return 如果匹配则返回 true，否则返回 false
+     */
+    public static boolean match(String path, String pattern) {
+        if (path == null || pattern == null || pattern.isBlank()) {
+            return false;
+        }
+        return MATCHER.match(pattern, path);
+    }
 }
