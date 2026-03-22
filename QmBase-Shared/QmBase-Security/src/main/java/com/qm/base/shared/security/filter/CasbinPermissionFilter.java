@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
  * 子类需指定权限域、选择对应的 PermissionManager，并实现请求参数映射逻辑。
  */
 public abstract class CasbinPermissionFilter extends BasePermissionFilter {
-    private final BasePermissionManager permissionManager;
+    protected final BasePermissionManager permissionManager;
 
     public CasbinPermissionFilter(BasePermissionManager permissionManager) {
         Assert.notNull(permissionManager, "permissionManager must not be null");
