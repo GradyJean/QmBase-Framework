@@ -71,7 +71,11 @@ public class PermissionRegistry implements SmartInitializingSingleton {
                 for (String pattern : patterns) {
                     for (String method : methods) {
                         RoutePattern routePattern = new RoutePattern(pattern, method);
-                        PermissionRecord record = new PermissionRecord(permission.name(), permission.action(), method);
+                        PermissionRecord record = new PermissionRecord(
+                                permission.name(),
+                                permission.action(),
+                                method,
+                                permission.resourceType());
                         permissionPatterns.put(routePattern, record);
                     }
                 }
@@ -82,7 +86,7 @@ public class PermissionRegistry implements SmartInitializingSingleton {
     /**
      * 检查给定的请求 URI 是否被标记为忽略权限校验。
      *
-     * @param path    请求的 URI
+     * @param path          请求的 URI
      * @param requestMethod 请求方法
      * @return 如果该 URI 被标记为忽略权限校验，则返回 true，否则返回 false
      */
