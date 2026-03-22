@@ -21,7 +21,7 @@ public abstract class CasbinPermissionFilter extends BasePermissionFilter {
     @Override
     protected boolean supports(HttpServletRequest request, SecurityContext context) {
         String scope = permissionManager.getScope();
-        return scope.equals(context.getSecurityScope());
+        return context.getSecurityScopes().contains(scope);
     }
 
     @Override

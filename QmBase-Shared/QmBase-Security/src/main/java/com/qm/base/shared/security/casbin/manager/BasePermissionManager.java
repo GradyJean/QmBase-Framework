@@ -33,6 +33,12 @@ public abstract class BasePermissionManager implements SmartInitializingSingleto
         this.modelPath = modelPath;
     }
 
+    public BasePermissionManager(String modelPath) {
+        Assert.hasText(modelPath, "modelPath must not be empty");
+        this.scope = "*";
+        this.modelPath = modelPath;
+    }
+
     public final String getScope() {
         return scope;
     }

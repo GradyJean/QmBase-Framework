@@ -1,6 +1,7 @@
 package com.example.it.security.infrastructure.web.filter;
 
 import com.example.it.security.infrastructure.casbin.manager.ExampleSystemPermissionManager;
+import com.qm.base.core.security.model.PermissionState;
 import com.qm.base.shared.security.context.SecurityContext;
 import com.qm.base.shared.security.filter.CasbinPermissionFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,11 @@ public class ExampleSystemPermissionFilter extends CasbinPermissionFilter {
     @Override
     protected int getOrderOffset() {
         return 1;
+    }
+
+    @Override
+    protected PermissionState onEnforce(boolean granted) {
+        return null;
     }
 
     @Override

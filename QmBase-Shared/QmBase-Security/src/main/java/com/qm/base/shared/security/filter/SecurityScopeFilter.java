@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,14 +44,15 @@ public class SecurityScopeFilter implements QmFilter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
         String requestUri = request.getServletPath();
-        String contextScope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
+        List<String> contentScops = new ArrayList<>();
         for (SecurityScope securityScope : securityScopes) {
             if (matcher.match(securityScope.getPathPattern(), requestUri)) {
-                contextScope = securityScope.getScope();
-                break;
+                contentScops.add(securityScope.getScope());
             }
         }
-        SecurityContextHolder.getContext().setSecurityScope(contextScope);
+        // 默认权限域为空时添加默认权限域
+        contentScops = contentScops.isEmpty() ? List.of(SecurityConstant.SECURITY_SCOPE_DEFAULT) : contentScops;
+        SecurityContextHolder.getContext().setSecurityScopes(contentScops);
         chain.doFilter(request, response);
     }
 

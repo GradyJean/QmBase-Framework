@@ -35,7 +35,7 @@ public class SecurityContext {
     /**
      * 权限域信息
      */
-    private String securityScope;
+    private List<String> securityScopes;
     /**
      * 扩展字段（如角色、租户 ID、部门 ID 等），可按需透传
      */
