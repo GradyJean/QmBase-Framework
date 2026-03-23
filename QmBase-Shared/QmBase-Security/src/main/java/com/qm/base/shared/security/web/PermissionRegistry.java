@@ -72,9 +72,10 @@ public class PermissionRegistry implements SmartInitializingSingleton {
                     for (String method : methods) {
                         RoutePattern routePattern = new RoutePattern(pattern, method);
                         PermissionRecord record = new PermissionRecord(
+                                pattern,
+                                method,
                                 permission.name(),
                                 permission.action(),
-                                method,
                                 permission.resourceType());
                         permissionPatterns.put(routePattern, record);
                     }
