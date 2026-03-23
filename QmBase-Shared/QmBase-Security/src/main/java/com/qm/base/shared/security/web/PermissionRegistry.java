@@ -76,7 +76,7 @@ public class PermissionRegistry implements SmartInitializingSingleton {
                                 method,
                                 permission.name(),
                                 permission.action(),
-                                permission.resourceType());
+                                permission.vResourceType());
                         permissionPatterns.put(routePattern, record);
                     }
                 }

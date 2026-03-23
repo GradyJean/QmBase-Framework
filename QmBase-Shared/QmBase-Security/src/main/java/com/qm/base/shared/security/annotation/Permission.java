@@ -21,9 +21,9 @@ public @interface Permission {
     String action();
 
     /**
-     * 资源类型
+     * 需要校验的资源类型
      *
      * @return 资源类型
      */
-    String resourceType() default "";
+    String vResourceType() default "";
 }
