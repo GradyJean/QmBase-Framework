@@ -1,5 +1,8 @@
 package com.qm.base.shared.security.annotation;
 
+
+import com.qm.base.core.security.constants.Action;
+
 import java.lang.annotation.*;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
@@ -18,7 +21,7 @@ public @interface Permission {
      *
      * @return 权限动作
      */
-    String action();
+    Action action();
 
     /**
      * 需要校验的资源类型
@@ -26,4 +29,11 @@ public @interface Permission {
      * @return 资源类型
      */
     String vResourceType() default "";
+
+    /**
+     * 是否需有资源注册
+     *
+     * @return boolean
+     */
+    boolean hasResource() default false;
 }

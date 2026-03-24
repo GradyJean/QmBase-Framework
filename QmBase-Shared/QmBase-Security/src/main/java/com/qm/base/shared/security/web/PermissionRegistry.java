@@ -3,6 +3,7 @@ package com.qm.base.shared.security.web;
 
 import com.qm.base.core.security.constants.SecurityConstant;
 import com.qm.base.core.security.model.PermissionRecord;
+import com.qm.base.core.utils.StringUtils;
 import com.qm.base.shared.security.annotation.Permission;
 import com.qm.base.shared.security.annotation.PermissionIgnore;
 import com.qm.base.shared.security.util.AntPathMatcherUtil;
@@ -76,7 +77,7 @@ public class PermissionRegistry implements SmartInitializingSingleton {
                                 method,
                                 permission.name(),
                                 permission.action(),
-                                permission.vResourceType());
+                                StringUtils.isBlank(permission.vResourceType()) ? permission.name() : permission.vResourceType());
                         permissionPatterns.put(routePattern, record);
                     }
                 }
