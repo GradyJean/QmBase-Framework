@@ -9,4 +9,6 @@ public interface SecurityScope {
     String getPathPattern();
 
     String getScope();
+
+    String getName();
 }

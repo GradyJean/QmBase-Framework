@@ -14,8 +14,10 @@ public class DefaultSecurityScopeLoader implements SecurityScopeLoader {
     static class DefaultSecurityScope implements SecurityScope {
         private final String pathPattern;
         private final String scope;
+        private final String name;
 
         public DefaultSecurityScope() {
+            this.name = "Default";
             this.pathPattern = "/**";
             this.scope = SecurityConstant.SECURITY_SCOPE_DEFAULT;
         }
@@ -28,6 +30,11 @@ public class DefaultSecurityScopeLoader implements SecurityScopeLoader {
         @Override
         public String getScope() {
             return this.scope;
+        }
+
+        @Override
+        public String getName() {
+            return this.name;
         }
     }
 }
