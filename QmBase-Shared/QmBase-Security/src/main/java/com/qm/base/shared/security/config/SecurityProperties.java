@@ -1,6 +1,9 @@
 package com.qm.base.shared.security.config;
 
 import com.qm.base.core.auth.config.TokenProperties;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -10,6 +13,7 @@ import java.util.List;
  * 包括 JWT 相关配置项、权限排除路径，以及完全跳过所有安全机制的路径配置。
  */
 @ConfigurationProperties(prefix = "qm.security")
+@Data
 public class SecurityProperties implements TokenProperties {
 
     /**
@@ -42,37 +46,29 @@ public class SecurityProperties implements TokenProperties {
      */
     private List<String> excludeAllUrls;
 
-    @Override
-    public String getSecret() {
-        return this.secret;
-    }
-
-    @Override
-    public String getIssuer() {
-        return this.issuer;
-    }
+    /**
+     * 本地调试 mock 安全上下文配置。
+     */
+    private Mock mock;
 
     public List<String> getExcludePermissionUrls() {
         return excludePermissionUrls != null ? excludePermissionUrls : DEFAULT_EXCLUDE_PERMISSION_URLS;
-    }
-
-    public void setExcludePermissionUrls(List<String> excludePermissionUrls) {
-        this.excludePermissionUrls = excludePermissionUrls;
     }
 
     public List<String> getExcludeAllUrls() {
         return excludeAllUrls != null ? excludeAllUrls : DEFAULT_EXCLUDE_ALL_URLS;
     }
 
-    public void setExcludeAllUrls(List<String> excludeAllUrls) {
-        this.excludeAllUrls = excludeAllUrls;
-    }
+    @Data
+    public static class Mock {
+        /**
+         * 是否启用 mock。
+         */
+        private boolean enable = false;
 
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public void setIssuer(String issuer) {
-        this.issuer = issuer;
+        /**
+         * mock 注入的用户 ID。
+         */
+        private String userId;
     }
 }

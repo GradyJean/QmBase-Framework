@@ -6,6 +6,7 @@ import com.qm.base.core.http.HttpStatus;
 public enum SecurityError implements ICode {
     // 通用错误
     SECURITY_ERROR("SECURITY_ERROR", "鉴权模块异常", HttpStatus.INTERNAL_SERVER_ERROR),
+    SECURITY_MOCK_USER_EMPTY("SECURITY_MOCK_USER_EMPTY", "mock 用户为空", HttpStatus.INTERNAL_SERVER_ERROR),
     // Token 相关
     SECURITY_TOKEN_EMPTY("AUTH_TOKEN_EMPTY", "令牌为空", HttpStatus.UNAUTHORIZED),
     SECURITY_TOKEN_INVALID("AUTH_TOKEN_INVALID", "令牌无效", HttpStatus.UNAUTHORIZED),

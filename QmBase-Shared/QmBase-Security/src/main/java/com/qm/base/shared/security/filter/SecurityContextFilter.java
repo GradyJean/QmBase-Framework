@@ -37,11 +37,13 @@ public class SecurityContextFilter implements QmFilter {
      * token 管理器
      */
     private final TokenManager tokenManager;
+    private final SecurityProperties securityProperties;
 
     /**
      * 构造函数，注入安全配置项并初始化 token 管理器。
      */
     public SecurityContextFilter(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
         tokenManager = new JwtTokenManager(securityProperties);
     }
 
@@ -65,6 +67,19 @@ public class SecurityContextFilter implements QmFilter {
      */
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws IOException, ServletException {
+        // mock 模式
+        SecurityProperties.Mock mock = securityProperties.getMock();
+        if (mock != null && mock.isEnable()) {
+            SecurityAssert.INSTANCE.isTrue(StringUtils.isNotBlank(mock.getUserId()), SecurityError.SECURITY_MOCK_USER_EMPTY);
+            SecurityContextHolder.setContext(new SecurityContext(mock.getUserId(), "mock"));
+            try {
+                chain.doFilter(request, response);
+            } finally {
+                SecurityContextHolder.clearContext();
+            }
+            return;
+        }
+        // 权限正常模式
         String authorization = request.getHeader(HeaderConstant.AUTHORIZATION);
         String accessToken = null;
 
