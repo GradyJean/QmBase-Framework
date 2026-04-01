@@ -26,6 +26,6 @@ public class ExampleSystemPermissionFilter extends CasbinPermissionFilter {
 
     @Override
     protected String[] getRequestParameters(HttpServletRequest request, SecurityContext context) {
-        return new String[]{String.valueOf(context.getUserId()), request.getRequestURI(), request.getMethod()};
+        return new String[]{String.valueOf(context.getUserId()), request.getServletPath(), request.getMethod()};
     }
 }

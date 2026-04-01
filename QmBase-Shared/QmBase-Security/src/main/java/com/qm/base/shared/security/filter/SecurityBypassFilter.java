@@ -32,13 +32,13 @@ public class SecurityBypassFilter implements QmFilter {
 
     @Override
     public boolean match(HttpServletRequest request) {
-        String path = request.getRequestURI();
+        String path = request.getServletPath();
         return AntPathMatcherUtil.match(path, securityProperties.getExcludeAllUrls());
     }
 
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, QmFilterChain chain) throws ServletException, IOException {
-        String path = request.getRequestURI();
+        String path = request.getServletPath();
         LOGGER.debug("SecurityBypassFilter: 跳过安全拦截器，匹配路径: {}", path);
         // 设置 byPass 标志，跳过后续所有安全相关过滤器
         chain.setByPass(true);

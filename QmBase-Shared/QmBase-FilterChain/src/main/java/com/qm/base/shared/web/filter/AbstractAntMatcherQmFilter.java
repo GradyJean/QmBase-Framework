@@ -9,7 +9,7 @@ public abstract class AbstractAntMatcherQmFilter implements QmFilter {
 
     @Override
     public boolean match(HttpServletRequest request) {
-        String requestUri = request.getRequestURI();
+        String requestUri = request.getServletPath();
         String method = request.getMethod();
         String pattern = getPattern();
         String httpMethod = getHttpMethod();
