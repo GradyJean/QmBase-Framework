@@ -49,7 +49,7 @@
     </springProfile>
 
     <!-- 开发组环境根日志配置 -->
-    <springProfile name="dev,test,local,mock">
+    <springProfile name="dev">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE"/>
