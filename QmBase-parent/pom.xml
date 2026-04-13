@@ -36,6 +36,8 @@
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <nexus.releases.url>http://124.16.154.246:7777/repository/maven-releases/</nexus.releases.url>
+        <nexus.snapshots.url>http://124.16.154.246:7777/repository/maven-snapshots/</nexus.snapshots.url>
     </properties>
     <dependencies>
         <dependency>
@@ -213,5 +215,18 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Releases</name>
+            <url>${nexus.releases.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshots</name>
+            <url>${nexus.snapshots.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
