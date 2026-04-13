@@ -15,16 +15,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.13</version>
         <relativePath/> <!-- 防止寻找本地 spring-boot-parent -->
     </parent>
 
     <properties>
         <maven.test.skip>true</maven.test.skip>
         <java.version>24</java.version>
-        <spring.boot.version>3.4.5</spring.boot.version>
+        <spring.boot.version>3.5.13</spring.boot.version>
         <qm.base.version>1.0-SNAPSHOT</qm.base.version>
-        <redis.version>3.4.5</redis.version>
+        <redis.version>3.5.13</redis.version>
         <caffeine.version>3.2.0</caffeine.version>
         <curator.version>5.7.1</curator.version>
         <mybatis.spring.boot.version>3.0.3</mybatis.spring.boot.version>
@@ -213,4 +213,5 @@
             </plugins>
         </pluginManagement>
     </build>
+
 </project>
