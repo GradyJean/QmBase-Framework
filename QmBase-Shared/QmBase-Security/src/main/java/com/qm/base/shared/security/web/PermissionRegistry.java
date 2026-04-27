@@ -77,7 +77,7 @@ public class PermissionRegistry implements SmartInitializingSingleton {
                                 method,
                                 permission.name(),
                                 permission.action(),
-                                StringUtils.isBlank(permission.vResourceType()) ? permission.name() : permission.vResourceType());
+                                permission.vResourceType());
                         permissionPatterns.put(routePattern, record);
                     }
                 }
