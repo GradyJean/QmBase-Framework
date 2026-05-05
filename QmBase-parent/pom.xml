@@ -31,6 +31,8 @@
         <configuration-processor.version>3.3.4</configuration-processor.version>
         <casbin.version>1.82.0</casbin.version>
         <feign.version>4.3.0</feign.version>
+        <wechatpay.java.version>0.2.17</wechatpay.java.version>
+        <alipay.sdk.java.version>3.1.78.ALL</alipay.sdk.java.version>
         <lombok.version>1.18.38</lombok.version>
         <junit.version>5.10.2</junit.version>
         <maven.compiler.source>24</maven.compiler.source>
@@ -97,6 +99,21 @@
                 <version>${qm.base.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.qm.base.payment</groupId>
+                <artifactId>QmBase-Payment</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qm.base.payment</groupId>
+                <artifactId>QmBase-Payment-Wechat</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qm.base.payment</groupId>
+                <artifactId>QmBase-Payment-Alipay</artifactId>
+                <version>${qm.base.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.qm.base.shared</groupId>
                 <artifactId>QmBase-Security</artifactId>
                 <version>${qm.base.version}</version>
@@ -131,6 +148,16 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.wechatpay-apiv3</groupId>
+                <artifactId>wechatpay-java</artifactId>
+                <version>${wechatpay.java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java-v3</artifactId>
+                <version>${alipay.sdk.java.version}</version>
             </dependency>
             <!-- MyBatis -->
             <dependency>
