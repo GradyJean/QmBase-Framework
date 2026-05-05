@@ -3,7 +3,6 @@ package com.qm.base.shared.notifier.provider.support;
 import com.qm.base.shared.notifier.provider.NotifyProvider;
 import com.qm.base.shared.notifier.schema.NotifySendSchema;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -13,7 +12,6 @@ import java.util.UUID;
  * 用于本地开发、调试或尚未接入真实通知厂商时的兜底发送实现。
  */
 @Slf4j
-@Component
 public class LogNotifyProvider implements NotifyProvider {
 
     /**

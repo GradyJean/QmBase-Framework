@@ -21,6 +21,7 @@
         <module>QmBase-Id</module>
         <module>QmBase-FilterChain</module>
         <module>QmBase-Notifier</module>
+        <module>QmBase-Notifier-External</module>
     </modules>
 
     <properties>

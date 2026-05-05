@@ -5,7 +5,6 @@ import com.qm.base.shared.notifier.provider.NotifyProvider;
 import com.qm.base.shared.notifier.schema.NotifySendSchema;
 import com.qm.base.shared.notifier.service.NotifierService;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 /**
  * 统一通知服务默认实现。
  */
-@Service
 public class NotifierServiceImpl implements NotifierService {
 
     private final Map<String, NotifyProvider> notifyProviderMap;

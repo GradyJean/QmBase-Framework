@@ -7,7 +7,6 @@ import com.qm.base.payment.schema.PayCreateSchema;
 import com.qm.base.payment.schema.PayNotifySchema;
 import com.qm.base.payment.schema.PayQuerySchema;
 import com.qm.base.payment.service.PaymentService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
  * <p>
  * 负责按支付渠道路由到具体的支付提供者实现。
  */
-@Service
 public class PaymentServiceImpl implements PaymentService {
 
     private final Map<PaymentProviderType, PaymentProvider> paymentProviderMap;
