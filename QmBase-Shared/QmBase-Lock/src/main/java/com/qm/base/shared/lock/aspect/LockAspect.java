@@ -26,11 +26,13 @@ import java.util.UUID;
 @Component
 public class LockAspect {
 
-    @Autowired
-    private LocalLockService localLockService;
+    private final LocalLockService localLockService;
+    private final DistributedLockService distributedLockService;
 
-    @Autowired
-    private DistributedLockService distributedLockService;
+    public LockAspect(LocalLockService localLockService, DistributedLockService distributedLockService) {
+        this.localLockService = localLockService;
+        this.distributedLockService = distributedLockService;
+    }
 
     /**
      * 环绕通知：拦截带有 @Lock 注解的方法

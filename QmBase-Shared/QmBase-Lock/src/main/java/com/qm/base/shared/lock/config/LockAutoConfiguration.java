@@ -1,6 +1,8 @@
 package com.qm.base.shared.lock.config;
 
 import com.qm.base.shared.lock.distribute.core.DistributedLockProperties;
+import com.qm.base.shared.lock.distribute.core.DistributedLockService;
+import com.qm.base.shared.lock.distribute.core.EmptyDistributedLockService;
 import com.qm.base.shared.lock.local.LocalLockService;
 import com.qm.base.shared.lock.local.ReentrantLocalLockService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,5 +29,14 @@ public class LockAutoConfiguration {
     @ConditionalOnMissingBean(LocalLockService.class)
     public LocalLockService localLockService() {
         return new ReentrantLocalLockService();
+    }
+
+    /**
+     * 根据配置项 qm.base.lock.distributed.type 注册分布式锁实现
+     */
+    @Bean
+    @ConditionalOnMissingBean(DistributedLockService.class)
+    public DistributedLockService distributedLockService() {
+        return new EmptyDistributedLockService();
     }
 }
