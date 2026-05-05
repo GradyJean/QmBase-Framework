@@ -19,6 +19,8 @@
         <module>QmBase-Dependencies</module>
         <module>QmBase-Infra</module>
         <module>QmBase-Auth-External</module>
+        <module>QmBase-Payment</module>
+        <module>QmBase-Payment-External</module>
     </modules>
 
     <properties>
