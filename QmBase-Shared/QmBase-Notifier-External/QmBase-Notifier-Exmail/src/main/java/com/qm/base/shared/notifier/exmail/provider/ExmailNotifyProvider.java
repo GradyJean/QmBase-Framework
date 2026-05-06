@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +45,9 @@ public class ExmailNotifyProvider implements NotifyProvider {
         if (request.getSubject() == null || request.getSubject().isBlank()) {
             throw new IllegalArgumentException("Email subject must not be blank");
         }
-
+        if (request.getContents() == null || request.getContents().length == 0) {
+            throw new IllegalArgumentException("Email content must not be blank");
+        }
         String requestId = UUID.randomUUID().toString();
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -52,7 +55,7 @@ public class ExmailNotifyProvider implements NotifyProvider {
             helper.setFrom(properties.getFrom());
             helper.setTo(receivers.toArray(String[]::new));
             helper.setSubject(request.getSubject());
-            helper.setText(request.getContent(), false);
+            helper.setText(request.getContents()[0], false);
             mailSender.send(mimeMessage);
 
             NotifySendSchema.Result result = new NotifySendSchema.Result();

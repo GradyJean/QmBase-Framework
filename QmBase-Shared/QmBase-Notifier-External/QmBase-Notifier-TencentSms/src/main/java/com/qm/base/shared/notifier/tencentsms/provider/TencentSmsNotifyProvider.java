@@ -48,7 +48,7 @@ public class TencentSmsNotifyProvider implements NotifyProvider {
         if (receivers.size() != 1) {
             throw new IllegalArgumentException("Tencent SMS currently supports single receiver only");
         }
-        if (request.getContent() == null || request.getContent().isBlank()) {
+        if (request.getContents() == null || request.getContents().length == 0) {
             throw new IllegalArgumentException("SMS content must not be blank");
         }
 
@@ -57,7 +57,7 @@ public class TencentSmsNotifyProvider implements NotifyProvider {
         smsRequest.setSignName(properties.getSignName());
         smsRequest.setTemplateId(templateId);
         smsRequest.setPhoneNumberSet(receivers.toArray(String[]::new));
-        smsRequest.setTemplateParamSet(new String[]{request.getContent()});
+        smsRequest.setTemplateParamSet(request.getContents());
         smsRequest.setSessionContext(request.getBizKey());
 
         SendSmsResponse response = execute(smsRequest);

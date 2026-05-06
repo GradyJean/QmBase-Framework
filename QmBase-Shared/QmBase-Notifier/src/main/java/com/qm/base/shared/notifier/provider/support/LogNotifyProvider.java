@@ -39,7 +39,7 @@ public class LogNotifyProvider implements NotifyProvider {
                 request.getBizKey(),
                 request.getReceivers(),
                 request.getSubject(),
-                request.getContent());
+                request.getContents());
 
         NotifySendSchema.Result output = new NotifySendSchema.Result();
         output.setProvider(getProvider());

@@ -4,7 +4,6 @@ import com.qm.base.shared.notifier.enums.NotifyChannelType;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 发送通知协议模型。
@@ -40,7 +39,7 @@ public class NotifySendSchema {
         /**
          * 内容。
          */
-        private String content;
+        private String[] contents;
 
         /**
          * 接收人集合。
