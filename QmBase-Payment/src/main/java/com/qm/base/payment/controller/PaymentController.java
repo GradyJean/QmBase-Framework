@@ -1,5 +1,6 @@
 package com.qm.base.payment.controller;
 
+import com.qm.base.core.common.model.Result;
 import com.qm.base.payment.enums.PaymentProviderType;
 import com.qm.base.payment.provider.PaymentProvider;
 import com.qm.base.payment.schema.PayNotifySchema;
@@ -55,11 +56,11 @@ public class PaymentController {
      * @return 支付渠道编码与名称列表
      */
     @GetMapping("/support/providers")
-    public List<ProviderItem> supportProviders() {
-        return paymentProviders.stream()
+    public Result<List<ProviderItem>> supportProviders() {
+        return Result.SUCCESS(paymentProviders.stream()
                 .map(provider -> new ProviderItem(provider.getProvider().getCode(), provider.getName()))
                 .sorted(Comparator.comparing(ProviderItem::code))
-                .toList();
+                .toList());
     }
 
     /**
