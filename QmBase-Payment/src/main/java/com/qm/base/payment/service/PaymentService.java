@@ -1,46 +1,72 @@
 package com.qm.base.payment.service;
 
 import com.qm.base.payment.enums.PaymentProviderType;
+import com.qm.base.payment.provider.PaymentProvider;
 import com.qm.base.payment.schema.PayCloseSchema;
 import com.qm.base.payment.schema.PayCreateSchema;
 import com.qm.base.payment.schema.PayNotifySchema;
 import com.qm.base.payment.schema.PayQuerySchema;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * 统一支付服务接口。
+ * 统一支付服务默认实现。
+ * <p>
+ * 负责按支付渠道路由到具体的支付提供者实现。
  */
-public interface PaymentService {
+@Service
+public class PaymentService {
+
+    private final Map<PaymentProviderType, PaymentProvider> paymentProviderMap;
+
+    public PaymentService(List<PaymentProvider> paymentProviders) {
+        this.paymentProviderMap = paymentProviders.stream()
+                .collect(Collectors.toMap(PaymentProvider::getProvider, Function.identity()));
+    }
 
     /**
-     * 创建支付单。
-     *
-     * @param request 创建支付单请求
-     * @return 创建支付单响应
+     * {@inheritDoc}
      */
-    PayCreateSchema.Output create(PayCreateSchema.Input request);
+    public PayCreateSchema.Output create(PayCreateSchema.Input request) {
+        return getProvider(request.getProvider()).create(request);
+    }
 
     /**
-     * 查询支付单状态。
-     *
-     * @param request 查询支付单请求
-     * @return 查询支付单响应
+     * {@inheritDoc}
      */
-    PayQuerySchema.Output query(PayQuerySchema.Input request);
+    public PayQuerySchema.Output query(PayQuerySchema.Input request) {
+        return getProvider(request.getProvider()).query(request);
+    }
 
     /**
-     * 关闭未支付订单。
-     *
-     * @param request 关闭支付单请求
-     * @return 关闭支付单响应
+     * {@inheritDoc}
      */
-    PayCloseSchema.Output close(PayCloseSchema.Input request);
+    public PayCloseSchema.Output close(PayCloseSchema.Input request) {
+        return getProvider(request.getProvider()).close(request);
+    }
 
     /**
-     * 根据渠道解析支付回调。
+     * {@inheritDoc}
+     */
+    public PayNotifySchema.Result parseNotify(PaymentProviderType provider, PayNotifySchema.Input request) {
+        return getProvider(provider).parseNotify(request);
+    }
+
+    /**
+     * 获取指定渠道的支付提供者。
      *
      * @param provider 支付渠道
-     * @param request  支付回调请求
-     * @return 支付回调统一结果
+     * @return 支付提供者实现
      */
-    PayNotifySchema.Result parseNotify(PaymentProviderType provider, PayNotifySchema.Input request);
+    private PaymentProvider getProvider(PaymentProviderType provider) {
+        PaymentProvider paymentProvider = paymentProviderMap.get(provider);
+        if (paymentProvider == null) {
+            throw new IllegalArgumentException("Unsupported payment provider: " + provider);
+        }
+        return paymentProvider;
+    }
 }

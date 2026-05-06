@@ -1,16 +1,13 @@
 package com.qm.base.payment.controller;
 
 import com.qm.base.payment.enums.PaymentProviderType;
+import com.qm.base.payment.provider.PaymentProvider;
 import com.qm.base.payment.schema.PayNotifySchema;
 import com.qm.base.payment.service.PaymentNotifyService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +19,16 @@ import java.util.stream.Collectors;
  * 负责接收支付渠道异步通知、提取请求参数并委托支付回调服务处理。
  */
 @RestController
-@RequestMapping("/payment/callback")
-public class PaymentNotifyController {
+@RequestMapping("/payment")
+public class PaymentController {
 
     private final PaymentNotifyService paymentNotifyService;
+    private final List<PaymentProvider> paymentProviders;
 
-    public PaymentNotifyController(PaymentNotifyService paymentNotifyService) {
+    public PaymentController(PaymentNotifyService paymentNotifyService,
+                             List<PaymentProvider> paymentProviders) {
         this.paymentNotifyService = paymentNotifyService;
+        this.paymentProviders = paymentProviders;
     }
 
     /**
@@ -40,13 +40,26 @@ public class PaymentNotifyController {
      * @param request      HTTP 请求对象
      * @return 渠道要求的响应内容
      */
-    @RequestMapping(path = "/{provider}", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(path = "/notify/{provider}", method = {RequestMethod.POST, RequestMethod.GET})
     public String notify(@PathVariable("provider") String providerCode,
                          @RequestBody(required = false) String body,
                          @RequestParam(required = false) Map<String, String> parameters,
                          HttpServletRequest request) {
         PaymentProviderType provider = PaymentProviderType.fromCode(providerCode);
         return paymentNotifyService.handleNotify(provider, buildInput(body, parameters, request));
+    }
+
+    /**
+     * 获取当前已注册的支付渠道列表。
+     *
+     * @return 支付渠道编码与名称列表
+     */
+    @GetMapping("/support/providers")
+    public List<ProviderItem> supportProviders() {
+        return paymentProviders.stream()
+                .map(provider -> new ProviderItem(provider.getProvider().getCode(), provider.getName()))
+                .sorted(Comparator.comparing(ProviderItem::code))
+                .toList();
     }
 
     /**
@@ -79,6 +92,12 @@ public class PaymentNotifyController {
                         headerName -> headerName,
                         headerName -> Collections.list(request.getHeaders(headerName))
                 ));
+    }
+
+    /**
+     * 支付渠道展示对象。
+     */
+    public record ProviderItem(String code, String name) {
     }
 
 }
