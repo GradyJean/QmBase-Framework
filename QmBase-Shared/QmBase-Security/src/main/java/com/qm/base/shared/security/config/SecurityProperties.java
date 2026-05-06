@@ -2,11 +2,11 @@ package com.qm.base.shared.security.config;
 
 import com.qm.base.core.auth.config.TokenProperties;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 安全配置属性类，用于绑定配置文件中以 qm.security 为前缀的属性项。
@@ -24,7 +24,7 @@ public class SecurityProperties implements TokenProperties {
     /**
      * 默认跳过所有安全拦截器的 URL 路径列表（包括上下文和权限等）。
      */
-    public static final List<String> DEFAULT_EXCLUDE_ALL_URLS = List.of("/static/**", "/public/**", "/favicon.ico");
+    public static final List<String> DEFAULT_EXCLUDE_ALL_URLS = List.of("/static/**", "/public/**", "/favicon.ico", "/payment/notify/**");
 
     /**
      * JWT 加密密钥，对称加密时用于生成和验证 token。
@@ -52,11 +52,20 @@ public class SecurityProperties implements TokenProperties {
     private Mock mock;
 
     public List<String> getExcludePermissionUrls() {
-        return excludePermissionUrls != null ? excludePermissionUrls : DEFAULT_EXCLUDE_PERMISSION_URLS;
+        return mergeWithDefaults(DEFAULT_EXCLUDE_PERMISSION_URLS, excludePermissionUrls);
     }
 
     public List<String> getExcludeAllUrls() {
-        return excludeAllUrls != null ? excludeAllUrls : DEFAULT_EXCLUDE_ALL_URLS;
+        return mergeWithDefaults(DEFAULT_EXCLUDE_ALL_URLS, excludeAllUrls);
+    }
+
+    private List<String> mergeWithDefaults(List<String> defaults, List<String> customValues) {
+        if (customValues == null || customValues.isEmpty()) {
+            return defaults;
+        }
+        Set<String> merged = new LinkedHashSet<>(defaults);
+        merged.addAll(customValues);
+        return List.copyOf(merged);
     }
 
     @Data
